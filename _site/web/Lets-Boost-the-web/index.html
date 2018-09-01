@@ -1,0 +1,688 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.12.1 by Michael Rose
+  Copyright 2013-2018 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Let’s boost the web:Does speed of your website really matter? - Bikram’s Blog</title>
+<meta name="description" content="It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really important to estimate the cost of your performance, and there is no better way to articulate the cost of performance better than the old story of Amazon reporting increased revenue of 1% for every 100 milliseconds improvement to their site speed. source: Amazon.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Bikram's Blog">
+<meta property="og:title" content="Let’s boost the web:Does speed of your website really matter?">
+<meta property="og:url" content="http://0.0.0.0:4000/web/Lets-Boost-the-web/">
+
+
+  <meta property="og:description" content="It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really important to estimate the cost of your performance, and there is no better way to articulate the cost of performance better than the old story of Amazon reporting increased revenue of 1% for every 100 milliseconds improvement to their site speed. source: Amazon.">
+
+
+
+
+
+  <meta name="twitter:site" content="@itsbecram">
+  <meta name="twitter:title" content="Let’s boost the web:Does speed of your website really matter?">
+  <meta name="twitter:description" content="It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really important to estimate the cost of your performance, and there is no better way to articulate the cost of performance better than the old story of Amazon reporting increased revenue of 1% for every 100 milliseconds improvement to their site speed. source: Amazon.">
+  <meta name="twitter:url" content="http://0.0.0.0:4000/web/Lets-Boost-the-web/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2016-08-22T00:00:00+05:45">
+
+
+
+  <meta property="article:modified_time" content="2018-03-21T01:45:58+05:45">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://0.0.0.0:4000/web/Lets-Boost-the-web/">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Person",
+      "name": "Bikram Dhoju",
+      "url": "http://0.0.0.0:4000",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Bikram's Blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Bikram's Blog</a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://github.com/Becram" >My Resume</a>
+            </li><li class="masthead__menu-item">
+              <a href="/me/" >About me</a>
+            </li><li class="masthead__menu-item">
+              <a href="/" >My Blogs</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+          <a href="http://0.0.0.0:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+          <a href="/categories/web" itemprop="item"><span itemprop="name">Web</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Let’s boost the web:Does speed of your website really matter?</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="/assets/images/bio-image.jpg" alt="Bikram Dhoju" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bikram Dhoju</h3>
+    
+    
+      <p class="author__bio" itemprop="description">
+         Sr. Network and System Engineer/DevOps Engineer at Open Learning Exchange Nepal
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="http://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Samakhushi, Kathmandu</span>
+        </li>
+      
+
+      
+        <li>
+          <a href="http://bikramdhoju.com.np" itemprop="url">
+            <i class="fas fa-fw fa-link" aria-hidden="true"></i> Website
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="mailto:itsbecram@gmail.com">
+            <meta itemprop="email" content="itsbecram@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email
+          </a>
+        </li>
+      
+
+      
+
+      
+        <li>
+          <a href="https://twitter.com/itsbecram" itemprop="sameAs">
+            <i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="https://www.facebook.com/becram.dhoju" itemprop="sameAs">
+            <i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://instagram.com/becram061" itemprop="sameAs">
+            <i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/Becram" itemprop="sameAs">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Let’s boost the web:Does speed of your website really matter?">
+    <meta itemprop="description" content="It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really important to estimate the cost of your performance, and there is no better way to articulate the cost of performance better than the old story of Amazon reporting increased revenue of 1% for every 100 milliseconds improvement to their site speed. source: Amazon.">
+    <meta itemprop="datePublished" content="August 22, 2016">
+    <meta itemprop="dateModified" content="March 20, 2018">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Let’s boost the web:Does speed of your website really matter?
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> Methods</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#1-reduce-http-requests">1. Reduce HTTP requests</a></li>
+  <li><a href="#2-progressive-rendering">2. Progressive rendering</a></li>
+  <li><a href="#3-add-a-load-balancer-and-reverse-proxy-server">3. Add a Load Balancer and Reverse Proxy Server</a></li>
+  <li><a href="#4-caching">4. Caching</a></li>
+  <li><a href="#5-reduce-dns-lookups">5. Reduce DNS Lookups</a></li>
+  <li><a href="#6-optimize-images-and-minify-resources">6. Optimize Images and Minify resources</a></li>
+  <li><a href="#what-else-can-you-do-">What else can you do ?</a></li>
+</ul>
+            </nav>
+          </aside>
+        
+        <p>It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really important to estimate the cost of your performance, and there is no better way to articulate the cost of performance better than the old story of Amazon reporting increased revenue of 1% for every 100 milliseconds improvement to their site speed. source: <a href="http://sites.google.com/site/glinden/Home/StanfordDataMining.2006-11-28.ppt">Amazon</a>.</p>
+
+<p><img src="/assets/images/boostweb/giphy.gif" alt="" /></p>
+
+<p>From the user perspective, see how facebook’s instant article intrigues you to click the article more reflexively than any other article taking ages to load. Though there is the cost for performance enhancement; development cost but it won’t cost you a fortune to assimilate trivial practices which mitigate web load time of your website.</p>
+
+<h2 id="1-reduce-http-requests">1. Reduce HTTP requests</h2>
+
+<p>Primarily every web pages comprise of the images, stylesheets, flash ,scripts etc. For each of these components HTTP requests are made, so adding more number of images and scripts prolongs the avail of the contents. These round trips are the main reason for slow web pages.Most developers choose to add images instead of the CSS (though sometimes it may not be feasible) but this may add much more load for the web server and web performance may be hindered. Choosing images against CSS can stack you much of the performance tax and from the user perspective, faster web is much delightful than sluggish but attractive designs for user experience (UX) does matters. 
+ There are multiple ways we can reduce this</p>
+
+<ul>
+  <li><a href="https://css-tricks.com/css-sprites/">Sprites</a> are the cool way to reduce image numbers.</li>
+  <li>Combine multiple style sheets into one.</li>
+  <li>Reduce scripts and put them at the bottom of the page.</li>
+</ul>
+
+<h2 id="2-progressive-rendering">2. Progressive rendering</h2>
+
+<p>Though lightening speed would be great but till we reach there giving something for the user so that they can get busy, can help remove the anxiety of sluggishness. For this progressive rendering is the killer ( but under appreciated ) weapon.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*wkTkbzLrrrhy1MNtW9xulA.png" alt="" /></p>
+
+<p>Though the page may be heavier but putting something for them on the plate may trick them to think page as faster.Amazon does an excellent job with progressive rendering. Who knows, had they focused on mere fast loading they could have been out of business.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*PwIgDTWHCeHbdiOUbQ0qSA.jpeg" alt="" /></p>
+
+<h2 id="3-add-a-load-balancer-and-reverse-proxy-server">3. Add a Load Balancer and Reverse Proxy Server</h2>
+
+<p>Load balancing is a technique aiming at distributing workload in a computer network, in order to optimally utilize resources, avoid overload and maximize throughput. Instead of adding multiple tasks to a single server we add a load balancer server to distribute the load across multiple servers. Even if your application is written poorly load balancer can enhance the user experience.</p>
+
+<p>A load balancer server is simply a reverse proxy server; it receives the internet traffic and forwards the requests to another server. Load balancer acts as the relay station to route the traffic.The trick is load balancer supports two or more application server with the proper choice of an algorithm the traffic can be routed to the next server. Most popularly, round-robin approach is used in which the load balancer forward the traffic to next server in the list. Load balancers can lead to much better improvements in performance because they prevent one server from being overloaded while other servers wait for traffic.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*5oMXVu17JA7oEs11YJgWXA.png" alt="" /></p>
+
+<p>Popular web servers like Apache and NGINX has inbuilt load balancing capabilities. A brief tutorial on Load Balancing can be found <a href="http://websistent.com/configure-apache-web-server-load-balancing/">here</a>.</p>
+
+<h2 id="4-caching">4. Caching</h2>
+
+<p>As mentioned earlier too much of HTTP requests costs the web performance; hence, it would enhance the performance if we could store the most frequently used contents in a way that it could be easily be accessed. Apache and NGINX come with sophisticated and scalable caching mechanism. <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-apache-content-caching-on-ubuntu-14-04">Caching</a> can be broadly divided into three categories which can be broken down as:</p>
+
+<ul>
+  <li>File Caching: The most basic caching strategy, this simply opens files or file descriptors when the server starts and keeps them available to speed up access.</li>
+  <li>Key-Value Caching: Mainly used for SSL and authentication caching, key-value caching uses a shared object model that can store items which are costly to compute repeatedly.</li>
+  <li>Standard HTTP caching: The most flexible and generally useful caching mechanism, this three-state system can store responses and validate them when they expire. This can be configured for performance or flexibility depending on your specific needs.</li>
+</ul>
+
+<p>At browser level when someone visits your website for the first time they need to download the web contents but caching enhances the subsequent browsing for it cuts off HTTP requests . As <a href="http://yuiblog.com/blog/2007/01/04/performance-research-part-2/">Tenni Theurer</a>, formerly of Yahoo, explains it…</p>
+
+<blockquote>
+  <p>The first time someone comes to your website, they have to download the HTML document, stylesheets, javascript files and images before being able to use your page. That may be as many as 30 components and 2.4 seconds.</p>
+</blockquote>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Mc5doNxCamCwNCCjRlxX1Q.png" alt="" /></p>
+
+<blockquote>
+  <p>Once the page has been loaded and the different components stored in the user’s cache, only a few components needs to be downloaded for subsequent visits. In Theurer’s test, that was just three components and .9 seconds, which shaved nearly 2 seconds off the load time.</p>
+</blockquote>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*VAqawvqJjJ6f8st_R2m-Aw.png" alt="" /></p>
+
+<h2 id="5-reduce-dns-lookups">5. Reduce DNS Lookups</h2>
+
+<p>To put in laymen’s term DNS is server responsible for converting the domain main into its corresponding IP address like converting google.com to 120.89.97.42. DNS lookup takes place even before the web page loads so the size of the page do not affect the load time.Typically you can use your ISP’s DNS server but however other options as OpenDNS and Google’s DNS is also available; you can test and switch as suitable for you.</p>
+
+<h2 id="6-optimize-images-and-minify-resources">6. Optimize Images and Minify resources</h2>
+
+<p>Though adding images to web pages are not encouraged but many times its really needed to. So image should be compressed to best possible size. There are variety of image compressing sites as <a href="https://imageoptim.com/">ImageOptim</a>, <a href="https://pnggauntlet.com/">PNG Gauntlet</a>, <a href="http://jpeg-optimizer.com/">JPEG Optimizer</a> and <a href="https://tinypng.com/">TinyPNG</a>. Images should be sized correctly. That is, if you are displaying a 200×200 image, then don’t display a 400×400 at 200×200 size. There is no point in sending a bigger image if it is not going to be displayed, or if it’s not going to fit on a device’s screen.</p>
+
+<p>Minification is the process of reducing file size by removing unnecessary characters such as whitespace, new line characters, comments. The unnecessary characters call for unnecessary HTTP requests so minification is very important . In many cases file sizes can drop by significant level through minification, thus speeding up content delivery and processing. You should minify all your JavaScript, CSS, and HTML files. There are many minification tools to try for different file types, for example, these for HTML:www.willpeavy.com/minifier and kangax.github.io/html-minifier.</p>
+
+<h2 id="what-else-can-you-do-">What else can you do ?</h2>
+
+<p>I run a simple test on WebPage test with pustakalaya.org to get the result as :</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Ay5GhA_iIG8CRE5fBBvBLA.png" alt="" /></p>
+
+<p>As you can see in the figure the span in green as Time to First Byte (TTFB) takes up a significant part of the server response. That may have hit your nerve, so it’s very important to minimize this time. This time, varies according to your location from the server for it represents the route of the traffic. Particularly Waiting (TTFB) represents a number of things, like:</p>
+
+<ul>
+  <li>Server response time</li>
+  <li>Time to transfer bytes (a.k.a latency of the round-trip)</li>
+</ul>
+
+<p>The Internet can be pretty fast depending on the location and network , you are using, which is dictated by the distance the packets have to travel. According to <a href="http://chimera.labs.oreilly.com/books/1230000000545/ch01.html#PROPAGATION_LATENCY">Ilya Grigorik</a>, we’re already quite close to the speed of light so we shouldn’t expect more speed there unless we bend physics. The way to speed things up, then, is to shorten distances. Depending on the user you have to locate the server if a bulk of the users is from Nepal than it wouldn’t be wise to place your server in United states.</p>
+
+<p>So the bottom line its hard to focus on these things with approaching deadline and many bugs to fix but in the long run these practices can definitely boost your result.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/javascript" class="page__taxonomy-item" rel="tag">Javascript</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/web-developemt" class="page__taxonomy-item" rel="tag">Web Developemt</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/web" class="page__taxonomy-item" rel="tag">web</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-20">March 20, 2018</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?via=itsbecram&text=Let%E2%80%99s+boost+the+web%3ADoes+speed+of+your+website+really+matter%3F%20http%3A%2F%2F0.0.0.0%3A4000%2Fweb%2FLets-Boost-the-web%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F0.0.0.0%3A4000%2Fweb%2FLets-Boost-the-web%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http%3A%2F%2F0.0.0.0%3A4000%2Fweb%2FLets-Boost-the-web%2F" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2F0.0.0.0%3A4000%2Fweb%2FLets-Boost-the-web%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">Previous</a>
+    
+    
+      <a href="/network&system/Intrusion-Detection-System-with-Fail2Ban/" class="pagination--pager" title="Intrusion Dectection system with Fail2ban
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/main.jpg"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/edtech/Bringing-RPi-to-Classroom/" rel="permalink">Bringing Raspberry Pi to Classroom
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  4 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/main.jpg"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/network&system/Intrusion-Detection-System-with-Fail2Ban/" rel="permalink">Intrusion Dectection system with Fail2ban
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Install and configure fail2ban to stop some hacking/DOS (Denial of Service) attempts on Pustakalaya Server. As this site’s been hit by the occasional DOS fro...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><input type="text" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+    <div id="results" class="results"></div></div>
+      </div>
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/itsbecram"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+      <li><a href="https://www.facebook.com/becram.dhoju"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+    
+    
+      <li><a href="https://github.com/Becram"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2018 Bikram Dhoju. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+  </body>
+</html>

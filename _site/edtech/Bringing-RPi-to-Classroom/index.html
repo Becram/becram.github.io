@@ -1,0 +1,633 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.12.1 by Michael Rose
+  Copyright 2013-2018 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Bringing Raspberry Pi to Classroom - Bikram’s Blog</title>
+<meta name="description" content="There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Bikram's Blog">
+<meta property="og:title" content="Bringing Raspberry Pi to Classroom">
+<meta property="og:url" content="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/">
+
+
+  <meta property="og:description" content="There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.">
+
+
+
+
+
+  <meta name="twitter:site" content="@itsbecram">
+  <meta name="twitter:title" content="Bringing Raspberry Pi to Classroom">
+  <meta name="twitter:description" content="There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.">
+  <meta name="twitter:url" content="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2018-02-16T00:00:00+05:45">
+
+
+
+  <meta property="article:modified_time" content="2018-03-21T01:45:58+05:45">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Person",
+      "name": "Bikram Dhoju",
+      "url": "http://0.0.0.0:4000",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Bikram's Blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Bikram's Blog</a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://github.com/Becram" >My Resume</a>
+            </li><li class="masthead__menu-item">
+              <a href="/me/" >About me</a>
+            </li><li class="masthead__menu-item">
+              <a href="/" >My Blogs</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+          <a href="http://0.0.0.0:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+          <a href="/categories/edtech" itemprop="item"><span itemprop="name">Edtech</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Bringing Raspberry Pi to Classroom</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="/assets/images/bio-image.jpg" alt="Bikram Dhoju" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bikram Dhoju</h3>
+    
+    
+      <p class="author__bio" itemprop="description">
+         Sr. Network and System Engineer/DevOps Engineer at Open Learning Exchange Nepal
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="http://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Samakhushi, Kathmandu</span>
+        </li>
+      
+
+      
+        <li>
+          <a href="http://bikramdhoju.com.np" itemprop="url">
+            <i class="fas fa-fw fa-link" aria-hidden="true"></i> Website
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="mailto:itsbecram@gmail.com">
+            <meta itemprop="email" content="itsbecram@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email
+          </a>
+        </li>
+      
+
+      
+
+      
+        <li>
+          <a href="https://twitter.com/itsbecram" itemprop="sameAs">
+            <i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="https://www.facebook.com/becram.dhoju" itemprop="sameAs">
+            <i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://instagram.com/becram061" itemprop="sameAs">
+            <i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/Becram" itemprop="sameAs">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Bringing Raspberry Pi to Classroom">
+    <meta itemprop="description" content="There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.">
+    <meta itemprop="datePublished" content="February 16, 2018">
+    <meta itemprop="dateModified" content="March 20, 2018">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Bringing Raspberry Pi to Classroom
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  4 minute read
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#how-is-ole-nepal-using-raspberry-pi">How is OLE Nepal using Raspberry Pi?</a></li>
+  <li><a href="#where-is-this-being-implemented">Where is this being implemented?</a></li>
+</ul>
+            </nav>
+          </aside>
+        
+        <p>There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.</p>
+
+<p>At <a href="http://olenepal.org">OLE Nepal</a>, we strive to bring the best new technology to our classrooms. It’s never easy to embrace a new piece of technology, for teachers are resistant to the change, with factors like power cuts and budget making up a huge share of challenge. So we set our selection of the technology based on the 3 prime constraints; low-powered, portable, and low cost. And for these traits, Raspberry Pi steps up as the knight in shining armor.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*xnQWux2pqa2H1qPDi-f4_w.jpeg" alt="" /></p>
+
+<p>Produced in Cambridge, <a href="https://en.wikipedia.org/wiki/Raspberry_Pi">Raspberry Pi</a> primarily designed to demystify the technology in the classrooms for the learners, is a credit-card sized computer that costs only $35. The device plugs into a computer monitor or TV, and uses a standard keyboard and mouse. You can use this mini computer just like you would your desktop computer to do everything from browsing the Internet and playing high-definition video, to making spreadsheets, word-processing, or playing games.</p>
+
+<h2 id="how-is-ole-nepal-using-raspberry-pi">How is OLE Nepal using Raspberry Pi?</h2>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*_0sm75N6aVaoBRVWxfGAlQ.png" alt="Typical E-Pustakalaya lab setup" /></p>
+
+<p>Predominantly we build Pustakalaya Server, which is typically a mini PC, hosting educational contents major section which is the <a href="http://www.olenepal.org/E-Pustakalaya/">E-Pustakalaya</a> , which is digital library of more than 7000+ books of different genre build on the FEDORA (or Flexible Extensible Digital Object Repository Architecture) digital asset management (DAM) architecture upon which institutional repositories, digital archives, and digital library systems are built. We also have added to it our home-brewed, curriculum-based interactive teaching material; <a href="http://www.olenepal.org/E-Paath/">E-Paath</a>, off-line Khan Academy videos, Open-street map, Nepali Sabdakosh, <a href="https://phet.colorado.edu/en/simulations/">PheT simulations</a> and much more, with a regular update to books and educational content. Basically, Pustakalaya Server is the offline version of the pustakalaya.org. It’s more like bringing the Internet to your classroom.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*DE2qHIwaXbZspeF_4Z3s7A.png" alt="" /></p>
+
+<p>After successful implementation of the <a href="http://wiki.laptop.org/go/The_OLPC_Wiki">XO</a> and desktops computer as the client machine, Raspberry Pi, with its amazing community, is a pertinent technology to bring in our classrooms. We have been tinkering the popular Debian-based Linux-distro, Ubuntu-Mate. With its active popular community, it is best OS to our option. We have preloaded E-Paath content into the OS itself. Since most of the activities in our E-Paath are currently flash based; flash support was an important feature to have in the OS. Debian-based OS have much better flash support, it was another reason why Ubuntu-Mate was used. We also have loaded <a href="http://pustakalaya.org/external-content/static/balpathmala/">BalPaathmala</a>, which is a small repository of the books, into the OS hosted on Apache web server. We have been customizing the OS to make it more educational with the interactive games. Our work so far is just a tip of an iceberg.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*nO4BiJ7KvfrrB_WaVLWafA.png" alt="Raspberry Pi Desktop" /></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*0zby0zK0tdk-35nBfX0xkg.png" alt="Class 7–8 EPaath interface" /></p>
+
+<p>Some of the features we are currently working on:</p>
+
+<ul>
+  <li>Synchronization with Server.</li>
+  <li>Student activity statistics collection in Server.</li>
+  <li>Auto-running mount scripts.</li>
+  <li>Using docker or lxc containers for the installation and upgrades.</li>
+  <li>Awstats collection</li>
+</ul>
+
+<h2 id="where-is-this-being-implemented">Where is this being implemented?</h2>
+
+<p>We have initiated a pilot program at Gorakhnath Secondary School, Kirtipur,Nepal, where 18 Raspberry Pi with preloaded educational content was deployed. It was a challenging experience as it was a-first-of-its-kind of deployment for us. We had a 5-day training for the teachers about pedagogy as well as the technical aspects of using the Raspberry Pi in the classroom. The primary purpose of the training was to inculcate, amongst the teachers, a culture of referring to additional reference materials. Looking at the excitement of the teachers, its just seems that ‘direction’ and ‘training’ were what was stopping technology from getting into their classrooms. We also installed the battery backup system for an uninterrupted flux of the lab. We are regularly providing technical support for the class as this is a pilot project for us.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*vhdX4aNtKnP8Au-tOV3Kkg.jpeg" alt="Students taking EPaath Class" /></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*RoCBe-ivsq11PeuxVbo1vQ.jpeg" alt="Raspberry Pi Lab Setup" /></p>
+
+<p>Originally published in <a href="http://blog.olenepal.org/index.php/archives/2067">OLE-Blog</a>. If you like what you read please follow.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/raspberrypi" class="page__taxonomy-item" rel="tag">RaspberryPi</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/edtech" class="page__taxonomy-item" rel="tag">Edtech</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-20">March 20, 2018</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?via=itsbecram&text=Bringing+Raspberry+Pi+to+Classroom%20http%3A%2F%2F0.0.0.0%3A4000%2Fedtech%2FBringing-RPi-to-Classroom%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F0.0.0.0%3A4000%2Fedtech%2FBringing-RPi-to-Classroom%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http%3A%2F%2F0.0.0.0%3A4000%2Fedtech%2FBringing-RPi-to-Classroom%2F" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2F0.0.0.0%3A4000%2Fedtech%2FBringing-RPi-to-Classroom%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/network&system/Intrusion-Detection-System-with-Fail2Ban/" class="pagination--pager" title="Intrusion Dectection system with Fail2ban
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/main.jpg"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/network&system/Intrusion-Detection-System-with-Fail2Ban/" rel="permalink">Intrusion Dectection system with Fail2ban
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Install and configure fail2ban to stop some hacking/DOS (Denial of Service) attempts on Pustakalaya Server. As this site’s been hit by the occasional DOS fro...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/main.jpg"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/web/Lets-Boost-the-web/" rel="permalink">Let’s boost the web:Does speed of your website really matter?
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really i...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><input type="text" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+    <div id="results" class="results"></div></div>
+      </div>
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/itsbecram"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+      <li><a href="https://www.facebook.com/becram.dhoju"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+    
+    
+      <li><a href="https://github.com/Becram"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2018 Bikram Dhoju. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+  </body>
+</html>

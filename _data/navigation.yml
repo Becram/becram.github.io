@@ -1,0 +1,12 @@
+# main links
+main:
+  - title: "My Resume"
+    url: https://github.com/Becram
+  - title: "About me"
+    url: /me/
+  - title: "My Blogs"
+    url: /
+  # - title: "Sample Collections"
+  #   url: /collection-archive/
+  # - title: "Sitemap"
+  #   url: /sitemap/

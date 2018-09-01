@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2018-09-01T15:42:10+05:45</updated><id>http://0.0.0.0:4000/</id><title type="html">Bikram’s Blog</title><subtitle>Linux, security, DevOps stuff</subtitle><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><entry><title type="html">Bringing Raspberry Pi to Classroom</title><link href="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/" rel="alternate" type="text/html" title="Bringing Raspberry Pi to Classroom" /><published>2018-02-16T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom</id><content type="html" xml:base="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/">&lt;p&gt;There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.&lt;/p&gt;
+
+&lt;p&gt;At &lt;a href=&quot;http://olenepal.org&quot;&gt;OLE Nepal&lt;/a&gt;, we strive to bring the best new technology to our classrooms. It’s never easy to embrace a new piece of technology, for teachers are resistant to the change, with factors like power cuts and budget making up a huge share of challenge. So we set our selection of the technology based on the 3 prime constraints; low-powered, portable, and low cost. And for these traits, Raspberry Pi steps up as the knight in shining armor.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*xnQWux2pqa2H1qPDi-f4_w.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Produced in Cambridge, &lt;a href=&quot;https://en.wikipedia.org/wiki/Raspberry_Pi&quot;&gt;Raspberry Pi&lt;/a&gt; primarily designed to demystify the technology in the classrooms for the learners, is a credit-card sized computer that costs only $35. The device plugs into a computer monitor or TV, and uses a standard keyboard and mouse. You can use this mini computer just like you would your desktop computer to do everything from browsing the Internet and playing high-definition video, to making spreadsheets, word-processing, or playing games.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-is-ole-nepal-using-raspberry-pi&quot;&gt;How is OLE Nepal using Raspberry Pi?&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*_0sm75N6aVaoBRVWxfGAlQ.png&quot; alt=&quot;Typical E-Pustakalaya lab setup&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Predominantly we build Pustakalaya Server, which is typically a mini PC, hosting educational contents major section which is the &lt;a href=&quot;http://www.olenepal.org/E-Pustakalaya/&quot;&gt;E-Pustakalaya&lt;/a&gt; , which is digital library of more than 7000+ books of different genre build on the FEDORA (or Flexible Extensible Digital Object Repository Architecture) digital asset management (DAM) architecture upon which institutional repositories, digital archives, and digital library systems are built. We also have added to it our home-brewed, curriculum-based interactive teaching material; &lt;a href=&quot;http://www.olenepal.org/E-Paath/&quot;&gt;E-Paath&lt;/a&gt;, off-line Khan Academy videos, Open-street map, Nepali Sabdakosh, &lt;a href=&quot;https://phet.colorado.edu/en/simulations/&quot;&gt;PheT simulations&lt;/a&gt; and much more, with a regular update to books and educational content. Basically, Pustakalaya Server is the offline version of the pustakalaya.org. It’s more like bringing the Internet to your classroom.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*DE2qHIwaXbZspeF_4Z3s7A.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;After successful implementation of the &lt;a href=&quot;http://wiki.laptop.org/go/The_OLPC_Wiki&quot;&gt;XO&lt;/a&gt; and desktops computer as the client machine, Raspberry Pi, with its amazing community, is a pertinent technology to bring in our classrooms. We have been tinkering the popular Debian-based Linux-distro, Ubuntu-Mate. With its active popular community, it is best OS to our option. We have preloaded E-Paath content into the OS itself. Since most of the activities in our E-Paath are currently flash based; flash support was an important feature to have in the OS. Debian-based OS have much better flash support, it was another reason why Ubuntu-Mate was used. We also have loaded &lt;a href=&quot;http://pustakalaya.org/external-content/static/balpathmala/&quot;&gt;BalPaathmala&lt;/a&gt;, which is a small repository of the books, into the OS hosted on Apache web server. We have been customizing the OS to make it more educational with the interactive games. Our work so far is just a tip of an iceberg.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*nO4BiJ7KvfrrB_WaVLWafA.png&quot; alt=&quot;Raspberry Pi Desktop&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*0zby0zK0tdk-35nBfX0xkg.png&quot; alt=&quot;Class 7–8 EPaath interface&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Some of the features we are currently working on:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Synchronization with Server.&lt;/li&gt;
+  &lt;li&gt;Student activity statistics collection in Server.&lt;/li&gt;
+  &lt;li&gt;Auto-running mount scripts.&lt;/li&gt;
+  &lt;li&gt;Using docker or lxc containers for the installation and upgrades.&lt;/li&gt;
+  &lt;li&gt;Awstats collection&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;where-is-this-being-implemented&quot;&gt;Where is this being implemented?&lt;/h2&gt;
+
+&lt;p&gt;We have initiated a pilot program at Gorakhnath Secondary School, Kirtipur,Nepal, where 18 Raspberry Pi with preloaded educational content was deployed. It was a challenging experience as it was a-first-of-its-kind of deployment for us. We had a 5-day training for the teachers about pedagogy as well as the technical aspects of using the Raspberry Pi in the classroom. The primary purpose of the training was to inculcate, amongst the teachers, a culture of referring to additional reference materials. Looking at the excitement of the teachers, its just seems that ‘direction’ and ‘training’ were what was stopping technology from getting into their classrooms. We also installed the battery backup system for an uninterrupted flux of the lab. We are regularly providing technical support for the class as this is a pilot project for us.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*vhdX4aNtKnP8Au-tOV3Kkg.jpeg&quot; alt=&quot;Students taking EPaath Class&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*RoCBe-ivsq11PeuxVbo1vQ.jpeg&quot; alt=&quot;Raspberry Pi Lab Setup&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Originally published in &lt;a href=&quot;http://blog.olenepal.org/index.php/archives/2067&quot;&gt;OLE-Blog&lt;/a&gt;. If you like what you read please follow.&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="RaspberryPi" /><summary type="html">There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.</summary></entry><entry><title type="html">Intrusion Dectection system with Fail2ban</title><link href="http://0.0.0.0:4000/network&system/Intrusion-Detection-System-with-Fail2Ban/" rel="alternate" type="text/html" title="Intrusion Dectection system with Fail2ban" /><published>2017-10-12T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/network&amp;system/Intrusion-Detection-System-with-Fail2Ban</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/Intrusion-Detection-System-with-Fail2Ban/">&lt;p&gt;Install and configure fail2ban to stop some hacking/DOS (Denial of Service) attempts on Pustakalaya Server. As this site’s been hit by the occasional DOS from people with an axe to grind and too much time on their hands,fail2ban is lifesaver. Please follow the steps below:&lt;/p&gt;
+
+&lt;h2 id=&quot;step-1-installation&quot;&gt;Step 1: Installation&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Install fail2ban through the method of your choice.&lt;/li&gt;
+  &lt;li&gt;Edit the file /etc/fail2ban/jail.local and add the following section: {if jail.local not present then create it}
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;enabled = true
+port = http,https
+filter = http-get-dos
+logpath = /var/log/apache2/access.log
+# maxretry is how many GETs we can have in the findtime period before getting narky
+maxretry = 300
+# findtime is the time period in seconds in which we're counting &quot;retries&quot; (300 seconds = 5 mins)
+findtime = 300
+# bantime is how long we should drop incoming GET requests for a given IP for, in this case it's 5 minutes
+bantime = 300
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Now we need to create the filter file, so create the file /etc/fail2ban/filters.d/http-get-dos.conf and place the following contents in it:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; #
+   # Author: http://www.go2linux.org
+   #
+   [Definition]
+
+   # Option: failregex
+   # Note: This regex will match any GET entry in your logs, so basically all valid and not valid entries are a match.
+   # You should set up in the jail.conf file, the maxretry and findtime carefully in order to avoid false positives.
+
+   failregex = ^&amp;lt;HOST&amp;gt; -.*&quot;(GET|POST).*
+
+   # Option: ignoreregex
+   # Notes.: regex to ignore. If this regex matches, the line is ignored.
+   # Values: TEXT
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Now we just need to restart fail2ban for the new jail &amp;amp; filter to come into affect:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;   /etc/init.d/fail2ban restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;step-2-testing&quot;&gt;Step 2: Testing&lt;/h2&gt;
+
+&lt;p&gt;If you want to test if it’s really working, a nice way to do so is to use ab (Apache Benchmark – part of the apache2-utils package), like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ab -n 500 -c 10 http://your-web-site-dot-com/
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will kick off 500 page-loads in 10 concurrent connections against your site. When the ban kicks in the page-loads will stop (as incoming GET requests from your IP will be dropped), then when the bantime expires you’ll be able to access the site again. If you then take a look in your /var/log/fail2ban.log file you should see something like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;2013-06-22 05:37:21,943 fail2ban.actions: WARNING [http-get-dos] Ban YOUR_IP_ADDRESS
+2013-06-22 05:42:22,341 fail2ban.actions: WARNING [http-get-dos] Unban YOUR_IP_ADDRESS
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="security" /><summary type="html">Install and configure fail2ban to stop some hacking/DOS (Denial of Service) attempts on Pustakalaya Server. As this site’s been hit by the occasional DOS from people with an axe to grind and too much time on their hands,fail2ban is lifesaver. Please follow the steps below:</summary></entry><entry><title type="html">Let’s boost the web:Does speed of your website really matter?</title><link href="http://0.0.0.0:4000/web/Lets-Boost-the-web/" rel="alternate" type="text/html" title="Let’s boost the web:Does speed of your website really matter?" /><published>2016-08-22T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/web/Lets-Boost-the-web</id><content type="html" xml:base="http://0.0.0.0:4000/web/Lets-Boost-the-web/">&lt;p&gt;It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really important to estimate the cost of your performance, and there is no better way to articulate the cost of performance better than the old story of Amazon reporting increased revenue of 1% for every 100 milliseconds improvement to their site speed. source: &lt;a href=&quot;http://sites.google.com/site/glinden/Home/StanfordDataMining.2006-11-28.ppt&quot;&gt;Amazon&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/boostweb/giphy.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;From the user perspective, see how facebook’s instant article intrigues you to click the article more reflexively than any other article taking ages to load. Though there is the cost for performance enhancement; development cost but it won’t cost you a fortune to assimilate trivial practices which mitigate web load time of your website.&lt;/p&gt;
+
+&lt;h2 id=&quot;1-reduce-http-requests&quot;&gt;1. Reduce HTTP requests&lt;/h2&gt;
+
+&lt;p&gt;Primarily every web pages comprise of the images, stylesheets, flash ,scripts etc. For each of these components HTTP requests are made, so adding more number of images and scripts prolongs the avail of the contents. These round trips are the main reason for slow web pages.Most developers choose to add images instead of the CSS (though sometimes it may not be feasible) but this may add much more load for the web server and web performance may be hindered. Choosing images against CSS can stack you much of the performance tax and from the user perspective, faster web is much delightful than sluggish but attractive designs for user experience (UX) does matters. 
+ There are multiple ways we can reduce this&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://css-tricks.com/css-sprites/&quot;&gt;Sprites&lt;/a&gt; are the cool way to reduce image numbers.&lt;/li&gt;
+  &lt;li&gt;Combine multiple style sheets into one.&lt;/li&gt;
+  &lt;li&gt;Reduce scripts and put them at the bottom of the page.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;2-progressive-rendering&quot;&gt;2. Progressive rendering&lt;/h2&gt;
+
+&lt;p&gt;Though lightening speed would be great but till we reach there giving something for the user so that they can get busy, can help remove the anxiety of sluggishness. For this progressive rendering is the killer ( but under appreciated ) weapon.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*wkTkbzLrrrhy1MNtW9xulA.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Though the page may be heavier but putting something for them on the plate may trick them to think page as faster.Amazon does an excellent job with progressive rendering. Who knows, had they focused on mere fast loading they could have been out of business.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*PwIgDTWHCeHbdiOUbQ0qSA.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;3-add-a-load-balancer-and-reverse-proxy-server&quot;&gt;3. Add a Load Balancer and Reverse Proxy Server&lt;/h2&gt;
+
+&lt;p&gt;Load balancing is a technique aiming at distributing workload in a computer network, in order to optimally utilize resources, avoid overload and maximize throughput. Instead of adding multiple tasks to a single server we add a load balancer server to distribute the load across multiple servers. Even if your application is written poorly load balancer can enhance the user experience.&lt;/p&gt;
+
+&lt;p&gt;A load balancer server is simply a reverse proxy server; it receives the internet traffic and forwards the requests to another server. Load balancer acts as the relay station to route the traffic.The trick is load balancer supports two or more application server with the proper choice of an algorithm the traffic can be routed to the next server. Most popularly, round-robin approach is used in which the load balancer forward the traffic to next server in the list. Load balancers can lead to much better improvements in performance because they prevent one server from being overloaded while other servers wait for traffic.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*5oMXVu17JA7oEs11YJgWXA.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Popular web servers like Apache and NGINX has inbuilt load balancing capabilities. A brief tutorial on Load Balancing can be found &lt;a href=&quot;http://websistent.com/configure-apache-web-server-load-balancing/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;4-caching&quot;&gt;4. Caching&lt;/h2&gt;
+
+&lt;p&gt;As mentioned earlier too much of HTTP requests costs the web performance; hence, it would enhance the performance if we could store the most frequently used contents in a way that it could be easily be accessed. Apache and NGINX come with sophisticated and scalable caching mechanism. &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-configure-apache-content-caching-on-ubuntu-14-04&quot;&gt;Caching&lt;/a&gt; can be broadly divided into three categories which can be broken down as:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;File Caching: The most basic caching strategy, this simply opens files or file descriptors when the server starts and keeps them available to speed up access.&lt;/li&gt;
+  &lt;li&gt;Key-Value Caching: Mainly used for SSL and authentication caching, key-value caching uses a shared object model that can store items which are costly to compute repeatedly.&lt;/li&gt;
+  &lt;li&gt;Standard HTTP caching: The most flexible and generally useful caching mechanism, this three-state system can store responses and validate them when they expire. This can be configured for performance or flexibility depending on your specific needs.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;At browser level when someone visits your website for the first time they need to download the web contents but caching enhances the subsequent browsing for it cuts off HTTP requests . As &lt;a href=&quot;http://yuiblog.com/blog/2007/01/04/performance-research-part-2/&quot;&gt;Tenni Theurer&lt;/a&gt;, formerly of Yahoo, explains it…&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The first time someone comes to your website, they have to download the HTML document, stylesheets, javascript files and images before being able to use your page. That may be as many as 30 components and 2.4 seconds.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*Mc5doNxCamCwNCCjRlxX1Q.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Once the page has been loaded and the different components stored in the user’s cache, only a few components needs to be downloaded for subsequent visits. In Theurer’s test, that was just three components and .9 seconds, which shaved nearly 2 seconds off the load time.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*VAqawvqJjJ6f8st_R2m-Aw.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;5-reduce-dns-lookups&quot;&gt;5. Reduce DNS Lookups&lt;/h2&gt;
+
+&lt;p&gt;To put in laymen’s term DNS is server responsible for converting the domain main into its corresponding IP address like converting google.com to 120.89.97.42. DNS lookup takes place even before the web page loads so the size of the page do not affect the load time.Typically you can use your ISP’s DNS server but however other options as OpenDNS and Google’s DNS is also available; you can test and switch as suitable for you.&lt;/p&gt;
+
+&lt;h2 id=&quot;6-optimize-images-and-minify-resources&quot;&gt;6. Optimize Images and Minify resources&lt;/h2&gt;
+
+&lt;p&gt;Though adding images to web pages are not encouraged but many times its really needed to. So image should be compressed to best possible size. There are variety of image compressing sites as &lt;a href=&quot;https://imageoptim.com/&quot;&gt;ImageOptim&lt;/a&gt;, &lt;a href=&quot;https://pnggauntlet.com/&quot;&gt;PNG Gauntlet&lt;/a&gt;, &lt;a href=&quot;http://jpeg-optimizer.com/&quot;&gt;JPEG Optimizer&lt;/a&gt; and &lt;a href=&quot;https://tinypng.com/&quot;&gt;TinyPNG&lt;/a&gt;. Images should be sized correctly. That is, if you are displaying a 200×200 image, then don’t display a 400×400 at 200×200 size. There is no point in sending a bigger image if it is not going to be displayed, or if it’s not going to fit on a device’s screen.&lt;/p&gt;
+
+&lt;p&gt;Minification is the process of reducing file size by removing unnecessary characters such as whitespace, new line characters, comments. The unnecessary characters call for unnecessary HTTP requests so minification is very important . In many cases file sizes can drop by significant level through minification, thus speeding up content delivery and processing. You should minify all your JavaScript, CSS, and HTML files. There are many minification tools to try for different file types, for example, these for HTML:www.willpeavy.com/minifier and kangax.github.io/html-minifier.&lt;/p&gt;
+
+&lt;h2 id=&quot;what-else-can-you-do-&quot;&gt;What else can you do ?&lt;/h2&gt;
+
+&lt;p&gt;I run a simple test on WebPage test with pustakalaya.org to get the result as :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*Ay5GhA_iIG8CRE5fBBvBLA.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see in the figure the span in green as Time to First Byte (TTFB) takes up a significant part of the server response. That may have hit your nerve, so it’s very important to minimize this time. This time, varies according to your location from the server for it represents the route of the traffic. Particularly Waiting (TTFB) represents a number of things, like:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Server response time&lt;/li&gt;
+  &lt;li&gt;Time to transfer bytes (a.k.a latency of the round-trip)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The Internet can be pretty fast depending on the location and network , you are using, which is dictated by the distance the packets have to travel. According to &lt;a href=&quot;http://chimera.labs.oreilly.com/books/1230000000545/ch01.html#PROPAGATION_LATENCY&quot;&gt;Ilya Grigorik&lt;/a&gt;, we’re already quite close to the speed of light so we shouldn’t expect more speed there unless we bend physics. The way to speed things up, then, is to shorten distances. Depending on the user you have to locate the server if a bulk of the users is from Nepal than it wouldn’t be wise to place your server in United states.&lt;/p&gt;
+
+&lt;p&gt;So the bottom line its hard to focus on these things with approaching deadline and many bugs to fix but in the long run these practices can definitely boost your result.&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="Web Developemt" /><category term="Javascript" /><summary type="html">It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really important to estimate the cost of your performance, and there is no better way to articulate the cost of performance better than the old story of Amazon reporting increased revenue of 1% for every 100 milliseconds improvement to their site speed. source: Amazon.</summary></entry></feed>
