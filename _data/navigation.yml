@@ -1,9 +1,9 @@
 # main links
 main:
-  - title: "My Resume"
-    url: https://github.com/Becram
   - title: "About me"
     url: /me/
+  - title: "My Resume"
+    url: https://github.com/Becram
   - title: "My Blogs"
     url: /
   # - title: "Sample Collections"

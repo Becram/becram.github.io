@@ -1,4 +1,219 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2018-09-01T15:42:10+05:45</updated><id>http://0.0.0.0:4000/</id><title type="html">Bikram’s Blog</title><subtitle>Linux, security, DevOps stuff</subtitle><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><entry><title type="html">Bringing Raspberry Pi to Classroom</title><link href="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/" rel="alternate" type="text/html" title="Bringing Raspberry Pi to Classroom" /><published>2018-02-16T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom</id><content type="html" xml:base="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/">&lt;p&gt;There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2018-09-02T00:18:27+05:45</updated><id>http://0.0.0.0:4000/</id><title type="html">Bikram’s Blog</title><subtitle>Linux, security, DevOps stuff</subtitle><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><entry><title type="html">Setting up Private DNS Server with BIND9 (DNS Series:Part II)</title><link href="http://0.0.0.0:4000/network&system/DNS-Series-2/" rel="alternate" type="text/html" title="Setting up Private DNS Server with BIND9 (DNS Series:Part II)" /><published>2018-06-17T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/network&amp;system/DNS-Series-2</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/DNS-Series-2/">&lt;p&gt;We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one &lt;a href=&quot;http://becram.github.io/network&amp;amp;system/DNS-Series-1/&quot;&gt;here&lt;/a&gt;. In this series I will be takhing about how to set up a private DNS server using &lt;a href=&quot;https://www.isc.org/downloads/bind/&quot;&gt;BIND9&lt;/a&gt;. Before that I want to focus on Private and Public DNS.&lt;/p&gt;
+
+&lt;p&gt;Like we talked before DNS servers resolve the domain names in to IP addresses but ther might be the cases that you might have to resolve the domain names to local IPs. For example let say there is privated hosted fileserver in your office network, so you might have to provide domain name of the server instead of providing them IP address. For this case you might have to create a private DNS server. For the security season it is indevertantly advised to separate private and public DNS server for security and privacy issue, since public exposure of  the internal network IPs(or active directory information) to outsiders which might help attacker compromise the office system.&lt;/p&gt;
+
+&lt;p&gt;Apart from this there is another method called &lt;a href=&quot;https://en.wikipedia.org/wiki/Split-horizon_DNS&quot;&gt; split-horizon DNS server&lt;/a&gt; which serves as both public and private DNS server as in it serves different reponse depending on the source ip. For example the DNS server serves example.com or example.local depending upon public for public or private request.&lt;/p&gt;
+
+&lt;p&gt;Without further ado lets dive into setting up a private DNS server:&lt;/p&gt;
+
+&lt;h2 id=&quot;infrastructure&quot;&gt;Infrastructure&lt;/h2&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;SN&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Hostname&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;IP&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;FQDN&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Remarks&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;1.&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;ServerNode&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10.10.10.10&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;ns.test.example.com&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;DNS Server&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;2.&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;FileServerNode&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10.10.10.11&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;fileserver.test.example.com&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;FileServer&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;3.&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;ClientNode&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10.10.10.9&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;to test DNS Server&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;installing-bind-on-dns-servers&quot;&gt;Installing BIND on DNS Servers&lt;/h2&gt;
+
+&lt;h3 id=&quot;on--servernode--update-the-package&quot;&gt;On &lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; serverNode &lt;/span&gt;&lt;/strong&gt; update the package&lt;/h3&gt;
+
+&lt;p&gt;There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the &lt;a href=&quot;http://www.thememoryinstitute.com/remembering-numbers.html&quot;&gt;problem with numbers they hard to remember&lt;/a&gt; due to their intangibility, human have always struggled to come with theways of avoiding  the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering  74.125.24.139, unless you  are suffering from &lt;a href=&quot;http://hyperthymesia.net/hyperthymesia/&quot;&gt;Hyperthymesia&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;so-what-eactly-is-dns&quot;&gt;So, what eactly is DNS?&lt;/h2&gt;
+
+&lt;p&gt;Remember how you used to have those phonebook diary where you put the name and phone number corresponding to them. These diary acts like a map for the name to corresponding phones. DNS is like phone book for the internet.If you know a person’s name but don’t know their telephone number, you can simply look it up in a phone book. DNS provides this same service to the internet, off course they are much more complex then phonebook but at basic level they have the same function.&lt;/p&gt;
+
+&lt;p&gt;When you visit https://google.com in a browser, your computer uses DNS to retrieve the website’s IP address of 74.125.24.139, in just a split of second. Without DNS, you would only be able to visit google’s website (or any website) by visiting its IP address directly, such as http://74.125.24.139.
+Hence, DNS is fundamentally the backbone bone of the internet.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-dns-is-important&quot;&gt;Why DNS Is Important?&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Web browsers interact through Internet Protocol (IP) addresses.&lt;/li&gt;
+  &lt;li&gt;Elimination of the need for humans to memorize complex IP addresses.&lt;/li&gt;
+  &lt;li&gt;for many reasons, server’s ip needs to be changed, so DNS helps in eliminating those problem of working about any changes in underlying system.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;## DNS hierachy&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://www.dailywebsolutions.com/images/DNS-hierarchy.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;-1-root-level--zone-servers-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; 1. Root Level / zone servers &lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;It is the highest level in DNS hierarchy. The first step in resolving the domain name is root servers. It provides a list of authoritative name servers for top level domain (TLD). These servers have the list of all top level domains (TLDs). There are 13 root DNS servers all over the world. These root servers are named as A-root server, B-root server and so on upto K-root server. Root servers hold the information of each TLD that where is it located and what is its IP Address.&lt;/p&gt;
+
+&lt;p&gt;If you want more information about root servers that where are they located and who owns them or any other info, then you need to go http://www.root-servers.org.&lt;/p&gt;
+
+&lt;h3 id=&quot;-2-top-level-domains-tld&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; 2. Top Level Domains (TLD)&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;TLD is at the 2nd highest level domains in the hierarchical Domain Name System of the Internet. Top level domains are .com, .org, .edu etc. It will make more sense, if you take a look at DNS hierarchy diagram.&lt;/p&gt;
+
+&lt;h3 id=&quot;-3-second-level-domains&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; 3. Second Level domains&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;It is 3rd level in the hierarchical Domain Name System of the internet. It is directly below the TLD. dailywebsolutions.com is an example of second level domains because it is directly below .com TLD.&lt;/p&gt;
+
+&lt;h3 id=&quot;-4-sub-domain&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; 4. Sub-Domain&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Sub domain is considered as the part of the second level domains. Let’s consider mail.dailywebsolutions.com, here mail is the sub domain of a 2nd level domain dailywebsolutions and .com is the TLD.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-dns-works&quot;&gt;How DNS works?&lt;/h2&gt;
+
+&lt;h3 id=&quot;-step-1-request-information-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 1: Request information &lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The process begins when you ask your computer to resolve a hostname, such as visiting https://dyn.com. The first place your computer looks for the corresponding IP address is its local DNS cache, which stores information that your computer has recently retrieved.&lt;/p&gt;
+
+&lt;p&gt;If your computer doesn’t already know the answer, it needs to perform a DNS query to find out.&lt;/p&gt;
+
+&lt;h3 id=&quot;-step-2-ask-the-recursive-dns-servers&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 2: Ask the recursive DNS servers&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;If the information is not stored locally, your computer queries (contacts) the recursive DNS servers (resolvers) from your internet service provider (ISP). These specialized computers perform the legwork of a DNS query on your behalf. Resolvers have their own caches, and given that many of the ISP’s customers are using the same resolvers, there is a reasonable chance that popular domains will already be cached. If this is the case for our example, dyn.com, the process usually ends here and the information is returned to the user.&lt;/p&gt;
+
+&lt;p&gt;Just about every ISP runs their own resolvers, yet those aren’t necessarily what you could be using. Some companies and perhaps even technically sophisticated home users could run their own resolvers on site. Additionally, there are several very popular open resolvers available, including Google Public DNS, OpenDNS, Dyn Recursive DNS, and Quad9.&lt;/p&gt;
+
+&lt;h3 id=&quot;-step-3-ask-the-root-name-servers&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 3: Ask the root name servers&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;If the recursive servers don’t have the answer, they query the root name servers. A name server is a computer that answers questions about domain names, such as IP addresses. These 13 servers act as a kind of telephone switchboard for DNS. They don’t know the answer, but they can direct DNS queries to someone that knows where to find it.&lt;/p&gt;
+
+&lt;h3 id=&quot;-step-4-ask-the-tld-name-servers-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 4: Ask the TLD name servers &lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The root name servers will look at the first part of our request, reading from right to left — www.dyn.com — and in our case, direct our query to the top-level domain (TLD) name servers for .com. Each TLD, such as those for .com, .org, and .us, has its own set of name servers, which act like a receptionist for each TLD. These servers don’t have the information we need, but they can refer us directly to the servers that do have the information.&lt;/p&gt;
+
+&lt;h3 id=&quot;-step-5-ask-the-authoritative-dns-servers&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 5: Ask the authoritative DNS servers&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The TLD name servers review the next part of our request — www.dyn.com — and direct our query to the name servers responsible for this specific domain. These authoritative name servers are responsible for knowing all the information about a specific domain, which is stored in DNS records. There are many types of records, which each contain a different kind of information.&lt;/p&gt;
+
+&lt;p&gt;In this example, we want to know the IP address for www.dyn.com, so we ask the authoritative name server for the address record (A record). Some authoritative name servers have intelligence that can analyze an incoming DNS query and return a response that is more performant for the user that originated the query.&lt;/p&gt;
+
+&lt;h3 id=&quot;-step-6-retrieve-the-record&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 6: Retrieve the record&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The recursive server retrieves the A record for dyn.com from the authoritative name servers and stores the record in its local cache. If anyone else requests the host record for dyn.com, the recursive server will already have the answer and will not need to go through the lookup process again. All records have a time-to-live value, which is like an expiration date. After a while, the recursive server will need to ask for a new copy of the record to make sure the information doesn’t become out-of-date.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 7: Receive the answer&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Armed with the answer, recursive server returns the A record back to your computer. Your computer stores the record in its cache, reads the IP address from the record, then passes this information to your browser. The browser then opens a connection to the webserver and receives the website.&lt;/p&gt;
+
+&lt;p&gt;This entire process, from start to finish, takes only milliseconds to complete.&lt;/p&gt;
+
+&lt;h2 id=&quot;-referencesspan&quot;&gt;**&lt;span style=&quot;color:green&quot;&gt; References/span&amp;gt;**&lt;/span&gt;&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;https://dyn.com/blog/dns-why-its-important-how-it-works/&lt;/li&gt;
+  &lt;li&gt;http://www.dailywebsolutions.com/what-is-DNS-and-DNS-hierarchy&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series I will be takhing about how to set up a private DNS server using BIND9. Before that I want to focus on Private and Public DNS.</summary></entry><entry><title type="html">Everything about DNS and DNS Sinkholing</title><link href="http://0.0.0.0:4000/network&system/DNS-Series-1/" rel="alternate" type="text/html" title="Everything about DNS and DNS Sinkholing" /><published>2018-06-17T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/network&amp;system/DNS-Series-1</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/DNS-Series-1/">&lt;p&gt;There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the &lt;a href=&quot;http://www.thememoryinstitute.com/remembering-numbers.html&quot;&gt;problem with numbers they hard to remember&lt;/a&gt; due to their intangibility, human have always struggled to come with theways of avoiding  the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering  74.125.24.139, unless you  are suffering from &lt;a href=&quot;http://hyperthymesia.net/hyperthymesia/&quot;&gt;Hyperthymesia&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;so-what-eactly-is-dns&quot;&gt;So, what eactly is DNS?&lt;/h2&gt;
+
+&lt;p&gt;Remember how you used to have those phonebook diary where you put the name and phone number corresponding to them. These diary acts like a map for the name to corresponding phones. DNS is like phone book for the internet.If you know a person’s name but don’t know their telephone number, you can simply look it up in a phone book. DNS provides this same service to the internet, off course they are much more complex then phonebook but at basic level they have the same function.&lt;/p&gt;
+
+&lt;p&gt;When you visit https://google.com in a browser, your computer uses DNS to retrieve the website’s IP address of 74.125.24.139, in just a split of second. Without DNS, you would only be able to visit google’s website (or any website) by visiting its IP address directly, such as http://74.125.24.139.
+Hence, DNS is fundamentally the backbone bone of the internet.&lt;/p&gt;
+
+&lt;h2 id=&quot;why-dns-is-important&quot;&gt;Why DNS Is Important?&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Web browsers interact through Internet Protocol (IP) addresses.&lt;/li&gt;
+  &lt;li&gt;Elimination of the need for humans to memorize complex IP addresses.&lt;/li&gt;
+  &lt;li&gt;for many reasons, server’s ip needs to be changed, so DNS helps in eliminating those problem of working about any changes in underlying system.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;## DNS hierachy&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://www.dailywebsolutions.com/images/DNS-hierarchy.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;-1-root-level--zone-servers-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; 1. Root Level / zone servers &lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;It is the highest level in DNS hierarchy. The first step in resolving the domain name is root servers. It provides a list of authoritative name servers for top level domain (TLD). These servers have the list of all top level domains (TLDs). There are 13 root DNS servers all over the world. These root servers are named as A-root server, B-root server and so on upto K-root server. Root servers hold the information of each TLD that where is it located and what is its IP Address.&lt;/p&gt;
+
+&lt;p&gt;If you want more information about root servers that where are they located and who owns them or any other info, then you need to go http://www.root-servers.org.&lt;/p&gt;
+
+&lt;h3 id=&quot;-2-top-level-domains-tld&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; 2. Top Level Domains (TLD)&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;TLD is at the 2nd highest level domains in the hierarchical Domain Name System of the Internet. Top level domains are .com, .org, .edu etc. It will make more sense, if you take a look at DNS hierarchy diagram.&lt;/p&gt;
+
+&lt;h3 id=&quot;-3-second-level-domains&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; 3. Second Level domains&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;It is 3rd level in the hierarchical Domain Name System of the internet. It is directly below the TLD. dailywebsolutions.com is an example of second level domains because it is directly below .com TLD.&lt;/p&gt;
+
+&lt;h3 id=&quot;-4-sub-domain&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; 4. Sub-Domain&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;Sub domain is considered as the part of the second level domains. Let’s consider mail.dailywebsolutions.com, here mail is the sub domain of a 2nd level domain dailywebsolutions and .com is the TLD.&lt;/p&gt;
+
+&lt;h2 id=&quot;how-dns-works&quot;&gt;How DNS works?&lt;/h2&gt;
+
+&lt;h3 id=&quot;-step-1-request-information-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 1: Request information &lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The process begins when you ask your computer to resolve a hostname, such as visiting https://dyn.com. The first place your computer looks for the corresponding IP address is its local DNS cache, which stores information that your computer has recently retrieved.&lt;/p&gt;
+
+&lt;p&gt;If your computer doesn’t already know the answer, it needs to perform a DNS query to find out.&lt;/p&gt;
+
+&lt;h3 id=&quot;-step-2-ask-the-recursive-dns-servers&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 2: Ask the recursive DNS servers&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;If the information is not stored locally, your computer queries (contacts) the recursive DNS servers (resolvers) from your internet service provider (ISP). These specialized computers perform the legwork of a DNS query on your behalf. Resolvers have their own caches, and given that many of the ISP’s customers are using the same resolvers, there is a reasonable chance that popular domains will already be cached. If this is the case for our example, dyn.com, the process usually ends here and the information is returned to the user.&lt;/p&gt;
+
+&lt;p&gt;Just about every ISP runs their own resolvers, yet those aren’t necessarily what you could be using. Some companies and perhaps even technically sophisticated home users could run their own resolvers on site. Additionally, there are several very popular open resolvers available, including Google Public DNS, OpenDNS, Dyn Recursive DNS, and Quad9.&lt;/p&gt;
+
+&lt;h3 id=&quot;-step-3-ask-the-root-name-servers&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 3: Ask the root name servers&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;If the recursive servers don’t have the answer, they query the root name servers. A name server is a computer that answers questions about domain names, such as IP addresses. These 13 servers act as a kind of telephone switchboard for DNS. They don’t know the answer, but they can direct DNS queries to someone that knows where to find it.&lt;/p&gt;
+
+&lt;h3 id=&quot;-step-4-ask-the-tld-name-servers-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 4: Ask the TLD name servers &lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The root name servers will look at the first part of our request, reading from right to left — www.dyn.com — and in our case, direct our query to the top-level domain (TLD) name servers for .com. Each TLD, such as those for .com, .org, and .us, has its own set of name servers, which act like a receptionist for each TLD. These servers don’t have the information we need, but they can refer us directly to the servers that do have the information.&lt;/p&gt;
+
+&lt;h3 id=&quot;-step-5-ask-the-authoritative-dns-servers&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 5: Ask the authoritative DNS servers&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The TLD name servers review the next part of our request — www.dyn.com — and direct our query to the name servers responsible for this specific domain. These authoritative name servers are responsible for knowing all the information about a specific domain, which is stored in DNS records. There are many types of records, which each contain a different kind of information.&lt;/p&gt;
+
+&lt;p&gt;In this example, we want to know the IP address for www.dyn.com, so we ask the authoritative name server for the address record (A record). Some authoritative name servers have intelligence that can analyze an incoming DNS query and return a response that is more performant for the user that originated the query.&lt;/p&gt;
+
+&lt;h3 id=&quot;-step-6-retrieve-the-record&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 6: Retrieve the record&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;The recursive server retrieves the A record for dyn.com from the authoritative name servers and stores the record in its local cache. If anyone else requests the host record for dyn.com, the recursive server will already have the answer and will not need to go through the lookup process again. All records have a time-to-live value, which is like an expiration date. After a while, the recursive server will need to ask for a new copy of the record to make sure the information doesn’t become out-of-date.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Step 7: Receive the answer&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Armed with the answer, recursive server returns the A record back to your computer. Your computer stores the record in its cache, reads the IP address from the record, then passes this information to your browser. The browser then opens a connection to the webserver and receives the website.&lt;/p&gt;
+
+&lt;p&gt;This entire process, from start to finish, takes only milliseconds to complete.&lt;/p&gt;
+
+&lt;p&gt;More:  https://www.verisign.com/en_US/website-presence/online/how-dns-works/index.xhtml gives more interactive way to understand DNS&lt;/p&gt;
+
+&lt;h2 id=&quot;-referencesspan&quot;&gt;**&lt;span style=&quot;color:green&quot;&gt; References/span&amp;gt;**&lt;/span&gt;&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;https://dyn.com/blog/dns-why-its-important-how-it-works/&lt;/li&gt;
+  &lt;li&gt;http://www.dailywebsolutions.com/what-is-DNS-and-DNS-hierarchy&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the problem with numbers they hard to remember due to their intangibility, human have always struggled to come with theways of avoiding the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering 74.125.24.139, unless you are suffering from Hyperthymesia.</summary></entry><entry><title type="html">Bringing Raspberry Pi to Classroom</title><link href="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/" rel="alternate" type="text/html" title="Bringing Raspberry Pi to Classroom" /><published>2018-02-16T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom</id><content type="html" xml:base="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/">&lt;p&gt;There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.&lt;/p&gt;
 
 &lt;p&gt;At &lt;a href=&quot;http://olenepal.org&quot;&gt;OLE Nepal&lt;/a&gt;, we strive to bring the best new technology to our classrooms. It’s never easy to embrace a new piece of technology, for teachers are resistant to the change, with factors like power cuts and budget making up a huge share of challenge. So we set our selection of the technology based on the 3 prime constraints; low-powered, portable, and low cost. And for these traits, Raspberry Pi steps up as the knight in shining armor.&lt;/p&gt;
 

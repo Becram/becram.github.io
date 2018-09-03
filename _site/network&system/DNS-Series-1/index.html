@@ -1,0 +1,776 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.12.1 by Michael Rose
+  Copyright 2013-2018 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Everything about DNS and DNS Sinkholing - Bikram’s Blog</title>
+<meta name="description" content="There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the problem with numbers they hard to remember due to their intangibility, human have always struggled to come with theways of avoiding  the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering  74.125.24.139, unless you  are suffering from Hyperthymesia.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Bikram's Blog">
+<meta property="og:title" content="Everything about DNS and DNS Sinkholing">
+<meta property="og:url" content="http://0.0.0.0:4000/network&system/DNS-Series-1/">
+
+
+  <meta property="og:description" content="There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the problem with numbers they hard to remember due to their intangibility, human have always struggled to come with theways of avoiding  the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering  74.125.24.139, unless you  are suffering from Hyperthymesia.">
+
+
+
+  <meta property="og:image" content="http://0.0.0.0:4000/assets/images/DNS/DNS.png">
+
+
+
+  <meta name="twitter:site" content="@itsbecram">
+  <meta name="twitter:title" content="Everything about DNS and DNS Sinkholing">
+  <meta name="twitter:description" content="There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the problem with numbers they hard to remember due to their intangibility, human have always struggled to come with theways of avoiding  the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering  74.125.24.139, unless you  are suffering from Hyperthymesia.">
+  <meta name="twitter:url" content="http://0.0.0.0:4000/network&system/DNS-Series-1/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+      <meta name="twitter:image" content="http://0.0.0.0:4000/assets/images/DNS/DNS.png">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2018-06-17T00:00:00+05:45">
+
+
+
+  <meta property="article:modified_time" content="2018-03-21T01:45:58+05:45">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://0.0.0.0:4000/network&system/DNS-Series-1/">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Person",
+      "name": "Bikram Dhoju",
+      "url": "http://0.0.0.0:4000",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Bikram's Blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Bikram's Blog</a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/me/" >About me</a>
+            </li><li class="masthead__menu-item">
+              <a href="https://github.com/Becram" >My Resume</a>
+            </li><li class="masthead__menu-item">
+              <a href="/" >My Blogs</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+          <a href="http://0.0.0.0:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+          <a href="/categories/network&system" itemprop="item"><span itemprop="name">Network&system</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Everything about DNS and DNS Sinkholing</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="/assets/images/bio-image.jpg" alt="Bikram Dhoju" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bikram Dhoju</h3>
+    
+    
+      <p class="author__bio" itemprop="description">
+         Sr. Network and System Engineer/DevOps Engineer at Open Learning Exchange Nepal
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="http://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Samakhushi, Kathmandu</span>
+        </li>
+      
+
+      
+        <li>
+          <a href="http://bikramdhoju.com.np" itemprop="url">
+            <i class="fas fa-fw fa-link" aria-hidden="true"></i> Website
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="mailto:itsbecram@gmail.com">
+            <meta itemprop="email" content="itsbecram@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email
+          </a>
+        </li>
+      
+
+      
+
+      
+        <li>
+          <a href="https://twitter.com/itsbecram" itemprop="sameAs">
+            <i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="https://www.facebook.com/becram.dhoju" itemprop="sameAs">
+            <i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://instagram.com/becram061" itemprop="sameAs">
+            <i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/Becram" itemprop="sameAs">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Everything about DNS and DNS Sinkholing">
+    <meta itemprop="description" content="There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the problem with numbers they hard to remember due to their intangibility, human have always struggled to come with theways of avoiding  the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering  74.125.24.139, unless you  are suffering from Hyperthymesia.">
+    <meta itemprop="datePublished" content="June 17, 2018">
+    <meta itemprop="dateModified" content="March 20, 2018">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Everything about DNS and DNS Sinkholing
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  5 minute read
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> What is here</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#so-what-eactly-is-dns">So, what eactly is DNS?</a></li>
+  <li><a href="#why-dns-is-important">Why DNS Is Important?</a>
+    <ul>
+      <li><a href="#-1-root-level--zone-servers-"> 1. Root Level / zone servers </a></li>
+      <li><a href="#-2-top-level-domains-tld"> 2. Top Level Domains (TLD)</a></li>
+      <li><a href="#-3-second-level-domains"> 3. Second Level domains</a></li>
+      <li><a href="#-4-sub-domain"> 4. Sub-Domain</a></li>
+    </ul>
+  </li>
+  <li><a href="#how-dns-works">How DNS works?</a>
+    <ul>
+      <li><a href="#-step-1-request-information-"> Step 1: Request information </a></li>
+      <li><a href="#-step-2-ask-the-recursive-dns-servers"> Step 2: Ask the recursive DNS servers</a></li>
+      <li><a href="#-step-3-ask-the-root-name-servers"> Step 3: Ask the root name servers</a></li>
+      <li><a href="#-step-4-ask-the-tld-name-servers-"> Step 4: Ask the TLD name servers </a></li>
+      <li><a href="#-step-5-ask-the-authoritative-dns-servers"> Step 5: Ask the authoritative DNS servers</a></li>
+      <li><a href="#-step-6-retrieve-the-record"> Step 6: Retrieve the record</a></li>
+    </ul>
+  </li>
+  <li><a href="#-referencesspan">** References/span&gt;**</a></li>
+</ul>
+            </nav>
+          </aside>
+        
+        <p>There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the <a href="http://www.thememoryinstitute.com/remembering-numbers.html">problem with numbers they hard to remember</a> due to their intangibility, human have always struggled to come with theways of avoiding  the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering  74.125.24.139, unless you  are suffering from <a href="http://hyperthymesia.net/hyperthymesia/">Hyperthymesia</a>.</p>
+
+<h2 id="so-what-eactly-is-dns">So, what eactly is DNS?</h2>
+
+<p>Remember how you used to have those phonebook diary where you put the name and phone number corresponding to them. These diary acts like a map for the name to corresponding phones. DNS is like phone book for the internet.If you know a person’s name but don’t know their telephone number, you can simply look it up in a phone book. DNS provides this same service to the internet, off course they are much more complex then phonebook but at basic level they have the same function.</p>
+
+<p>When you visit https://google.com in a browser, your computer uses DNS to retrieve the website’s IP address of 74.125.24.139, in just a split of second. Without DNS, you would only be able to visit google’s website (or any website) by visiting its IP address directly, such as http://74.125.24.139.
+Hence, DNS is fundamentally the backbone bone of the internet.</p>
+
+<h2 id="why-dns-is-important">Why DNS Is Important?</h2>
+
+<ol>
+  <li>Web browsers interact through Internet Protocol (IP) addresses.</li>
+  <li>Elimination of the need for humans to memorize complex IP addresses.</li>
+  <li>for many reasons, server’s ip needs to be changed, so DNS helps in eliminating those problem of working about any changes in underlying system.</li>
+</ol>
+
+<p>## DNS hierachy</p>
+
+<p><img src="http://www.dailywebsolutions.com/images/DNS-hierarchy.png" alt="" /></p>
+
+<h3 id="-1-root-level--zone-servers-"><strong><span style="color:green"> 1. Root Level / zone servers </span></strong></h3>
+
+<p>It is the highest level in DNS hierarchy. The first step in resolving the domain name is root servers. It provides a list of authoritative name servers for top level domain (TLD). These servers have the list of all top level domains (TLDs). There are 13 root DNS servers all over the world. These root servers are named as A-root server, B-root server and so on upto K-root server. Root servers hold the information of each TLD that where is it located and what is its IP Address.</p>
+
+<p>If you want more information about root servers that where are they located and who owns them or any other info, then you need to go http://www.root-servers.org.</p>
+
+<h3 id="-2-top-level-domains-tld"><strong><span style="color:green"> 2. Top Level Domains (TLD)</span></strong></h3>
+
+<p>TLD is at the 2nd highest level domains in the hierarchical Domain Name System of the Internet. Top level domains are .com, .org, .edu etc. It will make more sense, if you take a look at DNS hierarchy diagram.</p>
+
+<h3 id="-3-second-level-domains"><strong><span style="color:green"> 3. Second Level domains</span></strong></h3>
+
+<p>It is 3rd level in the hierarchical Domain Name System of the internet. It is directly below the TLD. dailywebsolutions.com is an example of second level domains because it is directly below .com TLD.</p>
+
+<h3 id="-4-sub-domain"><strong><span style="color:green"> 4. Sub-Domain</span></strong></h3>
+
+<p>Sub domain is considered as the part of the second level domains. Let’s consider mail.dailywebsolutions.com, here mail is the sub domain of a 2nd level domain dailywebsolutions and .com is the TLD.</p>
+
+<h2 id="how-dns-works">How DNS works?</h2>
+
+<h3 id="-step-1-request-information-"><strong><span style="color:green"> Step 1: Request information </span></strong></h3>
+
+<p>The process begins when you ask your computer to resolve a hostname, such as visiting https://dyn.com. The first place your computer looks for the corresponding IP address is its local DNS cache, which stores information that your computer has recently retrieved.</p>
+
+<p>If your computer doesn’t already know the answer, it needs to perform a DNS query to find out.</p>
+
+<h3 id="-step-2-ask-the-recursive-dns-servers"><strong><span style="color:green"> Step 2: Ask the recursive DNS servers</span></strong></h3>
+
+<p>If the information is not stored locally, your computer queries (contacts) the recursive DNS servers (resolvers) from your internet service provider (ISP). These specialized computers perform the legwork of a DNS query on your behalf. Resolvers have their own caches, and given that many of the ISP’s customers are using the same resolvers, there is a reasonable chance that popular domains will already be cached. If this is the case for our example, dyn.com, the process usually ends here and the information is returned to the user.</p>
+
+<p>Just about every ISP runs their own resolvers, yet those aren’t necessarily what you could be using. Some companies and perhaps even technically sophisticated home users could run their own resolvers on site. Additionally, there are several very popular open resolvers available, including Google Public DNS, OpenDNS, Dyn Recursive DNS, and Quad9.</p>
+
+<h3 id="-step-3-ask-the-root-name-servers"><strong><span style="color:green"> Step 3: Ask the root name servers</span></strong></h3>
+
+<p>If the recursive servers don’t have the answer, they query the root name servers. A name server is a computer that answers questions about domain names, such as IP addresses. These 13 servers act as a kind of telephone switchboard for DNS. They don’t know the answer, but they can direct DNS queries to someone that knows where to find it.</p>
+
+<h3 id="-step-4-ask-the-tld-name-servers-"><strong><span style="color:green"> Step 4: Ask the TLD name servers </span></strong></h3>
+
+<p>The root name servers will look at the first part of our request, reading from right to left — www.dyn.com — and in our case, direct our query to the top-level domain (TLD) name servers for .com. Each TLD, such as those for .com, .org, and .us, has its own set of name servers, which act like a receptionist for each TLD. These servers don’t have the information we need, but they can refer us directly to the servers that do have the information.</p>
+
+<h3 id="-step-5-ask-the-authoritative-dns-servers"><strong><span style="color:green"> Step 5: Ask the authoritative DNS servers</span></strong></h3>
+
+<p>The TLD name servers review the next part of our request — www.dyn.com — and direct our query to the name servers responsible for this specific domain. These authoritative name servers are responsible for knowing all the information about a specific domain, which is stored in DNS records. There are many types of records, which each contain a different kind of information.</p>
+
+<p>In this example, we want to know the IP address for www.dyn.com, so we ask the authoritative name server for the address record (A record). Some authoritative name servers have intelligence that can analyze an incoming DNS query and return a response that is more performant for the user that originated the query.</p>
+
+<h3 id="-step-6-retrieve-the-record"><strong><span style="color:green"> Step 6: Retrieve the record</span></strong></h3>
+
+<p>The recursive server retrieves the A record for dyn.com from the authoritative name servers and stores the record in its local cache. If anyone else requests the host record for dyn.com, the recursive server will already have the answer and will not need to go through the lookup process again. All records have a time-to-live value, which is like an expiration date. After a while, the recursive server will need to ask for a new copy of the record to make sure the information doesn’t become out-of-date.</p>
+
+<p><strong><span style="color:green"> Step 7: Receive the answer</span></strong></p>
+
+<p>Armed with the answer, recursive server returns the A record back to your computer. Your computer stores the record in its cache, reads the IP address from the record, then passes this information to your browser. The browser then opens a connection to the webserver and receives the website.</p>
+
+<p>This entire process, from start to finish, takes only milliseconds to complete.</p>
+
+<p>More:  https://www.verisign.com/en_US/website-presence/online/how-dns-works/index.xhtml gives more interactive way to understand DNS</p>
+
+<h2 id="-referencesspan">**<span style="color:green"> References/span&gt;**</span></h2>
+
+<ol>
+  <li>https://dyn.com/blog/dns-why-its-important-how-it-works/</li>
+  <li>http://www.dailywebsolutions.com/what-is-DNS-and-DNS-hierarchy</li>
+</ol>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/dns" class="page__taxonomy-item" rel="tag">DNS</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/internet" class="page__taxonomy-item" rel="tag">Internet</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/javascript" class="page__taxonomy-item" rel="tag">Javascript</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/network-system" class="page__taxonomy-item" rel="tag">Network&System</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-20">March 20, 2018</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?via=itsbecram&text=Everything+about+DNS+and+DNS+Sinkholing%20http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-1%2F" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-1%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/edtech/Bringing-RPi-to-Classroom/" class="pagination--pager" title="Bringing Raspberry Pi to Classroom
+">Previous</a>
+    
+    
+      <a href="/network&system/DNS-Series-2/" class="pagination--pager" title="Setting up Private DNS Server with BIND9 (DNS Series:Part II)
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/DNS/DNS.png"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/network&system/DNS-Series-2/" rel="permalink">Setting up Private DNS Server with BIND9 (DNS Series:Part II)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  7 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this ser...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/main.jpg"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/edtech/Bringing-RPi-to-Classroom/" rel="permalink">Bringing Raspberry Pi to Classroom
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  4 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/IDS/IDS.png"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/network&system/Intrusion-Detection-System-with-Fail2Ban/" rel="permalink">Intrusion Dectection system with Fail2ban
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  1 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Install and configure fail2ban to stop some hacking/DOS (Denial of Service) attempts on Pustakalaya Server. As this site’s been hit by the occasional DOS fro...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/main.jpg"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/web/Lets-Boost-the-web/" rel="permalink">Let’s boost the web:Does speed of your website really matter?
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  6 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really i...</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><input type="text" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+    <div id="results" class="results"></div></div>
+      </div>
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/itsbecram"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+      <li><a href="https://www.facebook.com/becram.dhoju"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+    
+    
+      <li><a href="https://github.com/Becram"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2018 Bikram Dhoju. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+  </body>
+</html>

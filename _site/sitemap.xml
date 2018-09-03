@@ -13,6 +13,14 @@
 <lastmod>2018-03-21T01:45:58+05:45</lastmod>
 </url>
 <url>
+<loc>http://0.0.0.0:4000/network&amp;system/DNS-Series-1/</loc>
+<lastmod>2018-03-21T01:45:58+05:45</lastmod>
+</url>
+<url>
+<loc>http://0.0.0.0:4000/network&amp;system/DNS-Series-2/</loc>
+<lastmod>2018-03-21T01:45:58+05:45</lastmod>
+</url>
+<url>
 <loc>http://0.0.0.0:4000/about/</loc>
 <lastmod>2016-06-06T00:00:00+05:45</lastmod>
 </url>
@@ -34,6 +42,12 @@
 </url>
 <url>
 <loc>http://0.0.0.0:4000/tags/raspberrypi/</loc>
+</url>
+<url>
+<loc>http://0.0.0.0:4000/tags/internet/</loc>
+</url>
+<url>
+<loc>http://0.0.0.0:4000/tags/dns/</loc>
 </url>
 <url>
 <loc>http://0.0.0.0:4000/categories/web/</loc>
