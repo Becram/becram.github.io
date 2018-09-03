@@ -14,7 +14,7 @@ var store = [{
         "tags": ["RaspberryPi"],
         "url": "http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/",
         "teaser":"http://0.0.0.0:4000/assets/images/main.jpg"},{
-        "title": "Everything about DNS and DNS Sinkholing",
+        "title": "DNS :Introduction (DNS Series:Part I)",
         "excerpt":"There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the problem with numbers they hard to remember due to their intangibility, human have always struggled...","categories": ["Network&System"],
         "tags": ["Internet","DNS","Javascript"],
         "url": "http://0.0.0.0:4000/network&system/DNS-Series-1/",
