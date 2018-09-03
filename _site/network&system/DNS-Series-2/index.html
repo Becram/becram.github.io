@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Setting up Private DNS Server with BIND9 (DNS Series:Part II) - Bikram’s Blog</title>
+<!-- begin _includes/seo.html --><title>Setting up Private DNS Server with BIND9  (DNS Series:Part II) - Bikram’s Blog</title>
 <meta name="description" content="We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series I will be takhing about how to set up a private DNS server using BIND9. Before that I want to focus on Private and Public DNS.">
 
 
@@ -17,7 +17,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Bikram's Blog">
-<meta property="og:title" content="Setting up Private DNS Server with BIND9 (DNS Series:Part II)">
+<meta property="og:title" content="Setting up Private DNS Server with BIND9  (DNS Series:Part II)">
 <meta property="og:url" content="http://0.0.0.0:4000/network&system/DNS-Series-2/">
 
 
@@ -30,7 +30,7 @@
 
 
   <meta name="twitter:site" content="@itsbecram">
-  <meta name="twitter:title" content="Setting up Private DNS Server with BIND9 (DNS Series:Part II)">
+  <meta name="twitter:title" content="Setting up Private DNS Server with BIND9  (DNS Series:Part II)">
   <meta name="twitter:description" content="We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series I will be takhing about how to set up a private DNS server using BIND9. Before that I want to focus on Private and Public DNS.">
   <meta name="twitter:url" content="http://0.0.0.0:4000/network&system/DNS-Series-2/">
 
@@ -191,7 +191,7 @@
     
       
       
-        <li class="current">Setting up Private DNS Server with BIND9 (DNS Series:Part II)</li>
+        <li class="current">Setting up Private DNS Server with BIND9  (DNS Series:Part II)</li>
       
     
   </ol>
@@ -341,15 +341,15 @@
 
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Setting up Private DNS Server with BIND9 (DNS Series:Part II)">
+    <meta itemprop="headline" content="Setting up Private DNS Server with BIND9  (DNS Series:Part II)">
     <meta itemprop="description" content="We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series I will be takhing about how to set up a private DNS server using BIND9. Before that I want to focus on Private and Public DNS.">
     <meta itemprop="datePublished" content="June 17, 2018">
-    <meta itemprop="dateModified" content="March 20, 2018">
+    <meta itemprop="dateModified" content="March 21, 2018">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Setting up Private DNS Server with BIND9 (DNS Series:Part II)
+          <h1 id="page-title" class="page__title" itemprop="headline">Setting up Private DNS Server with BIND9  (DNS Series:Part II)
 </h1>
           
             <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
@@ -357,7 +357,7 @@
 
 
 
-  7 minute read
+  9 minute read
 </p>
           
         </header>
@@ -370,31 +370,25 @@
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> What is here</h4></header>
               <ul class="toc__menu">
   <li><a href="#infrastructure">Infrastructure</a></li>
-  <li><a href="#installing-bind-on-dns-servers">Installing BIND on DNS Servers</a>
+  <li><a href="#installing-bind-on-dns-serversubuntu-node">Installing BIND on DNS Servers(Ubuntu Node)</a>
     <ul>
       <li><a href="#on--servernode--update-the-package">On  serverNode  update the package</a></li>
+      <li><a href="#ipv4-mode">IPv4 Mode</a></li>
+      <li><a href="#configure-file-namedconfoptions">Configure file: named.conf.options</a></li>
     </ul>
   </li>
-  <li><a href="#so-what-eactly-is-dns">So, what eactly is DNS?</a></li>
-  <li><a href="#why-dns-is-important">Why DNS Is Important?</a>
+  <li><a href="#configure-local-file">Configure Local File</a>
     <ul>
-      <li><a href="#-1-root-level--zone-servers-"> 1. Root Level / zone servers </a></li>
-      <li><a href="#-2-top-level-domains-tld"> 2. Top Level Domains (TLD)</a></li>
-      <li><a href="#-3-second-level-domains"> 3. Second Level domains</a></li>
-      <li><a href="#-4-sub-domain"> 4. Sub-Domain</a></li>
+      <li><a href="#what-are-zones-in-dns">what are zones in DNS?</a></li>
+      <li><a href="#configure-file-etcbindnamedconflocal">Configure file: /etc/bind/named.conf.local</a></li>
+      <li><a href="#create-forward-zone-file">Create Forward Zone File</a></li>
+      <li><a href="#types-of-dns-records">Types of DNS records:</a></li>
+      <li><a href="#configure-file-etcbindzonesdbnyc3examplecom">Configure file: /etc/bind/zones/db.nyc3.example.com</a></li>
+      <li><a href="#create-reverse-zone-files">Create Reverse Zone File(s)</a></li>
+      <li><a href="#configure-file-etcbindzonesdbnyc3examplecom-1">Configure file: /etc/bind/zones/db.nyc3.example.com</a></li>
     </ul>
   </li>
-  <li><a href="#how-dns-works">How DNS works?</a>
-    <ul>
-      <li><a href="#-step-1-request-information-"> Step 1: Request information </a></li>
-      <li><a href="#-step-2-ask-the-recursive-dns-servers"> Step 2: Ask the recursive DNS servers</a></li>
-      <li><a href="#-step-3-ask-the-root-name-servers"> Step 3: Ask the root name servers</a></li>
-      <li><a href="#-step-4-ask-the-tld-name-servers-"> Step 4: Ask the TLD name servers </a></li>
-      <li><a href="#-step-5-ask-the-authoritative-dns-servers"> Step 5: Ask the authoritative DNS servers</a></li>
-      <li><a href="#-step-6-retrieve-the-record"> Step 6: Retrieve the record</a></li>
-    </ul>
-  </li>
-  <li><a href="#-referencesspan">** References/span&gt;**</a></li>
+  <li><a href="#testing">Testing:</a></li>
 </ul>
             </nav>
           </aside>
@@ -444,94 +438,262 @@
   </tbody>
 </table>
 
-<h2 id="installing-bind-on-dns-servers">Installing BIND on DNS Servers</h2>
+<h2 id="installing-bind-on-dns-serversubuntu-node">Installing BIND on DNS Servers(Ubuntu Node)</h2>
 
 <h3 id="on--servernode--update-the-package">On <strong><span style="color:green"> serverNode </span></strong> update the package</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo apt-get update
+</code></pre></div></div>
 
-<p>There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the <a href="http://www.thememoryinstitute.com/remembering-numbers.html">problem with numbers they hard to remember</a> due to their intangibility, human have always struggled to come with theways of avoiding  the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering  74.125.24.139, unless you  are suffering from <a href="http://hyperthymesia.net/hyperthymesia/">Hyperthymesia</a>.</p>
+<p>Now install BIND:</p>
 
-<h2 id="so-what-eactly-is-dns">So, what eactly is DNS?</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo apt-get install bind9 bind9utils bind9-doc
+</code></pre></div></div>
 
-<p>Remember how you used to have those phonebook diary where you put the name and phone number corresponding to them. These diary acts like a map for the name to corresponding phones. DNS is like phone book for the internet.If you know a person’s name but don’t know their telephone number, you can simply look it up in a phone book. DNS provides this same service to the internet, off course they are much more complex then phonebook but at basic level they have the same function.</p>
+<h3 id="ipv4-mode">IPv4 Mode</h3>
 
-<p>When you visit https://google.com in a browser, your computer uses DNS to retrieve the website’s IP address of 74.125.24.139, in just a split of second. Without DNS, you would only be able to visit google’s website (or any website) by visiting its IP address directly, such as http://74.125.24.139.
-Hence, DNS is fundamentally the backbone bone of the internet.</p>
+<p>We need to enable bind to run IPv4, so we provide argument -4 in the ExecStart directive in service file <strong>/etc/systemd/system/bind9.service</strong></p>
 
-<h2 id="why-dns-is-important">Why DNS Is Important?</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>. . .
+[Service]
+ExecStart=/usr/sbin/named -f -u bind -4
+</code></pre></div></div>
+<p>Save and close the editor when you are finished.
+Reload the systemd daemon to read the new configuration into the running system:
+Restart BIND to implement the changes:</p>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo systemctl daemon-reload
+ServerNode$ sudo systemctl restart bind9
+
+</code></pre></div></div>
+
+<p>Finally lets configure our bind:</p>
+<h3 id="configure-file-namedconfoptions">Configure file: named.conf.options</h3>
+
+<p>Lets edit the <code class="highlighter-rouge">named.conf.options</code> file. This file contains the main configuration of the DNS server. We can provide the list of IPs or subnet which can access the the DNS through <code class="highlighter-rouge">Access Control list (ACL)</code>. In our case we only want these three nodes to access our DNS. Edit <code class="highlighter-rouge">/etc/bind/named.conf.options</code> as below:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>acl "trusted" {
+        10.10.10.10;    # ServerNode - can be set to localhost
+        10.10.10.11;    # FileserverNode
+        10.10.10.12;    # Client Node
+};
+
+options {
+
+...
+</code></pre></div></div>
+<p>Now that we have our list of trusted DNS clients, we will want to edit the options block. Currently, the start of the block looks like the following:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>. . .
+};
+
+options {
+      directory "/var/cache/bind"; #/var/cache/bind/ stores all the DNS query information
+      recursion yes;                 # enables [recursive] queries
+      allow-recursion { trusted; };  # allows recursive queries from "trusted" clients
+      listen-on { 10.10.10.10; };   # DNS server private IP address - listen on private network only
+      allow-transfer { none; };      # disable zone transfers by default
+
+      forward first;
+      forwarders {
+            8.8.8.8;
+            8.8.4.4;
+        };
+. . .
+}
+</code></pre></div></div>
+<p>As you can see that I have set <code class="highlighter-rouge">recursion</code> to <code class="highlighter-rouge">yes</code>, this means that when your query is recieved by the server it  will do all the job of fetching the answer, and giving it back to you. During this process, the DNS server might also query other DNS server’s in the internet on your behalf, for the answer.</p>
+
+<p><a href="https://www.akadia.com/services/howto_forward_dns.html">Forward and forwarders:</a></p>
+
+<p>The DNS forwarding facility of BIND Version 8 can be used to create a large site-wide cache on a few servers, reducing traffic over links to external nameservers. It can also be used to allow queries by servers that do not have direct access to the Internet, but wish to look up exterior names anyway. Forwarding occurs only on those queries for which the server is not authoritative and does not have the answer in its cache.</p>
+
+<p><code class="highlighter-rouge">Forward</code> : Causes the the server to query the forwarder first , and if that doesn’t answer the question the server will then look for the answer itself.</p>
+
+<p><code class="highlighter-rouge">Forwarder</code>: Specifies the IP addresses to be used for forwarding</p>
+
+<h2 id="configure-local-file">Configure Local File</h2>
+
+<h3 id="what-are-zones-in-dns">what are zones in DNS?</h3>
+
+<p><code class="highlighter-rouge">DNS Zone</code>: DNS zones are the adminstrative portion within DNS.In other words,they are  administrative space which allows for more granular control of DNS components, such as authoritative <a href="https://www.cloudflare.com/learning/dns/dns-server-types/#authoritative-nameserver">nameservers</a>. <a href="https://www.cloudflare.com/learning/dns/glossary/dns-zone/">Readmore here</a></p>
+
+<h3 id="configure-file-etcbindnamedconflocal">Configure file: /etc/bind/named.conf.local</h3>
+
+<p>To configure zones file, nn ServerNode, open the named.conf.local file for editing:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo vi /etc/bind/named.conf.local
+</code></pre></div></div>
+
+<p>Add the forward zone with the following lines (substitute the zone name with your own):
+In <code class="highlighter-rouge">/etc/bind/named.conf.local</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>zone "test.example.com" {
+    type master;
+    file "/etc/bind/zones/db.test.example.com"; # zone file path
+};
+
+zone "10.10.10.in-addr.arpa" {     # for reverse query
+    type master;
+    file "/etc/bind/zones/db.10.10.10";  # 10.10.10.0/24 subnet
+};
+</code></pre></div></div>
+<p>Here zone file db.10.10.10 is for reverse query i.e to get domain name from IP.</p>
+
+<p>If your servers span multiple private subnets but are in the same datacenter, be sure to specify an additional zone and zone file for each distinct subnet. When you are finished adding all of your desired zones, save and exit the named.conf.local file.</p>
+
+<p>Now that our zones are specified in BIND, we need to create the corresponding forward and reverse zone files.</p>
+<h3 id="create-forward-zone-file">Create Forward Zone File</h3>
+
+<p>The forward zone file is where we define DNS records for forward DNS lookups. That is, when the DNS receives a name query, “fileserver.test.example.com” for example, it will look in the forward zone file to resolve fileservers’s corresponding private IP address.</p>
+
+<h3 id="types-of-dns-records">Types of DNS records:</h3>
 <ol>
-  <li>Web browsers interact through Internet Protocol (IP) addresses.</li>
-  <li>Elimination of the need for humans to memorize complex IP addresses.</li>
-  <li>for many reasons, server’s ip needs to be changed, so DNS helps in eliminating those problem of working about any changes in underlying system.</li>
+  <li><span style="color:green"> SOA</span>: An SOA record or Start of Authority record labels a zone file with the name of the host where it was originally created. Next, it lists the contact email address for the person responsible for the domain. There are also various numbers, which we’ll get into in detail in a moment. First, here’s a typical SOA record:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@	IN	SOA	ns.test.example.com. admin.test.example.com. (
+        3		; Serial
+   604800		; Refresh
+    86400		; Retry
+  2419200		; Expire
+   604800 )
+</code></pre></div>    </div>
+    <p>Here’s what the numbers mean:</p>
+  </li>
 </ol>
 
-<p>## DNS hierachy</p>
-
-<p><img src="http://www.dailywebsolutions.com/images/DNS-hierarchy.png" alt="" /></p>
-
-<h3 id="-1-root-level--zone-servers-"><strong><span style="color:green"> 1. Root Level / zone servers </span></strong></h3>
-
-<p>It is the highest level in DNS hierarchy. The first step in resolving the domain name is root servers. It provides a list of authoritative name servers for top level domain (TLD). These servers have the list of all top level domains (TLDs). There are 13 root DNS servers all over the world. These root servers are named as A-root server, B-root server and so on upto K-root server. Root servers hold the information of each TLD that where is it located and what is its IP Address.</p>
-
-<p>If you want more information about root servers that where are they located and who owns them or any other info, then you need to go http://www.root-servers.org.</p>
-
-<h3 id="-2-top-level-domains-tld"><strong><span style="color:green"> 2. Top Level Domains (TLD)</span></strong></h3>
-
-<p>TLD is at the 2nd highest level domains in the hierarchical Domain Name System of the Internet. Top level domains are .com, .org, .edu etc. It will make more sense, if you take a look at DNS hierarchy diagram.</p>
-
-<h3 id="-3-second-level-domains"><strong><span style="color:green"> 3. Second Level domains</span></strong></h3>
-
-<p>It is 3rd level in the hierarchical Domain Name System of the internet. It is directly below the TLD. dailywebsolutions.com is an example of second level domains because it is directly below .com TLD.</p>
-
-<h3 id="-4-sub-domain"><strong><span style="color:green"> 4. Sub-Domain</span></strong></h3>
-
-<p>Sub domain is considered as the part of the second level domains. Let’s consider mail.dailywebsolutions.com, here mail is the sub domain of a 2nd level domain dailywebsolutions and .com is the TLD.</p>
-
-<h2 id="how-dns-works">How DNS works?</h2>
-
-<h3 id="-step-1-request-information-"><strong><span style="color:green"> Step 1: Request information </span></strong></h3>
-
-<p>The process begins when you ask your computer to resolve a hostname, such as visiting https://dyn.com. The first place your computer looks for the corresponding IP address is its local DNS cache, which stores information that your computer has recently retrieved.</p>
-
-<p>If your computer doesn’t already know the answer, it needs to perform a DNS query to find out.</p>
-
-<h3 id="-step-2-ask-the-recursive-dns-servers"><strong><span style="color:green"> Step 2: Ask the recursive DNS servers</span></strong></h3>
-
-<p>If the information is not stored locally, your computer queries (contacts) the recursive DNS servers (resolvers) from your internet service provider (ISP). These specialized computers perform the legwork of a DNS query on your behalf. Resolvers have their own caches, and given that many of the ISP’s customers are using the same resolvers, there is a reasonable chance that popular domains will already be cached. If this is the case for our example, dyn.com, the process usually ends here and the information is returned to the user.</p>
-
-<p>Just about every ISP runs their own resolvers, yet those aren’t necessarily what you could be using. Some companies and perhaps even technically sophisticated home users could run their own resolvers on site. Additionally, there are several very popular open resolvers available, including Google Public DNS, OpenDNS, Dyn Recursive DNS, and Quad9.</p>
-
-<h3 id="-step-3-ask-the-root-name-servers"><strong><span style="color:green"> Step 3: Ask the root name servers</span></strong></h3>
-
-<p>If the recursive servers don’t have the answer, they query the root name servers. A name server is a computer that answers questions about domain names, such as IP addresses. These 13 servers act as a kind of telephone switchboard for DNS. They don’t know the answer, but they can direct DNS queries to someone that knows where to find it.</p>
-
-<h3 id="-step-4-ask-the-tld-name-servers-"><strong><span style="color:green"> Step 4: Ask the TLD name servers </span></strong></h3>
-
-<p>The root name servers will look at the first part of our request, reading from right to left — www.dyn.com — and in our case, direct our query to the top-level domain (TLD) name servers for .com. Each TLD, such as those for .com, .org, and .us, has its own set of name servers, which act like a receptionist for each TLD. These servers don’t have the information we need, but they can refer us directly to the servers that do have the information.</p>
-
-<h3 id="-step-5-ask-the-authoritative-dns-servers"><strong><span style="color:green"> Step 5: Ask the authoritative DNS servers</span></strong></h3>
-
-<p>The TLD name servers review the next part of our request — www.dyn.com — and direct our query to the name servers responsible for this specific domain. These authoritative name servers are responsible for knowing all the information about a specific domain, which is stored in DNS records. There are many types of records, which each contain a different kind of information.</p>
-
-<p>In this example, we want to know the IP address for www.dyn.com, so we ask the authoritative name server for the address record (A record). Some authoritative name servers have intelligence that can analyze an incoming DNS query and return a response that is more performant for the user that originated the query.</p>
-
-<h3 id="-step-6-retrieve-the-record"><strong><span style="color:green"> Step 6: Retrieve the record</span></strong></h3>
-
-<p>The recursive server retrieves the A record for dyn.com from the authoritative name servers and stores the record in its local cache. If anyone else requests the host record for dyn.com, the recursive server will already have the answer and will not need to go through the lookup process again. All records have a time-to-live value, which is like an expiration date. After a while, the recursive server will need to ask for a new copy of the record to make sure the information doesn’t become out-of-date.</p>
-
-<p><strong><span style="color:green"> Step 7: Receive the answer</span></strong></p>
-
-<p>Armed with the answer, recursive server returns the A record back to your computer. Your computer stores the record in its cache, reads the IP address from the record, then passes this information to your browser. The browser then opens a connection to the webserver and receives the website.</p>
-
-<p>This entire process, from start to finish, takes only milliseconds to complete.</p>
-
-<h2 id="-referencesspan">**<span style="color:green"> References/span&gt;**</span></h2>
+<ul>
+  <li>Serial number: The revision number for this domain’s zone file. It changes when the file gets updated.</li>
+  <li>Refresh time: The amount of time (in seconds) a secondary DNS server will keep the zone file before it checks for changes.</li>
+  <li>Retry time: The amount of time a secondary DNS server will wait before retrying a failed zone file transfer.</li>
+  <li>Expire time: The amount of time a secondary DNS server will wait before expiring its current zone file copy if it cannot update itself.</li>
+  <li>Minimum TTL: The minimum amount of time other servers should keep data cached from this zone file.</li>
+</ul>
 
 <ol>
-  <li>https://dyn.com/blog/dns-why-its-important-how-it-works/</li>
-  <li>http://www.dailywebsolutions.com/what-is-DNS-and-DNS-hierarchy</li>
+  <li><span style="color:green">NS</span>:  NS records or name server records set the nameservers for a domain or subdomain. The primary nameserver records for your domain are set both at your registrar and in your zone file. Typical nameserver records (you need at least two) look like this:</li>
 </ol>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>example.com     NS      ns.test.example.com.
+</code></pre></div></div>
+
+<ol>
+  <li><span style="color:green">A and AAAA</span>: An A record points your domain or subdomain to your servers’s IP address, which allows tracffice to reach your server. This is the core function of DNS. A typical A record looks like either of the following:</li>
+</ol>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>example.com             A      12.34.56.78
+
+test.example.com       A       12.34.56.78
+</code></pre></div></div>
+<p>An AAAA record is just like an A record, but for IPv6 IP addresses. A typical AAAA record looks like the following:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>example.com     AAAA        0123:4567:89ab:cdef:0123:4567:89ab:cdef
+</code></pre></div></div>
+
+<ol>
+  <li><span style="color:green">CNAME</span> : A CNAME record or Canonical Name record matches a domain or subdomain to a different domain. With a CNAME record, DNS lookups use the target domain’s DNS resolution as the alias’s resolution. Here’s an example:</li>
+</ol>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alias.com       CNAME   example.com.
+example.com     A       12.34.56.78
+</code></pre></div></div>
+<p>With this setup, when alias.com is requested, the initial DNS lookup will find the CNAME entry with the target of example.com. A new DNS lookup will be started for example.com, which will find the IP address 12.34.56.78. Finally, visitors to alias.com will be directed to 12.34.56.78.</p>
+
+<ol>
+  <li><span style="color:green"> PTR</span>: A PTR record or pointer record matches up an IP address to a domain or subdomain, allowing reverse DNS queries to function. It performs the opposite service an A record does, in that it allows you to look up the domain associated with a particular IP address, instead of vice versa.</li>
+</ol>
+
+<p>PTR records are usually set with your hosting provider. They are not part of your domain’s zone file. This means that you’ll always set reverse DNS for your Linodes in the Linode Manager, even if your nameservers are elsewhere. Likewise, if you have servers somewhere else but are using Linode’s nameservers, you will still have to set up your PTR records with your hosting provider.</p>
+
+<p>As a prerequisite for adding a PTR record, you need to create a valid, live A or AAAA record that points the desired domain to that IP. If you want an IPv4 PTR record, point the domain or subdomain to your Linode’s IPv4 address. If you want an IPv6 PTR record, point the domain to your Linode’s IPv6 address. Beyond that, IPv4 and IPv6 PTR records work the same way.</p>
+
+<p>Apart from these there few other types, namely <a href="https://www.linode.com/docs/networking/dns/dns-records-an-introduction/#mx">MX</a>, <a href="https://www.linode.com/docs/networking/dns/dns-records-an-introduction/#dkim">DKIM</a>,<a href="https://www.linode.com/docs/networking/dns/dns-records-an-introduction/#axfr">AXFR</a>.</p>
+
+<p>After that bit of theory, let’s create the directory where our zone files will reside. According to our named.conf.local configuration, that location should be /etc/bind/zones:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo mkdir /etc/bind/zones
+</code></pre></div></div>
+
+<p>We will base our forward zone file on the sample db.local zone file. Copy it to the proper location with the following commands:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ cd /etc/bind/zones
+ServerNode$ sudo cp ../db.local ./db.nyc3.example.com
+</code></pre></div></div>
+
+<h3 id="configure-file-etcbindzonesdbnyc3examplecom">Configure file: /etc/bind/zones/db.nyc3.example.com</h3>
+
+<p>Now let’s edit our forward zone file:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo vi  /etc/bind/zones/db.nyc3.example.com
+</code></pre></div></div>
+<p>so it look like this</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>;
+; BIND data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	ns.test.example.com. admin.test.example.com. (
+			      3		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+
+; name servers - NS records
+    IN      NS      ns.test.example.com.
+
+
+
+; name servers - A records
+ns.test.example.com.          IN      A       10.10.10.10
+
+; 10.128.0.0/16 - A records
+fileserver.test.example.com.    IN      A      10.10.10.11
+client.test.example.com.        IN      A      10.10.10.12
+</code></pre></div></div>
+
+<h3 id="create-reverse-zone-files">Create Reverse Zone File(s)</h3>
+
+<h3 id="configure-file-etcbindzonesdbnyc3examplecom-1">Configure file: /etc/bind/zones/db.nyc3.example.com</h3>
+
+<p>Similarly you can create reverse DNS Zone file <code class="highlighter-rouge">/etc/bind/zones/db.10.10.10</code> as:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$TTL	604800
+@	IN	SOA	ns.test.example.com. admin.test.example.com. (
+			      3		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+
+; name servers - NS records
+    IN      NS      ns.test.example.com.
+
+
+
+; name servers - A records
+10           IN     PTR        ns.test.example.com.       ;10.10.10.10
+
+; 10.128.0.0/16 - A records
+11           IN     PTR        filserver.test.example.com.  ;10.10.10.11     
+12           IN     PTR        client.test.example.com.     ;10.10.10.12  
+
+</code></pre></div></div>
+
+<p>We are almost done with configuring the DNS server. DNS configuration file is very obfuscating at times. It wont be be surprizing to miss some configuration so its a good idea to check if the configuration  has been done correctly or not. For this BIND provides checking mechanism</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo named-checkconf
+</code></pre></div></div>
+<p>check Zone files:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo named-checkzone test.example.com db.test.example.com
+</code></pre></div></div>
+<p>Similarly,</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo named-checkzone 10.10.10.in-addr.arpa /etc/bind/zones/db.10.10.10
+</code></pre></div></div>
+
+<p>Once that checks out, restart BIND:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo systemctl restart bind9
+</code></pre></div></div>
+
+<h2 id="testing">Testing:</h2>
 
         
       </section>
@@ -588,7 +750,7 @@ Hence, DNS is fundamentally the backbone bone of the internet.</p>
 
 
         
-          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-20">March 20, 2018</time></p>
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-21">March 21, 2018</time></p>
         
       </footer>
 
@@ -597,7 +759,7 @@ Hence, DNS is fundamentally the backbone bone of the internet.</p>
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?via=itsbecram&text=Setting+up+Private+DNS+Server+with+BIND9+%28DNS+Series%3APart+II%29%20http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-2%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?via=itsbecram&text=Setting+up+Private+DNS+Server+with+BIND9++%28DNS+Series%3APart+II%29%20http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-2%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-2%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 

@@ -19,7 +19,7 @@ var store = [{
         "tags": ["Internet","DNS","Javascript"],
         "url": "http://0.0.0.0:4000/network&system/DNS-Series-1/",
         "teaser":"http://0.0.0.0:4000/assets/images/DNS/DNS.png"},{
-        "title": "Setting up Private DNS Server with BIND9 (DNS Series:Part II)",
+        "title": "Setting up Private DNS Server with BIND9  (DNS Series:Part II)",
         "excerpt":"We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series I will be takhing about how to set up a private DNS server using BIND9. Before that...","categories": ["Network&System"],
         "tags": ["Internet","DNS","Javascript"],
         "url": "http://0.0.0.0:4000/network&system/DNS-Series-2/",
