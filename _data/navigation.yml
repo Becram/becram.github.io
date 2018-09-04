@@ -3,7 +3,7 @@ main:
   - title: "About me"
     url: /me/
   - title: "My Resume"
-    url: https://github.com/Becram
+    url: /assets/files/BikramDhojuCV20180904.pdf
   - title: "My Blogs"
     url: /
   # - title: "Sample Collections"

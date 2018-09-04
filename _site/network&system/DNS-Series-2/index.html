@@ -10,7 +10,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Setting up Private DNS Server with BIND9  (DNS Series:Part II) - Bikram’s Blog</title>
-<meta name="description" content="We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series I will be takhing about how to set up a private DNS server using BIND9. Before that I want to focus on Private and Public DNS.">
+<meta name="description" content="We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series, I will be talking about how to set up a private DNS server using BIND9. Before that, I want to focus on Private and Public DNS.">
 
 
 
@@ -21,7 +21,7 @@
 <meta property="og:url" content="http://0.0.0.0:4000/network&system/DNS-Series-2/">
 
 
-  <meta property="og:description" content="We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series I will be takhing about how to set up a private DNS server using BIND9. Before that I want to focus on Private and Public DNS.">
+  <meta property="og:description" content="We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series, I will be talking about how to set up a private DNS server using BIND9. Before that, I want to focus on Private and Public DNS.">
 
 
 
@@ -31,7 +31,7 @@
 
   <meta name="twitter:site" content="@itsbecram">
   <meta name="twitter:title" content="Setting up Private DNS Server with BIND9  (DNS Series:Part II)">
-  <meta name="twitter:description" content="We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series I will be takhing about how to set up a private DNS server using BIND9. Before that I want to focus on Private and Public DNS.">
+  <meta name="twitter:description" content="We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series, I will be talking about how to set up a private DNS server using BIND9. Before that, I want to focus on Private and Public DNS.">
   <meta name="twitter:url" content="http://0.0.0.0:4000/network&system/DNS-Series-2/">
 
   
@@ -137,7 +137,7 @@
         <ul class="visible-links"><li class="masthead__menu-item">
               <a href="/me/" >About me</a>
             </li><li class="masthead__menu-item">
-              <a href="https://github.com/Becram" >My Resume</a>
+              <a href="/assets/files/BikramDhojuCV20180904.pdf" >My Resume</a>
             </li><li class="masthead__menu-item">
               <a href="/" >My Blogs</a>
             </li></ul>
@@ -342,9 +342,9 @@
 
   <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
     <meta itemprop="headline" content="Setting up Private DNS Server with BIND9  (DNS Series:Part II)">
-    <meta itemprop="description" content="We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series I will be takhing about how to set up a private DNS server using BIND9. Before that I want to focus on Private and Public DNS.">
+    <meta itemprop="description" content="We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series, I will be talking about how to set up a private DNS server using BIND9. Before that, I want to focus on Private and Public DNS.">
     <meta itemprop="datePublished" content="June 17, 2018">
-    <meta itemprop="dateModified" content="March 21, 2018">
+    <meta itemprop="dateModified" content="March 20, 2018">
 
     <div class="page__inner-wrap">
       
@@ -383,21 +383,22 @@
       <li><a href="#configure-file-etcbindnamedconflocal">Configure file: /etc/bind/named.conf.local</a></li>
       <li><a href="#create-forward-zone-file">Create Forward Zone File</a></li>
       <li><a href="#types-of-dns-records">Types of DNS records:</a></li>
-      <li><a href="#configure-file-etcbindzonesdbnyc3examplecom">Configure file: /etc/bind/zones/db.nyc3.example.com</a></li>
+      <li><a href="#configure-file-etcbindzonesdbtestexamplecom">Configure file: /etc/bind/zones/db.test.example.com</a></li>
       <li><a href="#create-reverse-zone-files">Create Reverse Zone File(s)</a></li>
-      <li><a href="#configure-file-etcbindzonesdbnyc3examplecom-1">Configure file: /etc/bind/zones/db.nyc3.example.com</a></li>
+      <li><a href="#configure-file-etcbindzonesdbtestexamplecom-1">Configure file: /etc/bind/zones/db.test.example.com</a></li>
     </ul>
   </li>
   <li><a href="#testing">Testing:</a></li>
+  <li><a href="#references">References</a></li>
 </ul>
             </nav>
           </aside>
         
-        <p>We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one <a href="http://becram.github.io/network&amp;system/DNS-Series-1/">here</a>. In this series I will be takhing about how to set up a private DNS server using <a href="https://www.isc.org/downloads/bind/">BIND9</a>. Before that I want to focus on Private and Public DNS.</p>
+        <p>We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one <a href="http://becram.github.io/network&amp;system/DNS-Series-1/">here</a>. In this series, I will be talking about how to set up a private DNS server using <a href="https://www.isc.org/downloads/bind/">BIND9</a>. Before that, I want to focus on Private and Public DNS.</p>
 
-<p>Like we talked before DNS servers resolve the domain names in to IP addresses but ther might be the cases that you might have to resolve the domain names to local IPs. For example let say there is privated hosted fileserver in your office network, so you might have to provide domain name of the server instead of providing them IP address. For this case you might have to create a private DNS server. For the security season it is indevertantly advised to separate private and public DNS server for security and privacy issue, since public exposure of  the internal network IPs(or active directory information) to outsiders which might help attacker compromise the office system.</p>
+<p>Like we talked before DNS servers resolve the domain names into IP addresses but there might be the cases that you might have to resolve the domain names to local IPs. For example, let say there is a privately hosted file server in your office network, so you might have to provide domain name of the server instead of providing the IP address. In this case, you might have to create a private DNS server. For the security season it is inadvertently advised to separate private and public DNS server for security and privacy issue, since public exposure of the internal network IPs(or active directory information) to outsiders which might help an attacker compromise the office system.</p>
 
-<p>Apart from this there is another method called <a href="https://en.wikipedia.org/wiki/Split-horizon_DNS"> split-horizon DNS server</a> which serves as both public and private DNS server as in it serves different reponse depending on the source ip. For example the DNS server serves example.com or example.local depending upon public for public or private request.</p>
+<p>Apart from this, there is another method called <a href="https://en.wikipedia.org/wiki/Split-horizon_DNS"> split-horizon DNS server</a> DNS server which serves as both public and private DNS server as in it serves different responses depending on the source IP. For example, the DNS server serves example.com or example. local depending upon the public or private request.</p>
 
 <p>Without further ado lets dive into setting up a private DNS server:</p>
 
@@ -432,7 +433,7 @@
       <td style="text-align: center">3.</td>
       <td style="text-align: center">ClientNode</td>
       <td style="text-align: left">10.10.10.9</td>
-      <td style="text-align: left"> </td>
+      <td style="text-align: left">client.test.example.com</td>
       <td style="text-align: center">to test DNS Server</td>
     </tr>
   </tbody>
@@ -612,14 +613,14 @@ example.com     A       12.34.56.78
 <p>We will base our forward zone file on the sample db.local zone file. Copy it to the proper location with the following commands:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ cd /etc/bind/zones
-ServerNode$ sudo cp ../db.local ./db.nyc3.example.com
+ServerNode$ sudo cp ../db.local ./db.test.example.com
 </code></pre></div></div>
 
-<h3 id="configure-file-etcbindzonesdbnyc3examplecom">Configure file: /etc/bind/zones/db.nyc3.example.com</h3>
+<h3 id="configure-file-etcbindzonesdbtestexamplecom">Configure file: /etc/bind/zones/db.test.example.com</h3>
 
 <p>Now let’s edit our forward zone file:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo vi  /etc/bind/zones/db.nyc3.example.com
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ServerNode$ sudo vi  /etc/bind/zones/db.test.example.com
 </code></pre></div></div>
 <p>so it look like this</p>
 
@@ -649,7 +650,7 @@ client.test.example.com.        IN      A      10.10.10.12
 
 <h3 id="create-reverse-zone-files">Create Reverse Zone File(s)</h3>
 
-<h3 id="configure-file-etcbindzonesdbnyc3examplecom-1">Configure file: /etc/bind/zones/db.nyc3.example.com</h3>
+<h3 id="configure-file-etcbindzonesdbtestexamplecom-1">Configure file: /etc/bind/zones/db.test.example.com</h3>
 
 <p>Similarly you can create reverse DNS Zone file <code class="highlighter-rouge">/etc/bind/zones/db.10.10.10</code> as:</p>
 
@@ -694,6 +695,33 @@ client.test.example.com.        IN      A      10.10.10.12
 </code></pre></div></div>
 
 <h2 id="testing">Testing:</h2>
+<p>In order to test our DNS we first need to change the nameserver of the client machine to the DNS server. In ubuntu this can be done by manually editing <code class="highlighter-rouge">/etc/resov.conf</code> as</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)
+#     DO NOT EDIT THIS FILE BY HAND -- YOUR CHANGES WILL BE OVERWRITTEN
+nameserver 10.10.10.10   #DNS Server's ip address
+search test.example.com
+
+</code></pre></div></div>
+
+<p>Now you client machine should be able to ping the fileserver host.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vagrant@ClientNode:~$ ping fileserver
+PING fileserver.test.example.com (10.10.10.11) 56(84) bytes of data.
+64 bytes from filserver.test.example.com (10.10.10.11): icmp_seq=1 ttl=64 time=1.54 ms
+64 bytes from filserver.test.example.com (10.10.10.11): icmp_seq=2 ttl=64 time=1.04 ms
+64 bytes from filserver.test.example.com (10.10.10.11): icmp_seq=3 ttl=64 time=1.46 ms
+64 bytes from filserver.test.example.com (10.10.10.11): icmp_seq=4 ttl=64 time=0.960 ms
+</code></pre></div></div>
+
+<p>Voila!!</p>
+
+<h2 id="references">References</h2>
+
+<p>https://www.digitalocean.com/community/tutorials/how-to-configure-bind-as-a-private-network-dns-server-on-ubuntu-16-04
+https://www.ntchosting.com/encyclopedia/dns/zone/#The_DNS_zone
+https://www.linode.com/docs/networking/dns/dns-records-an-introduction/#dkim
+https://www.slashroot.in/difference-between-iterative-and-recursive-dns-query</p>
 
         
       </section>
@@ -750,7 +778,7 @@ client.test.example.com.        IN      A      10.10.10.12
 
 
         
-          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-21">March 21, 2018</time></p>
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-20">March 20, 2018</time></p>
         
       </footer>
 
@@ -818,10 +846,10 @@ client.test.example.com.        IN      A      10.10.10.12
 
 
 
-  5 minute read
+  6 minute read
 </p>
     
-    <p class="archive__item-excerpt" itemprop="description">There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip ad...</p>
+    <p class="archive__item-excerpt" itemprop="description">There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the IP ad...</p>
   </article>
 </div>
         

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2018-09-03T16:30:11+05:45</updated><id>http://0.0.0.0:4000/</id><title type="html">Bikram’s Blog</title><subtitle>Linux, security, DevOps stuff</subtitle><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><entry><title type="html">Setting up Private DNS Server with BIND9 (DNS Series:Part II)</title><link href="http://0.0.0.0:4000/network&system/DNS-Series-2/" rel="alternate" type="text/html" title="Setting up Private DNS Server with BIND9  (DNS Series:Part II)" /><published>2018-06-17T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/network&amp;system/DNS-Series-2</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/DNS-Series-2/">&lt;p&gt;We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one &lt;a href=&quot;http://becram.github.io/network&amp;amp;system/DNS-Series-1/&quot;&gt;here&lt;/a&gt;. In this series I will be takhing about how to set up a private DNS server using &lt;a href=&quot;https://www.isc.org/downloads/bind/&quot;&gt;BIND9&lt;/a&gt;. Before that I want to focus on Private and Public DNS.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2018-09-04T07:10:42+05:45</updated><id>http://0.0.0.0:4000/</id><title type="html">Bikram’s Blog</title><subtitle>Linux, security, DevOps stuff</subtitle><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><entry><title type="html">Setting up Private DNS Server with BIND9 (DNS Series:Part II)</title><link href="http://0.0.0.0:4000/network&system/DNS-Series-2/" rel="alternate" type="text/html" title="Setting up Private DNS Server with BIND9  (DNS Series:Part II)" /><published>2018-06-17T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/network&amp;system/DNS-Series-2</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/DNS-Series-2/">&lt;p&gt;We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one &lt;a href=&quot;http://becram.github.io/network&amp;amp;system/DNS-Series-1/&quot;&gt;here&lt;/a&gt;. In this series, I will be talking about how to set up a private DNS server using &lt;a href=&quot;https://www.isc.org/downloads/bind/&quot;&gt;BIND9&lt;/a&gt;. Before that, I want to focus on Private and Public DNS.&lt;/p&gt;
 
-&lt;p&gt;Like we talked before DNS servers resolve the domain names in to IP addresses but ther might be the cases that you might have to resolve the domain names to local IPs. For example let say there is privated hosted fileserver in your office network, so you might have to provide domain name of the server instead of providing them IP address. For this case you might have to create a private DNS server. For the security season it is indevertantly advised to separate private and public DNS server for security and privacy issue, since public exposure of  the internal network IPs(or active directory information) to outsiders which might help attacker compromise the office system.&lt;/p&gt;
+&lt;p&gt;Like we talked before DNS servers resolve the domain names into IP addresses but there might be the cases that you might have to resolve the domain names to local IPs. For example, let say there is a privately hosted file server in your office network, so you might have to provide domain name of the server instead of providing the IP address. In this case, you might have to create a private DNS server. For the security season it is inadvertently advised to separate private and public DNS server for security and privacy issue, since public exposure of the internal network IPs(or active directory information) to outsiders which might help an attacker compromise the office system.&lt;/p&gt;
 
-&lt;p&gt;Apart from this there is another method called &lt;a href=&quot;https://en.wikipedia.org/wiki/Split-horizon_DNS&quot;&gt; split-horizon DNS server&lt;/a&gt; which serves as both public and private DNS server as in it serves different reponse depending on the source ip. For example the DNS server serves example.com or example.local depending upon public for public or private request.&lt;/p&gt;
+&lt;p&gt;Apart from this, there is another method called &lt;a href=&quot;https://en.wikipedia.org/wiki/Split-horizon_DNS&quot;&gt; split-horizon DNS server&lt;/a&gt; DNS server which serves as both public and private DNS server as in it serves different responses depending on the source IP. For example, the DNS server serves example.com or example. local depending upon the public or private request.&lt;/p&gt;
 
 &lt;p&gt;Without further ado lets dive into setting up a private DNS server:&lt;/p&gt;
 
@@ -37,7 +37,7 @@
       &lt;td style=&quot;text-align: center&quot;&gt;3.&lt;/td&gt;
       &lt;td style=&quot;text-align: center&quot;&gt;ClientNode&lt;/td&gt;
       &lt;td style=&quot;text-align: left&quot;&gt;10.10.10.9&lt;/td&gt;
-      &lt;td style=&quot;text-align: left&quot;&gt; &lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;client.test.example.com&lt;/td&gt;
       &lt;td style=&quot;text-align: center&quot;&gt;to test DNS Server&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
@@ -217,14 +217,14 @@ example.com     A       12.34.56.78
 &lt;p&gt;We will base our forward zone file on the sample db.local zone file. Copy it to the proper location with the following commands:&lt;/p&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ServerNode$ cd /etc/bind/zones
-ServerNode$ sudo cp ../db.local ./db.nyc3.example.com
+ServerNode$ sudo cp ../db.local ./db.test.example.com
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h3 id=&quot;configure-file-etcbindzonesdbnyc3examplecom&quot;&gt;Configure file: /etc/bind/zones/db.nyc3.example.com&lt;/h3&gt;
+&lt;h3 id=&quot;configure-file-etcbindzonesdbtestexamplecom&quot;&gt;Configure file: /etc/bind/zones/db.test.example.com&lt;/h3&gt;
 
 &lt;p&gt;Now let’s edit our forward zone file:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ServerNode$ sudo vi  /etc/bind/zones/db.nyc3.example.com
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ServerNode$ sudo vi  /etc/bind/zones/db.test.example.com
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;so it look like this&lt;/p&gt;
 
@@ -254,7 +254,7 @@ client.test.example.com.        IN      A      10.10.10.12
 
 &lt;h3 id=&quot;create-reverse-zone-files&quot;&gt;Create Reverse Zone File(s)&lt;/h3&gt;
 
-&lt;h3 id=&quot;configure-file-etcbindzonesdbnyc3examplecom-1&quot;&gt;Configure file: /etc/bind/zones/db.nyc3.example.com&lt;/h3&gt;
+&lt;h3 id=&quot;configure-file-etcbindzonesdbtestexamplecom-1&quot;&gt;Configure file: /etc/bind/zones/db.test.example.com&lt;/h3&gt;
 
 &lt;p&gt;Similarly you can create reverse DNS Zone file &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/bind/zones/db.10.10.10&lt;/code&gt; as:&lt;/p&gt;
 
@@ -298,21 +298,51 @@ client.test.example.com.        IN      A      10.10.10.12
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ServerNode$ sudo systemctl restart bind9
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;testing&quot;&gt;Testing:&lt;/h2&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">We already dived into the nitty gitty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series I will be takhing about how to set up a private DNS server using BIND9. Before that I want to focus on Private and Public DNS.</summary></entry><entry><title type="html">DNS :Introduction (DNS Series:Part I)</title><link href="http://0.0.0.0:4000/network&system/DNS-Series-1/" rel="alternate" type="text/html" title="DNS :Introduction (DNS Series:Part I)" /><published>2018-06-17T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/network&amp;system/DNS-Series-1</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/DNS-Series-1/">&lt;p&gt;There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the &lt;a href=&quot;http://www.thememoryinstitute.com/remembering-numbers.html&quot;&gt;problem with numbers they hard to remember&lt;/a&gt; due to their intangibility, human have always struggled to come with theways of avoiding  the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering  74.125.24.139, unless you  are suffering from &lt;a href=&quot;http://hyperthymesia.net/hyperthymesia/&quot;&gt;Hyperthymesia&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;testing&quot;&gt;Testing:&lt;/h2&gt;
+&lt;p&gt;In order to test our DNS we first need to change the nameserver of the client machine to the DNS server. In ubuntu this can be done by manually editing &lt;code class=&quot;highlighter-rouge&quot;&gt;/etc/resov.conf&lt;/code&gt; as&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)
+#     DO NOT EDIT THIS FILE BY HAND -- YOUR CHANGES WILL BE OVERWRITTEN
+nameserver 10.10.10.10   #DNS Server's ip address
+search test.example.com
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now you client machine should be able to ping the fileserver host.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;vagrant@ClientNode:~$ ping fileserver
+PING fileserver.test.example.com (10.10.10.11) 56(84) bytes of data.
+64 bytes from filserver.test.example.com (10.10.10.11): icmp_seq=1 ttl=64 time=1.54 ms
+64 bytes from filserver.test.example.com (10.10.10.11): icmp_seq=2 ttl=64 time=1.04 ms
+64 bytes from filserver.test.example.com (10.10.10.11): icmp_seq=3 ttl=64 time=1.46 ms
+64 bytes from filserver.test.example.com (10.10.10.11): icmp_seq=4 ttl=64 time=0.960 ms
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Voila!!&lt;/p&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;https://www.digitalocean.com/community/tutorials/how-to-configure-bind-as-a-private-network-dns-server-on-ubuntu-16-04
+https://www.ntchosting.com/encyclopedia/dns/zone/#The_DNS_zone
+https://www.linode.com/docs/networking/dns/dns-records-an-introduction/#dkim
+https://www.slashroot.in/difference-between-iterative-and-recursive-dns-query&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series, I will be talking about how to set up a private DNS server using BIND9. Before that, I want to focus on Private and Public DNS.</summary></entry><entry><title type="html">DNS :Introduction (DNS Series:Part I)</title><link href="http://0.0.0.0:4000/network&system/DNS-Series-1/" rel="alternate" type="text/html" title="DNS :Introduction (DNS Series:Part I)" /><published>2018-06-17T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/network&amp;system/DNS-Series-1</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/DNS-Series-1/">&lt;p&gt;There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the IP address. And you the p&lt;a href=&quot;http://www.thememoryinstitute.com/remembering-numbers.html&quot;&gt;problem with numbers they hard to remember&lt;/a&gt; due to their intangibility, the human has always struggled to come with the ways of avoiding the problem of remembering them. Long story short, remembering www.google.com is far easier than remembering 74.125.24.139 unless you are suffering from &lt;a href=&quot;http://hyperthymesia.net/hyperthymesia/&quot;&gt;Hyperthymesia&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;When you visit https://google.com in a browser, your computer uses DNS to retrieve the website’s IP address of 74.125.24.139, in just a split of a second. Without DNS, you would only be able to visit Google’s website (or any website) by visiting its IP address directly, such as http://74.125.24.139. Hence, DNS is fundamentally the backbone bone of the internet.&lt;/p&gt;
 
 &lt;h2 id=&quot;so-what-eactly-is-dns&quot;&gt;So, what eactly is DNS?&lt;/h2&gt;
 
-&lt;p&gt;Remember how you used to have those phonebook diary where you put the name and phone number corresponding to them. These diary acts like a map for the name to corresponding phones. DNS is like phone book for the internet.If you know a person’s name but don’t know their telephone number, you can simply look it up in a phone book. DNS provides this same service to the internet, off course they are much more complex then phonebook but at basic level they have the same function.&lt;/p&gt;
+&lt;p&gt;Remember how you used to have those phonebook diaries where you put the name and phone number corresponding to them. This diary acts like a map for the name to corresponding phones. DNS is like a phone book for the internet. If you know a person’s name but don’t know their telephone number, you can simply look it up in a phone book. DNS provides this same service to the internet, of course, they are much more complex then phonebook but at a basic level, they have the same function.&lt;/p&gt;
 
-&lt;p&gt;When you visit https://google.com in a browser, your computer uses DNS to retrieve the website’s IP address of 74.125.24.139, in just a split of second. Without DNS, you would only be able to visit google’s website (or any website) by visiting its IP address directly, such as http://74.125.24.139.
-Hence, DNS is fundamentally the backbone bone of the internet.&lt;/p&gt;
+&lt;p&gt;When you visit https://google.com in a browser, your computer uses DNS to retrieve the website’s IP address of 74.125.24.139, in just a split of second. Without DNS, you would only be able to visit google’s website (or any website) by visiting its IP address directly, such as http://74.125.24.139.&lt;/p&gt;
+
+&lt;p&gt;Hence, DNS is fundamentally the backbone bone of the internet.&lt;/p&gt;
 
 &lt;h2 id=&quot;why-dns-is-important&quot;&gt;Why DNS Is Important?&lt;/h2&gt;
 
 &lt;ol&gt;
   &lt;li&gt;Web browsers interact through Internet Protocol (IP) addresses.&lt;/li&gt;
   &lt;li&gt;Elimination of the need for humans to memorize complex IP addresses.&lt;/li&gt;
-  &lt;li&gt;for many reasons, server’s ip needs to be changed, so DNS helps in eliminating those problem of working about any changes in underlying system.&lt;/li&gt;
+  &lt;li&gt;For many reasons, server’s ip needs to be changed, so DNS helps in eliminating those problem of working about any changes in underlying system.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;## DNS hierachy&lt;/p&gt;
@@ -382,7 +412,7 @@ Hence, DNS is fundamentally the backbone bone of the internet.&lt;/p&gt;
 &lt;ol&gt;
   &lt;li&gt;https://dyn.com/blog/dns-why-its-important-how-it-works/&lt;/li&gt;
   &lt;li&gt;http://www.dailywebsolutions.com/what-is-DNS-and-DNS-hierarchy&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the ip address. And you the problem with numbers they hard to remember due to their intangibility, human have always struggled to come with theways of avoiding the proplem of remembering them. Long story short, remembering www.google.com is far more easier than remembering 74.125.24.139, unless you are suffering from Hyperthymesia.</summary></entry><entry><title type="html">Bringing Raspberry Pi to Classroom</title><link href="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/" rel="alternate" type="text/html" title="Bringing Raspberry Pi to Classroom" /><published>2018-02-16T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom</id><content type="html" xml:base="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/">&lt;p&gt;There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.&lt;/p&gt;
+&lt;/ol&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the IP address. And you the pproblem with numbers they hard to remember due to their intangibility, the human has always struggled to come with the ways of avoiding the problem of remembering them. Long story short, remembering www.google.com is far easier than remembering 74.125.24.139 unless you are suffering from Hyperthymesia.</summary></entry><entry><title type="html">Bringing Raspberry Pi to Classroom</title><link href="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/" rel="alternate" type="text/html" title="Bringing Raspberry Pi to Classroom" /><published>2018-02-16T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom</id><content type="html" xml:base="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/">&lt;p&gt;There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.&lt;/p&gt;
 
 &lt;p&gt;At &lt;a href=&quot;http://olenepal.org&quot;&gt;OLE Nepal&lt;/a&gt;, we strive to bring the best new technology to our classrooms. It’s never easy to embrace a new piece of technology, for teachers are resistant to the change, with factors like power cuts and budget making up a huge share of challenge. So we set our selection of the technology based on the 3 prime constraints; low-powered, portable, and low cost. And for these traits, Raspberry Pi steps up as the knight in shining armor.&lt;/p&gt;
 

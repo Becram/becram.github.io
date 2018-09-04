@@ -15,7 +15,7 @@ Sr. Network and System Engineer/DevOps Engineer
 
 ## Synopsis
 
-I am  a tech savvy person with immense intrest in linux system and network. I have over 3 year experience in the software industry and horned by skill predominently in server provisioning, security and software development.
+I am  a tech savvy person with immense intrest in linux system and network. I have over 3 year experience in the software industry and horned my skill predominently in server provisioning, security and software development.
 
 A team player with strong interpersonal skills and possess a flexible and detail oriented attitude. An efficient key player in challenging & creative environments with excellent capacity to adapt to new technologies and skills. I have a clear, logical mind with a practical approach to problem solving and a drive to see things through to completion.
 
