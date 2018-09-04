@@ -10,8 +10,8 @@ categories:
 
 
 Sr. Network and System Engineer/DevOps Engineer
-
 [Open Learning Exchange Nepal](http://olenepal.org)
+itsbecram@gmail.com(PGP)(http://bikramdhoju.com.np/assets/files/bikram-pgp.txt)
 
 ## Synopsis
 
