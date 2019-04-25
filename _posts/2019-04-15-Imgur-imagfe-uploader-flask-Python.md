@@ -15,6 +15,7 @@ toc: true
 toc_label: "What is here"
 ---
 
+
 # Imgur REST Image Uploader
 
 | SN |      Stack   | Technology        | 
@@ -23,6 +24,17 @@ toc_label: "What is here"
 | 2 |Framework      | Flask      | 
 | 3| Container | Docker      |  
 | 4|Orchestrator | Docker Compose      |  
+
+## Pre-requites 
+### Installing Docker and docker-compose
+Install docker using the commands
+```bash
+curl -fsSL https://get.docker.com | sh && sudo usermod -aG docker $USER
+```
+Install docker-compose as
+```bash
+sudo apt-get install -y docker-compose
+```
 
 
 This is a service to upload images to [imgur.com](https://www.imgur.com) via its api endpoints. It tasks json object to upload the image ashychronosly. It implements [celery](http://www.celeryproject.org/) queue with [Redis](https://redis.io/) to perform the ashynchronity of the tasks. 
