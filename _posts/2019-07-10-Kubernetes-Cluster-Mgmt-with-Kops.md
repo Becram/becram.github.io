@@ -18,9 +18,9 @@ toc_label: "What is here"
 # Kubernetes Cluster Management with kops
 You may find the complete script [here](https://gist.github.com/Becram/d68009a56fff139bbfad982ffb5c204f)
 
-After Google donated its amazing container orcheastration tool, kubernetes to Cloud Native Computing foundation (CNCF), many devops breath the air of sigh. Kubernetes with it amazing power took over the devops world which made the devops more powerful, resilient and highly scalable with great implication of fault tolerance.
+After Google donated its amazing container orcheastration tool, kubernetes to Cloud Native Computing foundation (CNCF), many devops breath the air of sigh. Kubernetes with it amazing power took over the devops world which made the devops more powerful, resilient and highly scalable with great implimentation of fault tolerance.
 
-All these power come at a price. For a newbies kubernetes cluster creation seems a additional headache with very steep learning curves. Manual cluster creation seems a great challenge and tedious task. So, this is where the open source [kops](https://github.com/kubernetes/kops) comes to great rescue. With plethora of task abstraction kops is a great tool to create kubernetes cluster. Kops prvides the production ready cluster with high scalability on the popular cloud architecture as AWS and Google cloud. Moreover it has a close ressemblence with *kubectl* syntax which makes learning very flat.
+All these power come at a price. For a newbies kubernetes cluster creation seems a additional headache with very steep learning curves. Manual cluster creation seems a great challenge and tedious task. So, this is where the open source [kops](https://github.com/kubernetes/kops) comes to g rescue. With plethora of task abstraction, kops is a great tool to create kubernetes cluster. Kops prvides the production ready cluster with high scalability on the popular cloud architecture as AWS and Google cloud. Moreover it has a close ressemblence with *kubectl* syntax which makes learning very flat.
 
 
 ## Key features kops
