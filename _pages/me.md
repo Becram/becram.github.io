@@ -9,9 +9,9 @@ categories:
 ---
 
 
-Sr. Network and System Engineer/DevOps Engineer
-[Open Learning Exchange Nepal](http://olenepal.org)
-itsbecram@gmail.com(PGP)(http://bikramdhoju.com.np/assets/files/bikram-pgp.txt)
+Site Reliability Engineer
+Sertis Corp, Bangkok, Thailand 
+bikram.dhoju@gmail.com
 
 ## Synopsis
 
@@ -22,57 +22,52 @@ A team player with strong interpersonal skills and possess a flexible and detail
 
 ## Professional Skills
 
- 
-<span style="color:green"> Linux System </span>
-
-
-1.  Centos and Ubuntu kickstart and tuning
-2.  Linux router development in 2 interface   system with iptable port forwarding.
-3.  Private DNS server development with DNS sinkholing using Bind9.
-4.  Fileserver system with SMB and owncloud
-5.  Intrusion Detection using fail2ban
-6.  Advance bash scripting, python(both scripting and web programming)
-
-<span style="color:green"> DevOps</span>
-
-1.  Distributed deployment using Kubernetes and Docker swarm
-2.  Continous Integration: Jenkins & CircleCI
-3.  Configuration management: Ansible
-4.  AWS
-5.  Virtualisation: Vagrant
-
-<span style="color:green"> Log Management </span>
-
-
-Centralized log management: Elasticsearch, Logstash, Kibana (ELK)  
-
-<span style="color:green"> Software Development(Intermediate) </span>
-
-
-1. Django and Flask framework for python
-2. MVC understanding
-3. Asynchronous task handling with Celery and RabbitMQ(as data broker)
-
-
-
-
-1.  A basic understanding of layouts and views
-2.  Activities and their lifecycle
-3.  GoogleMaps  
-4.  RestFULL API with retrofitting parsing
-5.  Storing data
-6.  Collection views (like ListViews and Recycler View) and Adapters (default and custom)
-7.  Action Bar
-8.  Push Notification with GCM and Firebase
-
-
-<span style="color:green"> Version Control </span>
-
-1. Git and Mercurial
+1. <span style="color:green"> Orchestration:</span> Kubernetes(Helm,Kustomize, linkerd, CRDs), Docker
+2. <span style="color:green"> IaaC:</span> Terraform and AnsibleCloud: GCP(GKE, Workload identity, Cloud Run, Cloud Functions,Endpoints, IAM, CloudSQL, CloudDNS, CDN, BigQuery,DialogueFlow,) and AWS (CloudFormation, VPC, IAM, EKS, Kops,ECS), AZURE
+3. <span style="color:green"> Configuration Mgmt:</span> Ansible and Puppet
+4. <span style="color:green"> Service Mesh:</span> Linkerd and istio 
+5. <span style="color:green"> Ingress Controllers and API gateway: </span> Nginx & Kong
+6. <span style="color:green"> CI:</span> Gitlab CI, Github Actions & Jenkins
+7. <span style="color:green"> CD:</span> FluxCD and GitlabAuto DevOps
+8. <span style="color:green"> Canary Deployment:</span> Flagger 
+9. <span style="color:green"> Logging & Monitoring: </span> Grafana, Prometheus (Thanos) and ELK Stack,APM
+10. <span style="color:green"> App Deployment:</span> Fastlane
+11. <span style="color:green"> Scripting:</span> BASH/Go/Python
+12. <span style="color:green"> Messaging:</span> Kafka/RabbitMQ/PubSub messaging
+13. <span style="color:green"> Programming:</span> Go, Python (Django & Flask) (NB: Familiar)
 
 
 
 ## work experience
+
+<span style="color:green"> Site Reliability Engineer </span>
+<span style="color:green"> Sertis Co.,Ltd., Bangkok, Thailand </span>
+(2020 May - present ) 
+
+*   Run the production environment by monitoring availability andtaking a holistic view of system health
+* Developing CI/CD roadmap for high-frequency continuousdeployment.
+* Work closely with AI/MLE Engineers and Data Scientists inarchitecting highly available systems.
+* Create REST API to ease deveopers to interact with infrastructure
+* Architecting microservices from the monolith to a highly scalablesystem.
+* Co-ordinate with the SRE team to build and improve platformreliability through tooling and process improvements, bringingdevelopment skills and cultural knowledge to the SRE mindset.
+* Implementation of GitOps (Flux and Flagger)for loose couplingof the system components and highly reliable deployments.
+* Implemented resilient and centralized, monitoring and loggingsystem with ELKstack for high observability.
+* Create horizontally scalable services with integration of custommetrics.
+* Provide primary operational support and engineering for multiplelarge distributed software applications.
+* Be the primary liaison in escalating performance issues internallyand externally with 3rd party providers.
+
+<span style="color:green"> Site Reliability Engineer </span>
+<span style="color:green"> The Make It, Bangkok, Thailand </span>
+(2019 Oct - 2020 March) 
+
+* Developing CI/CD roadmap for high-frequency continuousdeployment.
+* Play a significant role in establishing an operational process for afast-growing distributed cloud platform.
+* Develop auto-scaling and zero-downtime pipeline
+* Improve the delivery of the software system with automated CI/CD pipeline in multi-cloud environmentExtreme use of the Kubernetes CRDs in automating andmonitoring infrastructure.
+* HA messaging Kafka cluster for inter-service communication.Seemless Anthos google provisioning for on-premise Kubernetescluster integration with Google Kubernetes Engine cluster.
+* Implement native cloud architecture.Implement automated tools as Fastlane to automate the buildand delivery of the mobile app development.
+* Implement infrastructure as a code(IaaS) with Terraform and Ansible for highly automated support.
+* Implement granular monitoring of the user activities usingPrometheus for pertinent business decisions.
  
 <span style="color:green"> Sr. Network  and System Engineer / Tech Lead</span>
 <span style="color:green"> Open Learning Exchange, Nepal | June 2015 - Present</span>
@@ -100,47 +95,6 @@ Centralized log management: Elasticsearch, Logstash, Kibana (ELK)
 *   Ensuring the highest levels of systems and infrastructure availability
 
 
-
-## Projects
-
-### 1. **<span style="color:green"> WIRELESSNAKSHA:WIRELESS ASSESSMENT SYSTEM </span>**
-
-WirelessNaksha is the crowd-sourcing based project centered on the collection of wireless information from the users around the valley. Crowd-sourcing is performed using an Android app and visualization on web application.
-
-Features:
-
-1. Creating skeleton application UI using eclipse IDE.
-2. Truly MVC structure application.
-3. Strictly follow Activity Life Cycle with keep in mind Process Service Life Cycle.
-4. Intent (explicit, implicit), Multi-threading. 
-5. Map Activity, Map Controller, LocationManager, Location Listener.
-6. MySQL and Sqlite synchronization
-7. Telephony and Broadcast Receiver
-
-Supervisors: Dr. Nanda Bikram Adhikari ,Prof. Pulchowk Campus
-             Dr. Omprakash Gnawali,Asst. Prof Houston University,Houston,US
-             Mr. Topraj Gurung, Software Engineer at Facebook  Inc., Silicon Valley,US
-
-### 2.  **<span style="color:green"> [E-Pustakalaya](pustakalaya.org) (E-Library) </span>**
-
-
-E-Pustakalaya is a library management system that can be used to handle basic bookkeeping function of a library. It is under development. With its ample use of python libraries to store dynamic content provides user-friendly user interaction.
-Doc. http://pustakalaya.readthedocs.io/index.html
-Team Member:
-Lead System Engineer/ DevOps: Bikram Dhoju
-Lead Software Devloper: Manoj Gautam
-Software develper: Bhojraj Karki
-
-Features:
-1. Python's popular Django framework
-2. Lightening search of approx. 8000 digital contents with Elastic search integration
-3. Celery integration with  for asynchronous tasks as pdf to image conversion.
-4. Deployment with Docker swarm for the system integrity.
-5. Postgres Replication Streaming for backup.
-6. Elasticsearch,Logstash Kibana for centralized log management and fault tolerance.
-
-
-  
 ## Education
 
 <span style="color:green"> Bachelor in Electronics and Communication Engineering </span>
@@ -153,14 +107,3 @@ Physics,Chemistry and Maths
 
 <span style="color:green"> School Leaving Certificate (SLC) </span>
 Tarapunja Education Academy,Pokhara,Nepal 
-
-
-
-
-
-
-
-
-
-
-
