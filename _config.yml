@@ -105,10 +105,10 @@ analytics:
 author:
   name             : "Bikram Dhoju"
   avatar           : "/assets/images/bio-image.jpg"
-  bio              : " Site Reliabilty Engineer at The Make it"
+  bio              : " Site Reliabilty Engineer at SertisCorp Co LTD"
   location         : "Bangkok, Thailand"
-  email            : "itsbecram@gmail.com"
-  uri              : "http://bikramdhoju.com.np"
+  email            : "bikram.dhoju@gmail.com"
+  uri              : "https://bdhoju.com"
   home             : # null (default), "absolute or relative url to link to author home"
   bitbucket        :
   codepen          :
