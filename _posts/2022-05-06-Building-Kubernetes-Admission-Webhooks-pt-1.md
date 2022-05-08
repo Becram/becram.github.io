@@ -20,6 +20,8 @@ toc_label: "What is here"
 | 1 | Language     | Golang | 
 | 2 |Orchestrator | Kubernetes(KinD)     |  
 
+> This article has also been published in [medium](https://medium.com/@bikram.dhoju_16479/building-kubernetes-admission-webhooks-part-1-of-2-eb61def8f01)
+
 As you spend you more and more on the devops tools it wont take you long to realize that [Golang](https://go.dev/) is pretty powerful programming language given sheer volume of the tools build with it. Among those, the most prominent ones are the [Kubernetes](https://kubernetes.io), [Terraform](https://www.terraform.io/), [ArgoCD](https://argo-cd.readthedocs.io/en/stable/), [fluxCD](https://fluxcd.io/). As a SRE/DevOps Engineer I spend a-lot of time working on the internals of these tools profusely. It's just a matter of time that you get inspired to create a similar tools for automation purpose give the such amazing Open Source Community.
 
 Kubernetes have taken the cloud eco-system by the storm. Kubernetes makes the complex system more visible and deployments much easier. Apart from this the extendibility of the Kubernetes API have made the cloud automation very robust.
