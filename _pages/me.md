@@ -8,7 +8,6 @@ categories:
   - me
 ---
 
-
 Senior DevOps Engineer
 CREA Pvt Ltd, Bangkok, Thailand 
 bikram.dhoju@gmail.com
