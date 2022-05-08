@@ -50,7 +50,7 @@ var store = [{
         "url": "http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-1/",
         "teaser":"http://0.0.0.0:4000/assets/images/webhook-k8s-pt-1.jpeg"},{
         "title": "Building Kubernetes Admission Webhooks (Part 2 of 2)",
-        "excerpt":"SN Stack Technology 1 Language Golang 2 Orchestrator Kubernetes(KinD) If you have used Kubernetes for a while it is not hard to notice that most services use admission webhooks profusely. For instance, if you use nginx-ingress-controller you will notice it deploys a webhook to detect the ingress resources and modify...","categories": ["DevOps"],
+        "excerpt":"SN Stack Technology 1 Language Golang 2 Orchestrator Kubernetes(KinD) This is 2 part series so you ight want to visit part-1 here If you have used Kubernetes for a while it is not hard to notice that most services use admission webhooks profusely. For instance, if you use nginx-ingress-controller you...","categories": ["DevOps"],
         "tags": ["Kubernetes","Golang"],
         "url": "http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-2/",
         "teaser":"http://0.0.0.0:4000/assets/images/webhook-k8s-pt-2.jpeg"}]

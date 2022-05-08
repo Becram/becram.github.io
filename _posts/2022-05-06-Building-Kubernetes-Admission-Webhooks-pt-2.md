@@ -20,6 +20,8 @@ toc_label: "What is here"
 | 1 | Language     | Golang | 
 | 2 |Orchestrator | Kubernetes(KinD)     |  
 
+This is 2 part series so you ight want to visit part-1 [here](https://bdhoju.com/devops/Building-Kubernetes-Admission-Webhooks-pt-1/) 
+
 If you have used Kubernetes for a while it is not hard to notice that most services use admission webhooks profusely. For instance, if you use [nginx-ingress-controller](https://kubernetes.github.io/ingress-nginx/) you will notice it deploys a webhook to detect the ingress resources and modify the `Nginx configuration` based on the resource annotations. Hence, admission webhooks are a pretty powerful feature in the Kubernetes. With the extendibility of the API in Kubernetes, users can create their webhooks to modify/validate the resources before they are applied to the cluster. This becomes very handy to maintain the sanity in your cluster.
 
 From [offical docs](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/)

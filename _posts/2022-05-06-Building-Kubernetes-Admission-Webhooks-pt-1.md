@@ -102,7 +102,7 @@ This library is a shared dependency for servers and clients to work with Kuberne
 
 It'd be hard to cover all the responsibilities of the apimachinery module in a single post without being too shallow. So i would recommend to read the official docs.
 
-> Lets dive into the real project for admission webhooks in part 2
+> Lets dive into the real project for admission webhooks in [part 2](https://bdhoju.com/devops/Building-Kubernetes-Admission-Webhooks-pt-2/)
 
 ### **<span style="color:green"> References </span>**
 

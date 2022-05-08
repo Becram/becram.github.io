@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2022-05-08T09:17:05+00:00</updated><id>http://0.0.0.0:4000/</id><title type="html">Bikram’s Blog</title><subtitle>Linux, security, DevOps stuff</subtitle><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><entry><title type="html">Building Kubernetes Admission Webhooks (Part 2 of 2)</title><link href="http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-2/" rel="alternate" type="text/html" title="Building Kubernetes Admission Webhooks (Part 2 of 2)" /><published>2022-05-06T00:00:00+00:00</published><updated>2022-05-07T20:00:58+00:00</updated><id>http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-2</id><content type="html" xml:base="http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-2/">&lt;table&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2022-05-08T09:23:30+00:00</updated><id>http://0.0.0.0:4000/</id><title type="html">Bikram’s Blog</title><subtitle>Linux, security, DevOps stuff</subtitle><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><entry><title type="html">Building Kubernetes Admission Webhooks (Part 2 of 2)</title><link href="http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-2/" rel="alternate" type="text/html" title="Building Kubernetes Admission Webhooks (Part 2 of 2)" /><published>2022-05-06T00:00:00+00:00</published><updated>2022-05-07T20:00:58+00:00</updated><id>http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-2</id><content type="html" xml:base="http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-2/">&lt;table&gt;
   &lt;thead&gt;
     &lt;tr&gt;
       &lt;th&gt;SN&lt;/th&gt;
@@ -19,6 +19,8 @@
     &lt;/tr&gt;
   &lt;/tbody&gt;
 &lt;/table&gt;
+
+&lt;p&gt;This is 2 part series so you ight want to visit part-1 &lt;a href=&quot;https://bdhoju.com/devops/Building-Kubernetes-Admission-Webhooks-pt-1/&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;If you have used Kubernetes for a while it is not hard to notice that most services use admission webhooks profusely. For instance, if you use &lt;a href=&quot;https://kubernetes.github.io/ingress-nginx/&quot;&gt;nginx-ingress-controller&lt;/a&gt; you will notice it deploys a webhook to detect the ingress resources and modify the &lt;code class=&quot;highlighter-rouge&quot;&gt;Nginx configuration&lt;/code&gt; based on the resource annotations. Hence, admission webhooks are a pretty powerful feature in the Kubernetes. With the extendibility of the API in Kubernetes, users can create their webhooks to modify/validate the resources before they are applied to the cluster. This becomes very handy to maintain the sanity in your cluster.&lt;/p&gt;
 
@@ -227,7 +229,7 @@ Admission webhooks are HTTP callbacks that receive admission requests and do som
 &lt;p&gt;It’d be hard to cover all the responsibilities of the apimachinery module in a single post without being too shallow. So i would recommend to read the official docs.&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;Lets dive into the real project for admission webhooks in part 2&lt;/p&gt;
+  &lt;p&gt;Lets dive into the real project for admission webhooks in &lt;a href=&quot;https://bdhoju.com/devops/Building-Kubernetes-Admission-Webhooks-pt-2/&quot;&gt;part 2&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h3 id=&quot;-references-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; References &lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
