@@ -18,7 +18,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Bikram's Blog">
 <meta property="og:title" content="Resume: Bikram Dhoju">
-<meta property="og:url" content="http://localhost:4000/me/">
+<meta property="og:url" content="http://0.0.0.0:4000/me/">
 
 
 
@@ -28,7 +28,7 @@
   <meta name="twitter:site" content="@itsbecram">
   <meta name="twitter:title" content="Resume: Bikram Dhoju">
   <meta name="twitter:description" content="Linux, security, DevOps stuff">
-  <meta name="twitter:url" content="http://localhost:4000/me/">
+  <meta name="twitter:url" content="http://0.0.0.0:4000/me/">
 
   
     <meta name="twitter:card" content="summary">
@@ -48,7 +48,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/me/">
+<link rel="canonical" href="http://0.0.0.0:4000/me/">
 
 
 
@@ -61,7 +61,7 @@
       "@context": "http://schema.org",
       "@type": "Person",
       "name": "Bikram Dhoju",
-      "url": "http://localhost:4000",
+      "url": "http://0.0.0.0:4000",
       "sameAs": null
     }
   </script>
@@ -127,7 +127,7 @@
         <ul class="visible-links"><li class="masthead__menu-item">
               <a href="/me/" >About me</a>
             </li><li class="masthead__menu-item">
-              <a href="/assets/files/BikramDhojuCV20180904.pdf" >My Resume</a>
+              <a href="/assets/files/BikramDhoju20210202.pdf" >My Resume</a>
             </li><li class="masthead__menu-item">
               <a href="/" >My Blogs</a>
             </li></ul>
@@ -165,7 +165,7 @@
     
       
         <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-          <a href="http://localhost:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <a href="http://0.0.0.0:4000/" itemprop="item"><span itemprop="name">Home</span></a>
           <meta itemprop="position" content="1" />
         </li>
         <span class="sep">/</span>
@@ -187,7 +187,7 @@
     <meta itemprop="headline" content="Resume: Bikram Dhoju">
     
     
-    <meta itemprop="dateModified" content="March 21, 2018">
+    <meta itemprop="dateModified" content="March 20, 2018">
 
     <div class="page__inner-wrap">
       
@@ -207,20 +207,14 @@
   <li><a href="#synopsis">Synopsis</a></li>
   <li><a href="#professional-skills">Professional Skills</a></li>
   <li><a href="#work-experience">work experience</a></li>
-  <li><a href="#projects">Projects</a>
-    <ul>
-      <li><a href="#1--wirelessnakshawireless-assessment-system-">1.  WIRELESSNAKSHA:WIRELESS ASSESSMENT SYSTEM </a></li>
-      <li><a href="#2---e-pustakalaya-e-library-">2.   E-Pustakalaya (E-Library) </a></li>
-    </ul>
-  </li>
   <li><a href="#education">Education</a></li>
 </ul>
             </nav>
           </aside>
         
-        <p>Sr. Network and System Engineer/DevOps Engineer
-<a href="http://olenepal.org">Open Learning Exchange Nepal</a>
-itsbecram@gmail.com(PGP)(http://bikramdhoju.com.np/assets/files/bikram-pgp.txt)</p>
+        <p>Senior DevOps Engineer
+CREA Pvt Ltd, Bangkok, Thailand 
+bikram.dhoju@gmail.com</p>
 
 <h2 id="synopsis">Synopsis</h2>
 
@@ -230,56 +224,56 @@ itsbecram@gmail.com(PGP)(http://bikramdhoju.com.np/assets/files/bikram-pgp.txt)<
 
 <h2 id="professional-skills">Professional Skills</h2>
 
-<p><span style="color:green"> Linux System </span></p>
-
 <ol>
-  <li>Centos and Ubuntu kickstart and tuning</li>
-  <li>Linux router development in 2 interface   system with iptable port forwarding.</li>
-  <li>Private DNS server development with DNS sinkholing using Bind9.</li>
-  <li>Fileserver system with SMB and owncloud</li>
-  <li>Intrusion Detection using fail2ban</li>
-  <li>Advance bash scripting, python(both scripting and web programming)</li>
-</ol>
-
-<p><span style="color:green"> DevOps</span></p>
-
-<ol>
-  <li>Distributed deployment using Kubernetes and Docker swarm</li>
-  <li>Continous Integration: Jenkins &amp; CircleCI</li>
-  <li>Configuration management: Ansible</li>
-  <li>AWS</li>
-  <li>Virtualisation: Vagrant</li>
-</ol>
-
-<p><span style="color:green"> Log Management </span></p>
-
-<p>Centralized log management: Elasticsearch, Logstash, Kibana (ELK)</p>
-
-<p><span style="color:green"> Software Development(Intermediate) </span></p>
-
-<ol>
-  <li>Django and Flask framework for python</li>
-  <li>MVC understanding</li>
-  <li>
-    <p>Asynchronous task handling with Celery and RabbitMQ(as data broker)</p>
-  </li>
-  <li>A basic understanding of layouts and views</li>
-  <li>Activities and their lifecycle</li>
-  <li>GoogleMaps</li>
-  <li>RestFULL API with retrofitting parsing</li>
-  <li>Storing data</li>
-  <li>Collection views (like ListViews and Recycler View) and Adapters (default and custom)</li>
-  <li>Action Bar</li>
-  <li>Push Notification with GCM and Firebase</li>
-</ol>
-
-<p><span style="color:green"> Version Control </span></p>
-
-<ol>
-  <li>Git and Mercurial</li>
+  <li><span style="color:green"> Orchestration:</span> Kubernetes(Helm,Kustomize, linkerd, CRDs), Docker</li>
+  <li><span style="color:green"> IaaC:</span> Terraform and AnsibleCloud: GCP(GKE, Workload identity, Cloud Run, Cloud Functions,Endpoints, IAM, CloudSQL, CloudDNS, CDN, BigQuery,DialogueFlow,) and AWS (CloudFormation, VPC, IAM, EKS, Kops,ECS), AZURE</li>
+  <li><span style="color:green"> Configuration Mgmt:</span> Ansible and Puppet</li>
+  <li><span style="color:green"> Service Mesh:</span> Linkerd and istio</li>
+  <li><span style="color:green"> Ingress Controllers and API gateway: </span> Nginx &amp; Kong</li>
+  <li><span style="color:green"> CI:</span> Gitlab CI, Github Actions &amp; Jenkins</li>
+  <li><span style="color:green"> CD:</span> FluxCD and GitlabAuto DevOps</li>
+  <li><span style="color:green"> Canary Deployment:</span> Flagger</li>
+  <li><span style="color:green"> Logging &amp; Monitoring: </span> Grafana, Prometheus (Thanos) and ELK Stack,APM</li>
+  <li><span style="color:green"> App Deployment:</span> Fastlane</li>
+  <li><span style="color:green"> Scripting:</span> BASH/Go/Python</li>
+  <li><span style="color:green"> Messaging:</span> Kafka/RabbitMQ/PubSub messaging</li>
+  <li><span style="color:green"> Programming:</span> Go, Python (Django &amp; Flask) (NB: Familiar)</li>
 </ol>
 
 <h2 id="work-experience">work experience</h2>
+
+<p><span style="color:green"> Site Reliability Engineer </span>
+<span style="color:green"> Sertis Co.,Ltd., Bangkok, Thailand </span>
+(2020 May - present )</p>
+
+<ul>
+  <li>Run the production environment by monitoring availability andtaking a holistic view of system health</li>
+  <li>Developing CI/CD roadmap for high-frequency continuousdeployment.</li>
+  <li>Work closely with AI/MLE Engineers and Data Scientists inarchitecting highly available systems.</li>
+  <li>Create REST API to ease deveopers to interact with infrastructure</li>
+  <li>Architecting microservices from the monolith to a highly scalablesystem.</li>
+  <li>Co-ordinate with the SRE team to build and improve platformreliability through tooling and process improvements, bringingdevelopment skills and cultural knowledge to the SRE mindset.</li>
+  <li>Implementation of GitOps (Flux and Flagger)for loose couplingof the system components and highly reliable deployments.</li>
+  <li>Implemented resilient and centralized, monitoring and loggingsystem with ELKstack for high observability.</li>
+  <li>Create horizontally scalable services with integration of custommetrics.</li>
+  <li>Provide primary operational support and engineering for multiplelarge distributed software applications.</li>
+  <li>Be the primary liaison in escalating performance issues internallyand externally with 3rd party providers.</li>
+</ul>
+
+<p><span style="color:green"> Site Reliability Engineer </span>
+<span style="color:green"> The Make It, Bangkok, Thailand </span>
+(2019 Oct - 2020 March)</p>
+
+<ul>
+  <li>Developing CI/CD roadmap for high-frequency continuousdeployment.</li>
+  <li>Play a significant role in establishing an operational process for afast-growing distributed cloud platform.</li>
+  <li>Develop auto-scaling and zero-downtime pipeline</li>
+  <li>Improve the delivery of the software system with automated CI/CD pipeline in multi-cloud environmentExtreme use of the Kubernetes CRDs in automating andmonitoring infrastructure.</li>
+  <li>HA messaging Kafka cluster for inter-service communication.Seemless Anthos google provisioning for on-premise Kubernetescluster integration with Google Kubernetes Engine cluster.</li>
+  <li>Implement native cloud architecture.Implement automated tools as Fastlane to automate the buildand delivery of the mobile app development.</li>
+  <li>Implement infrastructure as a code(IaaS) with Terraform and Ansible for highly automated support.</li>
+  <li>Implement granular monitoring of the user activities usingPrometheus for pertinent business decisions.</li>
+</ul>
 
 <p><span style="color:green"> Sr. Network  and System Engineer / Tech Lead</span>
 <span style="color:green"> Open Learning Exchange, Nepal | June 2015 - Present</span></p>
@@ -307,47 +301,6 @@ itsbecram@gmail.com(PGP)(http://bikramdhoju.com.np/assets/files/bikram-pgp.txt)<
   <li>Ensuring the highest levels of systems and infrastructure availability</li>
 </ul>
 
-<h2 id="projects">Projects</h2>
-
-<h3 id="1--wirelessnakshawireless-assessment-system-">1. <strong><span style="color:green"> WIRELESSNAKSHA:WIRELESS ASSESSMENT SYSTEM </span></strong></h3>
-
-<p>WirelessNaksha is the crowd-sourcing based project centered on the collection of wireless information from the users around the valley. Crowd-sourcing is performed using an Android app and visualization on web application.</p>
-
-<p>Features:</p>
-
-<ol>
-  <li>Creating skeleton application UI using eclipse IDE.</li>
-  <li>Truly MVC structure application.</li>
-  <li>Strictly follow Activity Life Cycle with keep in mind Process Service Life Cycle.</li>
-  <li>Intent (explicit, implicit), Multi-threading.</li>
-  <li>Map Activity, Map Controller, LocationManager, Location Listener.</li>
-  <li>MySQL and Sqlite synchronization</li>
-  <li>Telephony and Broadcast Receiver</li>
-</ol>
-
-<p>Supervisors: Dr. Nanda Bikram Adhikari ,Prof. Pulchowk Campus
-             Dr. Omprakash Gnawali,Asst. Prof Houston University,Houston,US
-             Mr. Topraj Gurung, Software Engineer at Facebook  Inc., Silicon Valley,US</p>
-
-<h3 id="2---e-pustakalaya-e-library-">2.  <strong><span style="color:green"> <a href="pustakalaya.org">E-Pustakalaya</a> (E-Library) </span></strong></h3>
-
-<p>E-Pustakalaya is a library management system that can be used to handle basic bookkeeping function of a library. It is under development. With its ample use of python libraries to store dynamic content provides user-friendly user interaction.
-Doc. http://pustakalaya.readthedocs.io/index.html
-Team Member:
-Lead System Engineer/ DevOps: Bikram Dhoju
-Lead Software Devloper: Manoj Gautam
-Software develper: Bhojraj Karki</p>
-
-<p>Features:</p>
-<ol>
-  <li>Python’s popular Django framework</li>
-  <li>Lightening search of approx. 8000 digital contents with Elastic search integration</li>
-  <li>Celery integration with  for asynchronous tasks as pdf to image conversion.</li>
-  <li>Deployment with Docker swarm for the system integrity.</li>
-  <li>Postgres Replication Streaming for backup.</li>
-  <li>Elasticsearch,Logstash Kibana for centralized log management and fault tolerance.</li>
-</ol>
-
 <h2 id="education">Education</h2>
 
 <p><span style="color:green"> Bachelor in Electronics and Communication Engineering </span>
@@ -360,7 +313,6 @@ Physics,Chemistry and Maths</p>
 
 <p><span style="color:green"> School Leaving Certificate (SLC) </span>
 Tarapunja Education Academy,Pokhara,Nepal</p>
-
 
         
       </section>
@@ -390,7 +342,7 @@ Tarapunja Education Academy,Pokhara,Nepal</p>
 
 
         
-          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-21">March 21, 2018</time></p>
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-20">March 20, 2018</time></p>
         
       </footer>
 
@@ -438,8 +390,18 @@ Tarapunja Education Academy,Pokhara,Nepal</p>
     <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
   </ul>
 </div>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125305854-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-<div class="page__footer-copyright">&copy; 2018 Bikram Dhoju. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+  gtag('config', 'UA-125305854-1');
+</script>
+
+
+<div class="page__footer-copyright">&copy; 2022 Bikram Dhoju. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

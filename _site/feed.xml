@@ -1,4 +1,757 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-06T00:20:16+05:45</updated><id>http://localhost:4000/</id><title type="html">Bikram’s Blog</title><subtitle>Linux, security, DevOps stuff</subtitle><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><entry><title type="html">Setting up Private DNS Server with BIND9 (DNS Series:Part II)</title><link href="http://localhost:4000/network&system/DNS-Series-2/" rel="alternate" type="text/html" title="Setting up Private DNS Server with BIND9  (DNS Series:Part II)" /><published>2018-06-17T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://localhost:4000/network&amp;system/DNS-Series-2</id><content type="html" xml:base="http://localhost:4000/network&amp;system/DNS-Series-2/">&lt;p&gt;We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one &lt;a href=&quot;http://becram.github.io/network&amp;amp;system/DNS-Series-1/&quot;&gt;here&lt;/a&gt;. In this series, I will be talking about how to set up a private DNS server using &lt;a href=&quot;https://www.isc.org/downloads/bind/&quot;&gt;BIND9&lt;/a&gt;. Before that, I want to focus on Private and Public DNS.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.3">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" /><updated>2022-05-08T09:17:05+00:00</updated><id>http://0.0.0.0:4000/</id><title type="html">Bikram’s Blog</title><subtitle>Linux, security, DevOps stuff</subtitle><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><entry><title type="html">Building Kubernetes Admission Webhooks (Part 2 of 2)</title><link href="http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-2/" rel="alternate" type="text/html" title="Building Kubernetes Admission Webhooks (Part 2 of 2)" /><published>2022-05-06T00:00:00+00:00</published><updated>2022-05-07T20:00:58+00:00</updated><id>http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-2</id><content type="html" xml:base="http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-2/">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;SN&lt;/th&gt;
+      &lt;th&gt;Stack&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Technology&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;Language&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Golang&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;Orchestrator&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Kubernetes(KinD)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;If you have used Kubernetes for a while it is not hard to notice that most services use admission webhooks profusely. For instance, if you use &lt;a href=&quot;https://kubernetes.github.io/ingress-nginx/&quot;&gt;nginx-ingress-controller&lt;/a&gt; you will notice it deploys a webhook to detect the ingress resources and modify the &lt;code class=&quot;highlighter-rouge&quot;&gt;Nginx configuration&lt;/code&gt; based on the resource annotations. Hence, admission webhooks are a pretty powerful feature in the Kubernetes. With the extendibility of the API in Kubernetes, users can create their webhooks to modify/validate the resources before they are applied to the cluster. This becomes very handy to maintain the sanity in your cluster.&lt;/p&gt;
+
+&lt;p&gt;From &lt;a href=&quot;https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/&quot;&gt;offical docs&lt;/a&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;What are admission webhooks? &lt;br /&gt;
+Admission webhooks are HTTP callbacks that receive admission requests and do something with them. You can define two types of admission webhooks, validating admission webhook and mutating admission webhook. Mutating admission webhooks are invoked first, and can modify objects sent to the API server to enforce custom defaults. After all object modifications are complete, and after the incoming object is validated by the API server, validating admission webhooks are invoked and can reject requests to enforce custom policies.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;For this series of the custom webhooks we going to write a webhooks to perform the following actions:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Check for the image tag of the pod (validation)&lt;/li&gt;
+  &lt;li&gt;Check and mutate if the pod doesn’t have any resource request and limits defined(mutation)&lt;/li&gt;
+  &lt;li&gt;Inject environment variables to containers (mutation)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Here is the basic architecture of how the webhooks work:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/1600/1*kJWPA3feWUSeF_AhcR4-zQ.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In nutshell, when you request for the new resource (pod in our case) to be created and if the pod has a predefined label, webhooks will pick the request and pass the request to the admission controller, and the admission controller directs the service to the external service for necessary changes, which will create a new patch. This patch is validated and then applied to the cluster to persist.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Please the complete code for this series of tutorials at &lt;a href=&quot;https://github.com/Becram/kubernetes-webhook&quot;&gt;https://github.com/Becram/kubernetes-webhook&lt;/a&gt;. I am a newbie to Golang and haven’t written any tests.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;I will not explain each part of the code but will try to explain the most important parts. Also, please note that we will use a lot of the modules and data structure from part 1 of the series.&lt;/p&gt;
+
+&lt;p&gt;First, we need to create a mutating webhook admission resource in our cluster, which is the resource in the cluster that defines how to pick the resource of mutation/validation and where to route the request for the modification.&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;admissionregistration.k8s.io/v1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;MutatingWebhookConfiguration&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;metadata&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;kubernetes-webhook.acme.com&quot;&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;webhooks&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;kubernetes-webhook.acme.com&quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;objectSelector&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;matchLabels&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;mutation-check&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;enabled&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;rules&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;apiGroups&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;apiVersions&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;v1&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;operations&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;CREATE&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;pods&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;scope&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;clientConfig&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;service&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;namespace&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;default&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kubernetes-webhook&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/mutate-pods&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;port&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;443&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;caBundle&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;DEDACTED&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;admissionReviewVersions&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;v1&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;sideEffects&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;None&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;timeoutSeconds&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Here, the clientConfig Part defines to route the request (kubernetes-webhook in this example)if the object has the label &lt;code class=&quot;highlighter-rouge&quot;&gt;mutation-check: enabled&lt;/code&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Note: Please note this request has to be a secured connection for which we need to create a &lt;code class=&quot;highlighter-rouge&quot;&gt;CA-signed certificate&lt;/code&gt;, which can be generated with a script in the repo. skipped for brevity.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Of the three functions of this Golang-based service, lets me dive into the function of adding the container resource request and limit.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;// Mutate returns a new mutated pod according to lifespan tolerations rules&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpl&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;containerResources&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Mutate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pod&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corev1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corev1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Logger&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WithField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mutation&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpod&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pod&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DeepCopy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parseResources&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+		&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corev1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Pod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+	&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tn&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corev1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ResourceRequirements&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+		&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Limits&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;   &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Limits&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+		&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Requests&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Requests&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+	&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpod&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Spec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Containers&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+		&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpl&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Logger&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;WithField&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+			&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;applying default limits and request resource&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+		&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpod&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Spec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Containers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Resources&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;tn&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+	&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+	&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mpod&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;As discussed in part one we use corev1.Pod struct get the pod definition and modify/append the additional configuation to it. Here first we get the default resources defined and create a container resource definition variable &lt;code class=&quot;highlighter-rouge&quot;&gt;tn&lt;/code&gt; (note is used &lt;code class=&quot;highlighter-rouge&quot;&gt;corev1.ResourceRequirements&lt;/code&gt; struct). After we get the resource we append this resource by looping through all the containers in the container’s array. On patched, the modified pod definition is returned and passed to the api server to apply to the cluster.&lt;/p&gt;
+
+&lt;h3 id=&quot;-references-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; References &lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;https://slack.engineering/simple-kubernetes-webhook/&lt;/li&gt;
+  &lt;li&gt;https://github.com/kubernetes/client-go&lt;/li&gt;
+  &lt;li&gt;https://github.com/kubernetes/apimachinery&lt;/li&gt;
+  &lt;li&gt;https://github.com/kubernetes/api&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><category term="Kubernetes" /><category term="Golang" /><summary type="html">SN Stack Technology 1 Language Golang 2 Orchestrator Kubernetes(KinD)</summary></entry><entry><title type="html">Building Kubernetes Admission Webhooks (Part 1 of 2)</title><link href="http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-1/" rel="alternate" type="text/html" title="Building Kubernetes Admission Webhooks (Part 1 of 2)" /><published>2022-05-06T00:00:00+00:00</published><updated>2022-05-06T20:00:58+00:00</updated><id>http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-1</id><content type="html" xml:base="http://0.0.0.0:4000/devops/Building-Kubernetes-Admission-Webhooks-pt-1/">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;SN&lt;/th&gt;
+      &lt;th&gt;Stack&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Technology&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;Language&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Golang&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;Orchestrator&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Kubernetes(KinD)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;As you spend you more and more on the devops tools it wont take you long to realize that &lt;a href=&quot;https://go.dev/&quot;&gt;Golang&lt;/a&gt; is pretty powerful programming language given sheer volume of the tools build with it. Among those, the most prominent ones are the &lt;a href=&quot;https://kubernetes.io&quot;&gt;Kubernetes&lt;/a&gt;, &lt;a href=&quot;https://www.terraform.io/&quot;&gt;Terraform&lt;/a&gt;, &lt;a href=&quot;https://argo-cd.readthedocs.io/en/stable/&quot;&gt;ArgoCD&lt;/a&gt;, &lt;a href=&quot;https://fluxcd.io/&quot;&gt;fluxCD&lt;/a&gt;. As a SRE/DevOps Engineer I spend a-lot of time working on the internals of these tools profusely. It’s just a matter of time that you get inspired to create a similar tools for automation purpose give the such amazing Open Source Community.&lt;/p&gt;
+
+&lt;p&gt;Kubernetes have taken the cloud eco-system by the storm. Kubernetes makes the complex system more visible and deployments much easier. Apart from this the extendibility of the Kubernetes API have made the cloud automation very robust.&lt;/p&gt;
+
+&lt;p&gt;I have been trying to understand Kubernetes API structure for a while, initially I tried to dive directly into the code from the officially provided &lt;a href=&quot;https://github.com/kubernetes/client-go&quot;&gt;go-client&lt;/a&gt;, boy that was a painful to get grasp since its massive and novelty of structures. With massive number of nuts and bots it overwhelms you pretty fast. So before diving to code, I would suggest to understand the core data structure and concept first which has its own learning curve.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Please the complete code for this series of tutorials at &lt;a href=&quot;https://github.com/Becram/kubernetes-webhook&quot;&gt;https://github.com/Becram/kubernetes-webhook&lt;/a&gt;. I am a newbie to golang, and haven’t written any tests&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Before understanding what are Kubernetes Admission webhooks, let’s first get to know basics. Here is quick summary of API resources, Kinds, and Objects. &lt;/p&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Resource Type&lt;/code&gt;:  loosely, an entity served by a Kubernetes API endpoint: pods, deployments, configmaps, etc.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;API Group&lt;/code&gt;:  resource types are organized into versioned logical groups: apps/v1, batch/v1, storage.k8s.io/v1beta1, etc.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Object&lt;/code&gt;: a resource instance - every API endpoint deals with objects of a certain resource type.&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Kind&lt;/code&gt;:  every object returned or accepted by the API must conform to an object schema - a certain composition of attributes defined by its kind: Pod, Deployment, ConfigMap, etc.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/1600/1*vPZJQHAlfv6YcJv1OI6eYQ.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;It’s also important to differentiate between objects in a broad sense and Kubernetes &lt;code class=&quot;highlighter-rouge&quot;&gt;first-class&lt;/code&gt; Objects - persistent entities like &lt;code class=&quot;highlighter-rouge&quot;&gt;Pod&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Service&lt;/code&gt;, or &lt;code class=&quot;highlighter-rouge&quot;&gt;Secret&lt;/code&gt; serving as a record of intent for the cluster. While every API object must have an API version and kind attributes for the sake of its serialization and deserialization, not every API object is a &lt;code class=&quot;highlighter-rouge&quot;&gt;first-class&lt;/code&gt; Kubernetes Object.&lt;/p&gt;
+
+&lt;p&gt;I would recommend to go through https://kubernetes.io/docs/reference/using-api/api-concepts/ for basic of Kubernetes apis.&lt;/p&gt;
+
+&lt;p&gt;#Understanding Go Modules&lt;/p&gt;
+
+&lt;h2 id=&quot;-module-k8sioapi-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Module k8s.io/api &lt;/span&gt;&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;Go is a statically typed programming language. So, where do all the structs corresponding to &lt;code class=&quot;highlighter-rouge&quot;&gt;Pods&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;ConfigMaps&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Secrets&lt;/code&gt;, and other first-class Kubernetes Objects live? Right, in &lt;a href=&quot;https://github.com/kubernetes/api&quot;&gt;k8s.io/api&lt;/a&gt;.&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;fmt&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;appsv1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;k8s.io/api/apps/v1&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corev1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;k8s.io/api/core/v1&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;func&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deployment&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;appsv1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Deployment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Spec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;appsv1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;DeploymentSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Template&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corev1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PodTemplateSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Spec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corev1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PodSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Containers&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;corev1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Container&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;web&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Image&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;nginx:1.21&quot;&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fmt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;%#v&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deployment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The module defines not only the top-level Kubernetes Objects like the &lt;code class=&quot;highlighter-rouge&quot;&gt;Deployment&lt;/code&gt; above but also numerous auxiliary types for their inner attributes:&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;// PodSpec is a description of a pod.&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PodSpec&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Volumes&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Volume&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`json:&quot;volumes,omitempty&quot; patchStrategy:&quot;merge,retainKeys&quot; patchMergeKey:&quot;name&quot; protobuf:&quot;bytes,1,rep,name=volumes&quot;`&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+  
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InitContainers&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Container&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`json:&quot;initContainers,omitempty&quot; patchStrategy:&quot;merge&quot; patchMergeKey:&quot;name&quot; protobuf:&quot;bytes,20,rep,name=initContainers&quot;`&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+    
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Containers&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Container&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`json:&quot;containers&quot; patchStrategy:&quot;merge&quot; patchMergeKey:&quot;name&quot; protobuf:&quot;bytes,2,rep,name=containers&quot;`&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EphemeralContainers&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;EphemeralContainer&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`json:&quot;ephemeralContainers,omitempty&quot; patchStrategy:&quot;merge&quot; patchMergeKey:&quot;name&quot; protobuf:&quot;bytes,34,rep,name=ephemeralContainers&quot;`&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+
+  &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RestartPolicy&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RestartPolicy&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;`json:&quot;restartPolicy,omitempty&quot; protobuf:&quot;bytes,3,opt,name=restartPolicy,casttype=RestartPolicy&quot;`&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+    
+  &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;-module-k8sioapimachinery-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; Module k8s.io/apimachinery &lt;/span&gt;&lt;/strong&gt;&lt;/h2&gt;
+
+&lt;p&gt;Unlike the narrowly-scoped &lt;code class=&quot;highlighter-rouge&quot;&gt;k8s.io/api&lt;/code&gt; module, the &lt;a href=&quot;https://github.com/kubernetes/apimachinery&quot;&gt;k8s.io/apimachinery&lt;/a&gt; module is rather manifold. The &lt;a href=&quot;https://github.com/kubernetes/apimachinery/tree/3d7c63b4de4fdee1917284129969901d4777facc#purpose&quot;&gt;README&lt;/a&gt; describes its purpose as:&lt;/p&gt;
+
+&lt;p&gt;This library is a shared dependency for servers and clients to work with Kubernetes API infrastructure without direct type dependencies. Its first consumers are &lt;code class=&quot;highlighter-rouge&quot;&gt;k8s.io/kubernetes&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;k8s.io/client-go&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;k8s.io/apiserver&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;It’d be hard to cover all the responsibilities of the apimachinery module in a single post without being too shallow. So i would recommend to read the official docs.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Lets dive into the real project for admission webhooks in part 2&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;-references-&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:green&quot;&gt; References &lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/&lt;/li&gt;
+  &lt;li&gt;https://github.com/kubernetes/client-go&lt;/li&gt;
+  &lt;li&gt;https://github.com/kubernetes/apimachinery&lt;/li&gt;
+  &lt;li&gt;https://github.com/kubernetes/api&lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><category term="Kubernetes" /><category term="Golang" /><summary type="html">SN Stack Technology 1 Language Golang 2 Orchestrator Kubernetes(KinD)</summary></entry><entry><title type="html">Kustomized Helm Structure</title><link href="http://0.0.0.0:4000/devops/Kustomized-Helm/" rel="alternate" type="text/html" title="Kustomized Helm Structure" /><published>2021-12-17T00:00:00+00:00</published><updated>2021-12-17T20:00:58+00:00</updated><id>http://0.0.0.0:4000/devops/Kustomized-Helm</id><content type="html" xml:base="http://0.0.0.0:4000/devops/Kustomized-Helm/">&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;SN&lt;/th&gt;
+      &lt;th&gt;Stack&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Technology&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;Language&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;yaml&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;Templating&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Helm/Kustomize&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;As a devops/SRE maintaining and managing the yaml seems a cumbersome task. There is great a challenging in maintaining highly readable yaml while keeping it simple. &lt;a href=&quot;https://helm.sh/&quot;&gt;Helm&lt;/a&gt; and &lt;a href=&quot;https://kustomize.io/&quot;&gt;Kustomize&lt;/a&gt; are the two amazing tool to maintain these yaml. Both of these comes with amazing features choosing one over another is very difficult task in itself as the tradeoff is pretty high. So how about have both.&lt;/p&gt;
+
+&lt;p&gt;Another important challenge to maintain in multiple environment system to to maintain hierarchal yaml structure, such that the repeatitive values are maintained as base and values for each environment overlayed on top of it.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://miro.medium.com/max/1160/1*i6fxGW9H-8V3iu-Xfh1ozQ.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As in above the single app (cert-manager in our case with jetstack helm chart) is broken in to two folders as &lt;code class=&quot;highlighter-rouge&quot;&gt;helm_base&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;overlays&lt;/code&gt;, helm_base folder comprises of the helm chart definition in Chart.yaml file as&lt;/p&gt;
+
+&lt;div class=&quot;language-go highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v2&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;A&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Helm&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;chart&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;manager&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;manager&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;.3.1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dependencies&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+ &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;—&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cert&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;manager&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;v1&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;.3.1&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;repository&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;x&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;https&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;c&quot;&gt;//charts.jetstack.io&lt;/span&gt;&lt;span class=&quot;x&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Note that the repository is defined as the dependencies this approach is helpful for defining multiple charts and segregating the values for it. In addition to the Chart definition it also comprises &lt;code class=&quot;highlighter-rouge&quot;&gt;kustomization.yml&lt;/code&gt; this defines the resource definitions to be applied.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;helm_base/cert-manager/kustomization.yml&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kustomize.config.k8s.io/v1beta1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Kustomization&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;commonLabels&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cert-manager&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;all.yml&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You may notice the resources section which mentions the &lt;code class=&quot;highlighter-rouge&quot;&gt;all.yml&lt;/code&gt; which does not exist we will get back to it later. commonLabels section adds this label to all the resources defined in &lt;code class=&quot;highlighter-rouge&quot;&gt;all.yml&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Next folder is the overlay folder which contains the kustomize definition for each environment. The example above contains only for dev environment. For our &lt;code class=&quot;highlighter-rouge&quot;&gt;cert-manger chart&lt;/code&gt; we have a folder for each environment. This folder contains kustomization definitions, helm overrride values and additional resources. Lets get to the &lt;code class=&quot;highlighter-rouge&quot;&gt;kustomization.yml&lt;/code&gt; file.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;overlays/dev/cert-manager/kustomization.yml&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;apiVersion&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;kustomize.config.k8s.io/v1beta1&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;kind&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Kustomization&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;bases&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;../../../helm_base/cert-manager&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;namespace&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cert-manager&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;resources&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;namespace.yml&lt;/span&gt;
+&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cluster-issuer.yaml&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;When a this configuration is applied it goes back to the helm_base directory to particular app folder and applies the kustomization on that folder in addition to that there are other resources which needs to be applied in resources sections. Like I mentioned below the kustomization folder in base contains a kustomize config which contains the resource to apply named all.yml which doesnot exist currently. This &lt;code class=&quot;highlighter-rouge&quot;&gt;all.yml&lt;/code&gt; file contains the resource definition which needs to be generated from the helm chart before we apply the overlay.&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;overlays/dev/cert-manager
+helm dependency build ../../../helm_base/cert-manager
+helm template ../../../helm_base/cert-manager &lt;span class=&quot;nt&quot;&gt;--namespace&lt;/span&gt; cert-manager &lt;span class=&quot;nt&quot;&gt;--name-template&lt;/span&gt; cert-manager &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt;  values-override.yaml   &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; ../../../helm_base/cert-manager/all.yml 
+kubectl apply &lt;span class=&quot;nt&quot;&gt;-k&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;.&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The last command applies all the resources in the all.yml and the additional resources defined in the resources section. Hence, we use the beautiful helm template as well as the powerful kustomize feature. Apart from this any resources generated from helm chart can be patch using kustomize which gives great power for changing the resources definition.&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><category term="Kubernetes" /><summary type="html">SN Stack Technology 1 Language yaml 2 Templating Helm/Kustomize</summary></entry><entry><title type="html">Kubernetes Cluster Management with kops</title><link href="http://0.0.0.0:4000/devops/Kubernetes-Cluster-Mgmt-with-Kops/" rel="alternate" type="text/html" title="Kubernetes Cluster Management with kops" /><published>2019-07-10T00:00:00+00:00</published><updated>2019-04-15T20:00:58+00:00</updated><id>http://0.0.0.0:4000/devops/Kubernetes-Cluster-Mgmt-with-Kops</id><content type="html" xml:base="http://0.0.0.0:4000/devops/Kubernetes-Cluster-Mgmt-with-Kops/">&lt;h1 id=&quot;kubernetes-cluster-management-with-kops&quot;&gt;Kubernetes Cluster Management with kops&lt;/h1&gt;
+&lt;p&gt;You may find the complete script &lt;a href=&quot;https://gist.github.com/Becram/d68009a56fff139bbfad982ffb5c204f&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;After Google donated its amazing container orcheastration tool, kubernetes to Cloud Native Computing foundation (CNCF), many devops breath the air of sigh. Kubernetes with it amazing power took over the devops world which made the devops more powerful, resilient and highly scalable with great implimentation of fault tolerance.&lt;/p&gt;
+
+&lt;p&gt;All these power come at a price. For a newbies kubernetes cluster creation seems a additional headache with very steep learning curves. Manual cluster creation seems a great challenge and tedious task. So, this is where the open source &lt;a href=&quot;https://github.com/kubernetes/kops&quot;&gt;kops&lt;/a&gt; comes to g rescue. With plethora of task abstraction, kops is a great tool to create kubernetes cluster. Kops prvides the production ready cluster with high scalability on the popular cloud architecture as AWS and Google cloud. Moreover it has a close ressemblence with &lt;em&gt;kubectl&lt;/em&gt; syntax which makes learning very flat.&lt;/p&gt;
+
+&lt;h2 id=&quot;key-features-kops&quot;&gt;Key features kops&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Automates the provisioning of Kubernetes clusters in AWS and GCE&lt;/li&gt;
+  &lt;li&gt;Deploys Highly Available (HA) Kubernetes Masters&lt;/li&gt;
+  &lt;li&gt;Built on a state-sync model for &lt;strong&gt;dry-runs&lt;/strong&gt; and automatic &lt;strong&gt;idempotency&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;Ability to generate Terraform&lt;/li&gt;
+  &lt;li&gt;Supports custom Kubernetes add-ons&lt;/li&gt;
+  &lt;li&gt;Command line autocompletion&lt;/li&gt;
+  &lt;li&gt;YAML Manifest Based API Configuration&lt;/li&gt;
+  &lt;li&gt;Templating and dry-run modes for creating
+ Manifests&lt;/li&gt;
+  &lt;li&gt;Choose from eight different CNI Networking providers out-of-the-box&lt;/li&gt;
+  &lt;li&gt;Supports upgrading from kube-up&lt;/li&gt;
+  &lt;li&gt;Capability to add containers, as hooks, and files to nodes via a cluster manifest&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;without-further-ado-lets-dive-into-kops-for-this-tutorial-we-will-be-using-aws-cloud&quot;&gt;Without further ado lets dive into kops (For this tutorial we will be using AWS cloud)&lt;/h3&gt;
+
+&lt;p&gt;First thing first make sure you have aws account. So, lets install aws cli as shown below:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    sudo apt-get update
+    # install python-pip
+    sudo apt install python-pip
+    #install AWS client
+    pip install awscli --upgrade --user
+    #install jq
+    sudo apt-get install jq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;After that make sure you have configured &lt;em&gt;aws cli&lt;/em&gt; with appropriate configuration using command &lt;em&gt;aws configure&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Next we are goiing to install kops. kops installation is very easy&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    # Installing kops version 1.12.2
+    wget https://github.com/kubernetes/kops/releases/download/1.12.2/kops-linux-amd64
+    chmod +x kops-linux-amd64
+    sudo mv kops-linux-amd64 /usr/local/bin/kops
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;We need subdomain name for the cluster which will be the identity of the cluster. Since we dont have  registered subdomain we can have as domain name as &lt;em&gt;becram.k8s.local&lt;/em&gt; for our case. All the configuration needs to be stored in the cloud itself for which we use AWS S3 bucket. lets create a S3 buket as:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    SUBDOMAIN_NAME=becram.k8s.local
+    AWS_DEFAULT_REGION=us-east-2 # I use us-east-2 region
+    aws s3 rb s3://$SUBDOMAIN_NAME-kubernetes-state
+    aws s3 mb s3://$SUBDOMAIN_NAME-kubernetes-state --region $AWS_DEFAULT_REGION
+    export KOPS_STATE_STORE=s3://$SUBDOMAIN_NAME-kubernetes-state
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Next we need to have a ssh keys to access the server nodes. We create  keys as:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    KOPS_HOME=/home/bikram/kops
+    SSH_KEY_HOME=$KOPS_HOME/$SUBDOMAIN_NAME/sshkeys
+    # create ssh key home
+    mkdir $SSH_KEY_HOME
+    # generate ssh key
+    ssh-keygen -f $SSH_KEY_HOME/id_rsa -t rsa #save the key in the sshkeys
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Finally lets the party begin. lets run the cluster as&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    SSH_PUBLIC_KEY=$SSH_KEY_HOME/id_rsa.pub
+    kops create cluster --v=0 \
+        --cloud=aws \
+        --node-count 2 \
+        --master-size=t2.medium \
+        --master-zones=us-east-2a \
+        --zones us-east-2a,us-east-2b \
+        --name=$SUBDOMAIN_NAME \
+        --node-size=t2.micro \
+        --ssh-public-key=$SSH_PUBLIC_KEY \
+        2&amp;gt;&amp;amp;1 | tee $KOPS_HOME/create_cluster.txt
+
+    kops update cluster $SUBDOMAIN_NAME --yes
+    ############# UPDATE CLUSTER ENDS ################&quot;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Your cluster is ready.&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><category term="Kubernetes" /><category term="Orcheastration" /><summary type="html">Kubernetes Cluster Management with kops You may find the complete script here</summary></entry><entry><title type="html">Python(Flask) Project (Service to upload image to imgur.com)</title><link href="http://0.0.0.0:4000/network&system/Imgur-imagfe-uploader-flask-Python/" rel="alternate" type="text/html" title="Python(Flask) Project (Service to upload image to imgur.com)" /><published>2019-04-15T00:00:00+00:00</published><updated>2019-04-15T20:00:58+00:00</updated><id>http://0.0.0.0:4000/network&amp;system/Imgur-imagfe-uploader-flask-Python</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/Imgur-imagfe-uploader-flask-Python/">&lt;h1 id=&quot;imgur-rest-image-uploader&quot;&gt;Imgur REST Image Uploader&lt;/h1&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;SN&lt;/th&gt;
+      &lt;th&gt;Stack&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Technology&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;Language&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Python&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;Framework&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Flask&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;Container&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Docker&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;Orchestrator&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Docker Compose&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;pre-requites&quot;&gt;Pre-requites&lt;/h2&gt;
+&lt;h3 id=&quot;installing-docker-and-docker-compose&quot;&gt;Installing Docker and docker-compose&lt;/h3&gt;
+&lt;p&gt;Install docker using the commands&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl &lt;span class=&quot;nt&quot;&gt;-fsSL&lt;/span&gt; https://get.docker.com | sh &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;usermod &lt;span class=&quot;nt&quot;&gt;-aG&lt;/span&gt; docker &lt;span class=&quot;nv&quot;&gt;$USER&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Install docker-compose as&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-y&lt;/span&gt; docker-compose
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is a service to upload images to &lt;a href=&quot;https://www.imgur.com&quot;&gt;imgur.com&lt;/a&gt; via its api endpoints. It tasks json object to upload the image ashychronosly. It implements &lt;a href=&quot;http://www.celeryproject.org/&quot;&gt;celery&lt;/a&gt; queue with &lt;a href=&quot;https://redis.io/&quot;&gt;Redis&lt;/a&gt; to perform the ashynchronity of the tasks.&lt;/p&gt;
+
+&lt;p&gt;First of all, register an app in &lt;a href=&quot;https://api.imgur.com/oauth2/addclient&quot;&gt;imgur&lt;/a&gt; and get a &lt;strong&gt;Client-ID&lt;/strong&gt; and add the id to &lt;a href=&quot;celery-queue/tasks.py&quot;&gt;celery-queue/tasks.py&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Client_ID&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'XXXXXXXX'&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;celery&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Celery&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'tasks'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;broker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CELERY_BROKER_URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CELERY_RESULT_BACKEND&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;                
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;installation&quot;&gt;Installation&lt;/h3&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/Becram/imgur-image-uploader-service
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;build--launch&quot;&gt;Build &amp;amp; Launch&lt;/h3&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;cd &lt;/span&gt;imgur-image-uploader-service
+docker-compose  up &lt;span class=&quot;nt&quot;&gt;--build&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This will expose the Flask application’s endpoints on port &lt;code class=&quot;highlighter-rouge&quot;&gt;8080&lt;/code&gt; as well as a &lt;a href=&quot;https://github.com/mher/flower&quot;&gt;Flower&lt;/a&gt; server for monitoring workers on port &lt;code class=&quot;highlighter-rouge&quot;&gt;5555&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;To add more workers:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker-compose up &lt;span class=&quot;nt&quot;&gt;-d&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--scale&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;worker&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;5 &lt;span class=&quot;nt&quot;&gt;--no-recreate&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;rest-api-image-upload-endpoints&quot;&gt;Rest API Image upload endpoints&lt;/h2&gt;
+
+&lt;h3 id=&quot;submit-image-urls-for-upload&quot;&gt;Submit image URLs for upload&lt;/h3&gt;
+&lt;p&gt;Submits a request to upload a set of image URLs to Imgur. The images will be uploaded to the configured Imgur, viewable by anyone with the link.
+Request&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;POST /v1/images/upload
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;The request is just a JSON body, no query parameters.
+Request body
+Attributes:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;urls: An array of URLs to images that will be uploaded. Duplicates should be stripped out.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Example request body:&lt;/p&gt;
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;urls&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://farm3.staticflickr.com/2879/11234651086_681b3c2c00_b_d.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://farm4.staticflickr.com/3790/11244125445_3c2f32cd83_k_d.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;     
+     &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://www.rollingstone.com/wp-content/uploads/2019/04/notre-dame-rebuild.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+     &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://media2.s-nbcnews.com/j/newscms/2019_16/2823376/190416-notre-dame-fire-mn-0740_4917dcab40d35a0c8da7db09fc8a0aa8.f-760w.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+     &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://www.welcomenepal.com/uploads/slider/visit-nepal-year-2020-ntb-dmo-site-banner.jpeg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+     &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://www.welcomenepal.com/uploads/activity/pashupatinath-pilgrimage-tour-in-kathmandu-nepal.jpeg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+     &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://www.welcomenepal.com/uploads/slider/kathmandu-valley-nepal.jpeg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+     &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;http://www.welcomenepal.com/uploads/art_oy_kathmandu.jpg&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+ 
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Response
+On success, returns immediately with an appropriate status code with the id of the job.&lt;/p&gt;
+
+&lt;p&gt;Response body
+Attributes:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;jobId: The id of the upload job that was just submitted.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Example response body:&lt;/p&gt;
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;jobId&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;55355b7c-9b86-4a1a-b32e-6cdd6db07183&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;gets-the-status-of-an-upload-images-job&quot;&gt;Gets the status of an upload images job.&lt;/h2&gt;
+&lt;p&gt;Request&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET /v1/images/upload/:jobId
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;The request has no body and no query parameters. :jobId is an ID returned from the POST upload images API.&lt;/p&gt;
+
+&lt;p&gt;Request body: None&lt;/p&gt;
+
+&lt;p&gt;Response
+On success, returns immediately with an appropriate status code with the id of the job.&lt;/p&gt;
+
+&lt;p&gt;Response body
+Attributes:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;id: The id of the upload job.&lt;/li&gt;
+  &lt;li&gt;created: When job was created. In ISO8601 format (YYYY-MM-DDTHH:mm:ss.sssZ) for GMT.&lt;/li&gt;
+  &lt;li&gt;finished: When job was completed. In same format as created. Is null, if status is not complete.&lt;/li&gt;
+  &lt;li&gt;status: The status of the entire upload job. Is one of:&lt;/li&gt;
+  &lt;li&gt;pending: indicates job has not started processing.&lt;/li&gt;
+  &lt;li&gt;in-progress: job has started processing.&lt;/li&gt;
+  &lt;li&gt;complete: job is complete.&lt;/li&gt;
+  &lt;li&gt;uploaded: An object of arrays containing the set of URLs submitted, in several arrays indicating the status of that image URL upload (pending, complete, failed).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Example response body:&lt;/p&gt;
+
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;created&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2019-04-22T03:00:49.447098&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;finished&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;id&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;470f0516-b31f-4d14-8f87-77a5282bfe2f&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;status&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;in-progres&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;uploaded&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;completed&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://i.imgur.com/YV08tTg.jpg&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;failed&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+      
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;pending&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://www.rollingstone.com/wp-content/uploads/2019/04/notre-dame-rebuild.jpg&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;get-list-of-all-uploaded-image-links&quot;&gt;Get list of all uploaded image links&lt;/h2&gt;
+&lt;p&gt;Gets the links of all images uploaded to Imgur. These links will be accessible by anyone.
+Request&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET /v1/images
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;The request has no body and no query parameters.
+Request bodyNone
+Response
+On success, return an array of the Imgur links to the successfully uploaded images. 
+Response body
+Attributes:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;uploaded: An array of the Imgur links to the uploaded images.
+Example response body:
+    &lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;uploaded&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://i.imgur.com/0i6HX3D.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://i.imgur.com/q3urwVe.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://i.imgur.com/uYdqs4i.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://i.imgur.com/pa8eBQv.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://i.imgur.com/mepUIVg.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://i.imgur.com/1hNaxiY.jpg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://i.imgur.com/6AM3sJb.jpg&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;to-shut-down&quot;&gt;To shut down:&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;docker-compose down
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To change the endpoints, update the code in &lt;a href=&quot;api/app.py&quot;&gt;api/app.py&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;to-do&quot;&gt;TO-DO:&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;There is some issue in updation of the completed list which can be fixed using external datastore.&lt;/li&gt;
+  &lt;li&gt;Add production mode&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><category term="Python" /><category term="Flask" /><category term="Docker" /><category term="REST-API" /><summary type="html">Imgur REST Image Uploader</summary></entry><entry><title type="html">DNS Sinkholing with BIND9 (DNS Series:Part III)</title><link href="http://0.0.0.0:4000/network&system/DNS-Series-3/" rel="alternate" type="text/html" title="DNS Sinkholing with BIND9  (DNS Series:Part III)" /><published>2018-06-18T00:00:00+00:00</published><updated>2018-03-20T20:00:58+00:00</updated><id>http://0.0.0.0:4000/network&amp;system/DNS-Series-3</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/DNS-Series-3/">&lt;p&gt;Like talked earlier DNS is just like a phone book in your cell phone that maps the names to the phone number. The benefit of this is that you don’t have to memorize the lengthy numbers. When you have to call someone we just have to search in the number and call it won’t matter if you remember the number or not. But imagine someone changes the underlying phone number without your knowledge, you will definitely call someone else. If the destination receiver can mimic the voice then you are totally screwed before you know it.&lt;/p&gt;
+
+&lt;p&gt;Image the exact scenario in your DNS server, to add to the problem your DNS is more publicly accessible than your phone. So it is primally important to protect your DNS server. We gonna use our DNS server to route the traffic of the malicious sites to a sinkhole. Since almost all browsers work with the domain names instead of IP address DNS sinkhole is the best option in hand to prevent the organization from malignment sites.&lt;/p&gt;
+
+&lt;p&gt;DNS Sinkholing played an important role in de-weaponizing the &lt;a href=&quot;https://en.wikipedia.org/wiki/WannaCry_ransomware_attack&quot;&gt;WannaCry Ransomware&lt;/a&gt;. Basically, WannaCry infections entered organization network through emails and propagated in the network via &lt;a href=&quot;https://en.wikipedia.org/wiki/Server_Message_Block&quot;&gt;SMB&lt;/a&gt; ports which were the SMB vulnerability for which Windows had released a patch 2 months earlier. So infection had a kill switch built into it which would check whether a certain gibberish URL led to a live web page. Someone found with and registered the website and entire thing was stopped. It was such a naive kill switch for such disastrous internet phenomena. Off course this was intentional kill switch to tame the monster they have created but was really not thought through. As it turns out, that $10.69 investment was enough to shut the whole thing down—for now, at least.&lt;/p&gt;
+
+&lt;h2 id=&quot;lets-create-a-dns-server-for-sinkholing-unwanted-sites&quot;&gt;Lets &lt;a href=&quot;http://bikramdhoju.com.np/network&amp;amp;system/DNS-Series-2/&quot;&gt;create a DNS server&lt;/a&gt; for sinkholing unwanted sites.&lt;/h2&gt;
+
+&lt;h2 id=&quot;architecture&quot;&gt;Architecture&lt;/h2&gt;
+
+&lt;h3 id=&quot;1-normal-dns-architecture&quot;&gt;1. Normal DNS architecture&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/DNS3/NormalDNS.png&quot; alt=&quot;DNS server &quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;2-sinkholed-dns-server-architecture&quot;&gt;2. Sinkholed DNS Server architecture&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;/assets/images/DNS3/DNSSinkhole.png&quot; alt=&quot;DNS server&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;So actuall we are configuring the bind to route a particular domains to sink hole server.&lt;/p&gt;
+
+&lt;h2 id=&quot;configure-bind-for-sinkholing&quot;&gt;Configure bind for sinkholing&lt;/h2&gt;
+
+&lt;p&gt;After we have configured bind like &lt;a href=&quot;http://bikramdhoju.com.np/network&amp;amp;system/DNS-Series-2/&quot;&gt;here&lt;/a&gt; lets configure a new zone files.
+Create a zone file in /etc/bind/zones folder, lets name it sinkhole.zone.file and populate it as&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  ;file /etc/bind/zones/sinkhole.zone.file
+  ; BIND db file for ad servers - point all addresses to an invalid IP
+  $TTL  864000  ; ten days
+
+  @       IN      SOA     localhost.      root.localhost. (
+                        2008032800       ; serial number YYMMDDNN
+                        288000   ; refresh  80 hours
+                        72000    ; retry    20 hours
+                        8640000  ; expire  100 days
+                        864000 ) ; min ttl  10 day
+                NS      localhost.
+
+    A 10.10.10.11
+
+  *   IN      A       10.10.10.11
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;What this zone file is doing is rediecting all domain pointed to this zone file to our sinkhole server which 10.10.10.11(in  my case). You might notice we have set TTL value to 10 days so that they are be cached for longer time.&lt;/p&gt;
+
+&lt;p&gt;Now lets do the main part, lets gather the malicious sites and make them point to our sinhole zone file.&lt;/p&gt;
+
+&lt;p&gt;First create  a confuration for blocking sites. for this create a file named.conf.blocked in ‘‘/etc/bind/’’  and populate it with sites which needs to be blocked. Add this configuration to named.conf as :&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    // This is the primary configuration file for the BIND DNS server named.
+     //
+   // Please read /usr/share/doc/bind9/README.Debian.gz for information on the 
+   // structure of BIND configuration files in Debian, *BEFORE* you customize 
+   // this configuration file.
+   //
+   // If you are just adding zones, please do that in /etc/bind/named.conf.local
+
+   include &quot;/etc/bind/named.conf.blocked&quot;;
+   include &quot;/etc/bind/named.conf.options&quot;;
+   include &quot;/etc/bind/named.conf.local&quot;;
+   include &quot;/etc/bind/named.conf.default-zones&quot;;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;We need to populate the block conf to point to our sinkhole zone file. I am using &lt;a href=&quot;https://github.com/oznu/dns-zone-blacklist&quot;&gt;this project&lt;/a&gt; to get all malicious sites, I am sure you can find pretty more like these. This file looks like this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;   zone &quot;2-dot-mod-ads-dot-house-ads-server.appspot.com&quot; { type master; notify no; file &quot;/etc/bind/zones/sinkhole.zone.file&quot;; };
+   zone &quot;lb0-telemetry-prod-us-east-1.servers.getgo.com&quot; { type master; notify no; file &quot;/etc/bind/zones/sinkhole.zone.file&quot;; };
+   zone &quot;xn--80aebbcbcdemfkhba4byaehoejh8dza3v.xn--p1ai&quot; { type master; notify no; file &quot;/etc/bind/zones/sinkhole.zone.file&quot;; };
+   zone &quot;howupdateworks.amazingupdates4youtoday.website&quot; { type master; notify no; file &quot;/etc/bind/zones/sinkhole.zone.file&quot;; };
+   zone &quot;getsoftnow.smallandprecise2upgradingnew.review&quot; { type master; notify no; file &quot;/etc/bind/zones/sinkhole.zone.file&quot;; };
+   zone &quot;pornographo.blogspot.com.tr.br.blogspot.com.tr&quot; { type master; notify no; file &quot;/etc/bind/zones/sinkhole.zone.file&quot;; };
+   zone &quot;buying.mobile.online.phone.samsung.uk.sms13.de&quot; { type master; notify no; file &quot;/etc/bind/zones/sinkhole.zone.file&quot;; };
+   zone &quot;upgrade.themainplacesetnowforcontentingnew.bid&quot; { type master; notify no; file &quot;/etc/bind/zones/sinkhole.zone.file&quot;; };
+     .......
+     .......
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;For testing purpose I have setup a webserver in sinkhole server. We can use Intrusion Detection System as fail2ban to tracking and alerting purpose.&lt;/p&gt;
+
+&lt;p&gt;I have setup a client machine pointing to our DNS server which is 10.10.10.10. We can do this in ubuntu linux by editing /etc/resolv.conf file manually.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  # file: /etc/resov.conf
+
+   nameserver 10.10.10.10 
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Now lets query a malicious domain in our blocked configuration.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Client$ dig usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;response&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+
+   ; &amp;lt;&amp;lt;&amp;gt;&amp;gt; DiG 9.11.4-4-Debian &amp;lt;&amp;lt;&amp;gt;&amp;gt; usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com
+;; global options: +cmd
+;; Got answer:
+;; -&amp;gt;&amp;gt;HEADER&amp;lt;&amp;lt;- opcode: QUERY, status: NOERROR, id: 54212
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com. IN  A
+
+;; ANSWER SECTION:
+usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com. 864000 IN A 10.10.10.11
+
+;; AUTHORITY SECTION:
+usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com. 864000 IN NS localhost.
+
+;; ADDITIONAL SECTION:
+localhost.    604800  IN  A 127.0.0.1
+localhost.    604800  IN  AAAA  ::1
+
+;; Query time: 0 msec
+;; SERVER: 10.10.10.10#53(10.10.10.10)
+;; WHEN: Sun Sep 09 16:09:30 +0545 2018
+;; MSG SIZE  rcvd: 171
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You see it routes to our webserver&lt;/p&gt;
+
+&lt;p&gt;Now lets curl it&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;curl -v usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;output&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    * Rebuilt URL to: usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com/
+    *   Trying 10.10.10.11...
+    * TCP_NODELAY set
+    * Connected to usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com (10.10.10.11) port 80 (#0)
+    &amp;gt; GET / HTTP/1.1
+    &amp;gt; Host: usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com
+    &amp;gt; User-Agent: curl/7.61.0
+    &amp;gt; Accept: */*
+    &amp;gt; 
+    &amp;lt; HTTP/1.1 200 OK
+    &amp;lt; Date: Sun, 09 Sep 2018 10:27:07 GMT
+    &amp;lt; Server: Apache/2.4.18 (Ubuntu)
+    &amp;lt; Last-Modified: Sat, 08 Sep 2018 16:49:46 GMT
+    &amp;lt; ETag: &quot;1b-5755ee95ea784&quot;
+    &amp;lt; Accept-Ranges: bytes
+    &amp;lt; Content-Length: 27
+    &amp;lt; Content-Type: text/html
+    &amp;lt; 
+    &amp;lt;p&amp;gt; You are sinkholed &amp;lt;/p&amp;gt;
+    * Connection #0 to host usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com left intact
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That it how its got sinkholed to our webserver 10.10.10.11&lt;/p&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.csoonline.com/article/3227906/ransomware/what-is-wannacry-ransomware-how-does-it-infect-and-who-was-responsible.html&quot;&gt;https://www.csoonline.com/article/3227906/ransomware/what-is-wannacry-ransomware-how-does-it-infect-and-who-was-responsible.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/WannaCry_ransomware_attack&quot;&gt;https://en.wikipedia.org/wiki/WannaCry_ransomware_attack&lt;/a&gt;&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">Like talked earlier DNS is just like a phone book in your cell phone that maps the names to the phone number. The benefit of this is that you don’t have to memorize the lengthy numbers. When you have to call someone we just have to search in the number and call it won’t matter if you remember the number or not. But imagine someone changes the underlying phone number without your knowledge, you will definitely call someone else. If the destination receiver can mimic the voice then you are totally screwed before you know it.</summary></entry><entry><title type="html">Setting up Private DNS Server with BIND9 (DNS Series:Part II)</title><link href="http://0.0.0.0:4000/network&system/DNS-Series-2/" rel="alternate" type="text/html" title="Setting up Private DNS Server with BIND9  (DNS Series:Part II)" /><published>2018-06-17T00:00:00+00:00</published><updated>2018-03-20T20:00:58+00:00</updated><id>http://0.0.0.0:4000/network&amp;system/DNS-Series-2</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/DNS-Series-2/">&lt;p&gt;We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one &lt;a href=&quot;http://becram.github.io/network&amp;amp;system/DNS-Series-1/&quot;&gt;here&lt;/a&gt;. In this series, I will be talking about how to set up a private DNS server using &lt;a href=&quot;https://www.isc.org/downloads/bind/&quot;&gt;BIND9&lt;/a&gt;. Before that, I want to focus on Private and Public DNS.&lt;/p&gt;
 
 &lt;p&gt;Like we talked before DNS servers resolve the domain names into IP addresses but there might be the cases that you might have to resolve the domain names to local IPs. For example, let say there is a privately hosted file server in your office network, so you might have to provide domain name of the server instead of providing the IP address. In this case, you might have to create a private DNS server. For the security season it is inadvertently advised to separate private and public DNS server for security and privacy issue, since public exposure of the internal network IPs(or active directory information) to outsiders which might help an attacker compromise the office system.&lt;/p&gt;
 
@@ -325,7 +1078,7 @@ PING fileserver.test.example.com (10.10.10.11) 56(84) bytes of data.
 &lt;p&gt;https://www.digitalocean.com/community/tutorials/how-to-configure-bind-as-a-private-network-dns-server-on-ubuntu-16-04
 https://www.ntchosting.com/encyclopedia/dns/zone/#The_DNS_zone
 https://www.linode.com/docs/networking/dns/dns-records-an-introduction/#dkim
-https://www.slashroot.in/difference-between-iterative-and-recursive-dns-query&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series, I will be talking about how to set up a private DNS server using BIND9. Before that, I want to focus on Private and Public DNS.</summary></entry><entry><title type="html">DNS :Introduction (DNS Series:Part I)</title><link href="http://localhost:4000/network&system/DNS-Series-1/" rel="alternate" type="text/html" title="DNS :Introduction (DNS Series:Part I)" /><published>2018-06-17T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://localhost:4000/network&amp;system/DNS-Series-1</id><content type="html" xml:base="http://localhost:4000/network&amp;system/DNS-Series-1/">&lt;p&gt;There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the IP address. And you the p&lt;a href=&quot;http://www.thememoryinstitute.com/remembering-numbers.html&quot;&gt;problem with numbers they hard to remember&lt;/a&gt; due to their intangibility, the human has always struggled to come with the ways of avoiding the problem of remembering them. Long story short, remembering www.google.com is far easier than remembering 74.125.24.139 unless you are suffering from &lt;a href=&quot;http://hyperthymesia.net/hyperthymesia/&quot;&gt;Hyperthymesia&lt;/a&gt;.&lt;/p&gt;
+https://www.slashroot.in/difference-between-iterative-and-recursive-dns-query&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">We already dived into the nitty gritty of the theory about what exactly it is, how it works and what are its parts you can read the part one here. In this series, I will be talking about how to set up a private DNS server using BIND9. Before that, I want to focus on Private and Public DNS.</summary></entry><entry><title type="html">DNS :Introduction (DNS Series:Part I)</title><link href="http://0.0.0.0:4000/network&system/DNS-Series-1/" rel="alternate" type="text/html" title="DNS :Introduction (DNS Series:Part I)" /><published>2018-06-17T00:00:00+00:00</published><updated>2018-03-20T20:00:58+00:00</updated><id>http://0.0.0.0:4000/network&amp;system/DNS-Series-1</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/DNS-Series-1/">&lt;p&gt;There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the IP address. And you the p&lt;a href=&quot;http://www.thememoryinstitute.com/remembering-numbers.html&quot;&gt;problem with numbers they hard to remember&lt;/a&gt; due to their intangibility, the human has always struggled to come with the ways of avoiding the problem of remembering them. Long story short, remembering www.google.com is far easier than remembering 74.125.24.139 unless you are suffering from &lt;a href=&quot;http://hyperthymesia.net/hyperthymesia/&quot;&gt;Hyperthymesia&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;When you visit https://google.com in a browser, your computer uses DNS to retrieve the website’s IP address of 74.125.24.139, in just a split of a second. Without DNS, you would only be able to visit Google’s website (or any website) by visiting its IP address directly, such as http://74.125.24.139. Hence, DNS is fundamentally the backbone bone of the internet.&lt;/p&gt;
 
@@ -407,12 +1160,12 @@ https://www.slashroot.in/difference-between-iterative-and-recursive-dns-query&lt
 
 &lt;p&gt;More:  https://www.verisign.com/en_US/website-presence/online/how-dns-works/index.xhtml gives more interactive way to understand DNS&lt;/p&gt;
 
-&lt;h2 id=&quot;-referencesspan&quot;&gt;**&lt;span style=&quot;color:green&quot;&gt; References/span&amp;gt;**&lt;/span&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;-references-span&quot;&gt;**&lt;span style=&quot;color:green&quot;&gt; References /span&amp;gt;**&lt;/span&gt;&lt;/h2&gt;
 
 &lt;ol&gt;
   &lt;li&gt;https://dyn.com/blog/dns-why-its-important-how-it-works/&lt;/li&gt;
   &lt;li&gt;http://www.dailywebsolutions.com/what-is-DNS-and-DNS-hierarchy&lt;/li&gt;
-&lt;/ol&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the IP address. And you the pproblem with numbers they hard to remember due to their intangibility, the human has always struggled to come with the ways of avoiding the problem of remembering them. Long story short, remembering www.google.com is far easier than remembering 74.125.24.139 unless you are suffering from Hyperthymesia.</summary></entry><entry><title type="html">Bringing Raspberry Pi to Classroom</title><link href="http://localhost:4000/edtech/Bringing-RPi-to-Classroom/" rel="alternate" type="text/html" title="Bringing Raspberry Pi to Classroom" /><published>2018-02-16T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://localhost:4000/edtech/Bringing-RPi-to-Classroom</id><content type="html" xml:base="http://localhost:4000/edtech/Bringing-RPi-to-Classroom/">&lt;p&gt;There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.&lt;/p&gt;
+&lt;/ol&gt;</content><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><category term="Internet" /><category term="DNS" /><category term="Javascript" /><summary type="html">There are many servers all over the world. Every server has a unique IP Address and is identified by that IP Address. That brings us to the bulk of the IP address. And you the pproblem with numbers they hard to remember due to their intangibility, the human has always struggled to come with the ways of avoiding the problem of remembering them. Long story short, remembering www.google.com is far easier than remembering 74.125.24.139 unless you are suffering from Hyperthymesia.</summary></entry><entry><title type="html">Bringing Raspberry Pi to Classroom</title><link href="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/" rel="alternate" type="text/html" title="Bringing Raspberry Pi to Classroom" /><published>2018-02-16T00:00:00+00:00</published><updated>2018-03-20T20:00:58+00:00</updated><id>http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom</id><content type="html" xml:base="http://0.0.0.0:4000/edtech/Bringing-RPi-to-Classroom/">&lt;p&gt;There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.&lt;/p&gt;
 
 &lt;p&gt;At &lt;a href=&quot;http://olenepal.org&quot;&gt;OLE Nepal&lt;/a&gt;, we strive to bring the best new technology to our classrooms. It’s never easy to embrace a new piece of technology, for teachers are resistant to the change, with factors like power cuts and budget making up a huge share of challenge. So we set our selection of the technology based on the 3 prime constraints; low-powered, portable, and low cost. And for these traits, Raspberry Pi steps up as the knight in shining armor.&lt;/p&gt;
 
@@ -452,7 +1205,7 @@ https://www.slashroot.in/difference-between-iterative-and-recursive-dns-query&lt
 
 &lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*RoCBe-ivsq11PeuxVbo1vQ.jpeg&quot; alt=&quot;Raspberry Pi Lab Setup&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Originally published in &lt;a href=&quot;http://blog.olenepal.org/index.php/archives/2067&quot;&gt;OLE-Blog&lt;/a&gt;. If you like what you read please follow.&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="RaspberryPi" /><summary type="html">There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.</summary></entry><entry><title type="html">Intrusion Dectection system with Fail2ban</title><link href="http://localhost:4000/network&system/Intrusion-Detection-System-with-Fail2Ban/" rel="alternate" type="text/html" title="Intrusion Dectection system with Fail2ban" /><published>2017-10-12T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://localhost:4000/network&amp;system/Intrusion-Detection-System-with-Fail2Ban</id><content type="html" xml:base="http://localhost:4000/network&amp;system/Intrusion-Detection-System-with-Fail2Ban/">&lt;p&gt;Install and configure fail2ban to stop some hacking/DOS (Denial of Service) attempts on Pustakalaya Server. As this site’s been hit by the occasional DOS from people with an axe to grind and too much time on their hands,fail2ban is lifesaver. Please follow the steps below:&lt;/p&gt;
+&lt;p&gt;Originally published in &lt;a href=&quot;http://blog.olenepal.org/index.php/archives/2067&quot;&gt;OLE-Blog&lt;/a&gt;. If you like what you read please follow.&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><category term="RaspberryPi" /><summary type="html">There is so much going on in technology these days. Technology has brought unprecedented changes in our daily life, retooling the way we communicate, the way we shop, the way we make our living and more. The things that were considered as science-fiction a few years ago, is now a real thing. But, compare the classrooms back in the 90s and now, do you see any change? For the major part, it’s more or less the same. It’s a no-brainer that we have been scared to adopt new technology to our classrooms. It is said that Socrates was scared of this new technology called “writing” which he thought would erode the memorizing power of human. There was a time when people were intimidated by the use of the calculator in the class, for it may jeopardize the calculating power of the human brain. Nevertheless, we cannot overlook the fact of how technology can be leveraged to extend the knowledge imparting process, for education today is not about what-you-know, but what you can do with what-you-know. With growing MOOCs and learning materials available over the Internet, that are not only adding the new dimension in learning today, but also making the learning process more fun. Also, the students today are more adept in using technology, so taking technology out of the learning equation would be alienating the student of their abilities.</summary></entry><entry><title type="html">Intrusion Dectection system with Fail2ban</title><link href="http://0.0.0.0:4000/network&system/Intrusion-Detection-System-with-Fail2Ban/" rel="alternate" type="text/html" title="Intrusion Dectection system with Fail2ban" /><published>2017-10-12T00:00:00+00:00</published><updated>2018-03-20T20:00:58+00:00</updated><id>http://0.0.0.0:4000/network&amp;system/Intrusion-Detection-System-with-Fail2Ban</id><content type="html" xml:base="http://0.0.0.0:4000/network&amp;system/Intrusion-Detection-System-with-Fail2Ban/">&lt;p&gt;Install and configure fail2ban to stop some hacking/DOS (Denial of Service) attempts on Pustakalaya Server. As this site’s been hit by the occasional DOS from people with an axe to grind and too much time on their hands,fail2ban is lifesaver. Please follow the steps below:&lt;/p&gt;
 
 &lt;h2 id=&quot;step-1-installation&quot;&gt;Step 1: Installation&lt;/h2&gt;
 
@@ -509,90 +1262,4 @@ bantime = 300
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;2013-06-22 05:37:21,943 fail2ban.actions: WARNING [http-get-dos] Ban YOUR_IP_ADDRESS
 2013-06-22 05:42:22,341 fail2ban.actions: WARNING [http-get-dos] Unban YOUR_IP_ADDRESS
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="security" /><summary type="html">Install and configure fail2ban to stop some hacking/DOS (Denial of Service) attempts on Pustakalaya Server. As this site’s been hit by the occasional DOS from people with an axe to grind and too much time on their hands,fail2ban is lifesaver. Please follow the steps below:</summary></entry><entry><title type="html">Let’s boost the web:Does speed of your website really matter?</title><link href="http://localhost:4000/web/Lets-Boost-the-web/" rel="alternate" type="text/html" title="Let’s boost the web:Does speed of your website really matter?" /><published>2016-08-22T00:00:00+05:45</published><updated>2018-03-21T01:45:58+05:45</updated><id>http://localhost:4000/web/Lets-Boost-the-web</id><content type="html" xml:base="http://localhost:4000/web/Lets-Boost-the-web/">&lt;p&gt;It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really important to estimate the cost of your performance, and there is no better way to articulate the cost of performance better than the old story of Amazon reporting increased revenue of 1% for every 100 milliseconds improvement to their site speed. source: &lt;a href=&quot;http://sites.google.com/site/glinden/Home/StanfordDataMining.2006-11-28.ppt&quot;&gt;Amazon&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;/assets/images/boostweb/giphy.gif&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;From the user perspective, see how facebook’s instant article intrigues you to click the article more reflexively than any other article taking ages to load. Though there is the cost for performance enhancement; development cost but it won’t cost you a fortune to assimilate trivial practices which mitigate web load time of your website.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-reduce-http-requests&quot;&gt;1. Reduce HTTP requests&lt;/h2&gt;
-
-&lt;p&gt;Primarily every web pages comprise of the images, stylesheets, flash ,scripts etc. For each of these components HTTP requests are made, so adding more number of images and scripts prolongs the avail of the contents. These round trips are the main reason for slow web pages.Most developers choose to add images instead of the CSS (though sometimes it may not be feasible) but this may add much more load for the web server and web performance may be hindered. Choosing images against CSS can stack you much of the performance tax and from the user perspective, faster web is much delightful than sluggish but attractive designs for user experience (UX) does matters. 
- There are multiple ways we can reduce this&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://css-tricks.com/css-sprites/&quot;&gt;Sprites&lt;/a&gt; are the cool way to reduce image numbers.&lt;/li&gt;
-  &lt;li&gt;Combine multiple style sheets into one.&lt;/li&gt;
-  &lt;li&gt;Reduce scripts and put them at the bottom of the page.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;2-progressive-rendering&quot;&gt;2. Progressive rendering&lt;/h2&gt;
-
-&lt;p&gt;Though lightening speed would be great but till we reach there giving something for the user so that they can get busy, can help remove the anxiety of sluggishness. For this progressive rendering is the killer ( but under appreciated ) weapon.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*wkTkbzLrrrhy1MNtW9xulA.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Though the page may be heavier but putting something for them on the plate may trick them to think page as faster.Amazon does an excellent job with progressive rendering. Who knows, had they focused on mere fast loading they could have been out of business.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*PwIgDTWHCeHbdiOUbQ0qSA.jpeg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;3-add-a-load-balancer-and-reverse-proxy-server&quot;&gt;3. Add a Load Balancer and Reverse Proxy Server&lt;/h2&gt;
-
-&lt;p&gt;Load balancing is a technique aiming at distributing workload in a computer network, in order to optimally utilize resources, avoid overload and maximize throughput. Instead of adding multiple tasks to a single server we add a load balancer server to distribute the load across multiple servers. Even if your application is written poorly load balancer can enhance the user experience.&lt;/p&gt;
-
-&lt;p&gt;A load balancer server is simply a reverse proxy server; it receives the internet traffic and forwards the requests to another server. Load balancer acts as the relay station to route the traffic.The trick is load balancer supports two or more application server with the proper choice of an algorithm the traffic can be routed to the next server. Most popularly, round-robin approach is used in which the load balancer forward the traffic to next server in the list. Load balancers can lead to much better improvements in performance because they prevent one server from being overloaded while other servers wait for traffic.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*5oMXVu17JA7oEs11YJgWXA.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Popular web servers like Apache and NGINX has inbuilt load balancing capabilities. A brief tutorial on Load Balancing can be found &lt;a href=&quot;http://websistent.com/configure-apache-web-server-load-balancing/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;4-caching&quot;&gt;4. Caching&lt;/h2&gt;
-
-&lt;p&gt;As mentioned earlier too much of HTTP requests costs the web performance; hence, it would enhance the performance if we could store the most frequently used contents in a way that it could be easily be accessed. Apache and NGINX come with sophisticated and scalable caching mechanism. &lt;a href=&quot;https://www.digitalocean.com/community/tutorials/how-to-configure-apache-content-caching-on-ubuntu-14-04&quot;&gt;Caching&lt;/a&gt; can be broadly divided into three categories which can be broken down as:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;File Caching: The most basic caching strategy, this simply opens files or file descriptors when the server starts and keeps them available to speed up access.&lt;/li&gt;
-  &lt;li&gt;Key-Value Caching: Mainly used for SSL and authentication caching, key-value caching uses a shared object model that can store items which are costly to compute repeatedly.&lt;/li&gt;
-  &lt;li&gt;Standard HTTP caching: The most flexible and generally useful caching mechanism, this three-state system can store responses and validate them when they expire. This can be configured for performance or flexibility depending on your specific needs.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;At browser level when someone visits your website for the first time they need to download the web contents but caching enhances the subsequent browsing for it cuts off HTTP requests . As &lt;a href=&quot;http://yuiblog.com/blog/2007/01/04/performance-research-part-2/&quot;&gt;Tenni Theurer&lt;/a&gt;, formerly of Yahoo, explains it…&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The first time someone comes to your website, they have to download the HTML document, stylesheets, javascript files and images before being able to use your page. That may be as many as 30 components and 2.4 seconds.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*Mc5doNxCamCwNCCjRlxX1Q.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Once the page has been loaded and the different components stored in the user’s cache, only a few components needs to be downloaded for subsequent visits. In Theurer’s test, that was just three components and .9 seconds, which shaved nearly 2 seconds off the load time.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*VAqawvqJjJ6f8st_R2m-Aw.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;5-reduce-dns-lookups&quot;&gt;5. Reduce DNS Lookups&lt;/h2&gt;
-
-&lt;p&gt;To put in laymen’s term DNS is server responsible for converting the domain main into its corresponding IP address like converting google.com to 120.89.97.42. DNS lookup takes place even before the web page loads so the size of the page do not affect the load time.Typically you can use your ISP’s DNS server but however other options as OpenDNS and Google’s DNS is also available; you can test and switch as suitable for you.&lt;/p&gt;
-
-&lt;h2 id=&quot;6-optimize-images-and-minify-resources&quot;&gt;6. Optimize Images and Minify resources&lt;/h2&gt;
-
-&lt;p&gt;Though adding images to web pages are not encouraged but many times its really needed to. So image should be compressed to best possible size. There are variety of image compressing sites as &lt;a href=&quot;https://imageoptim.com/&quot;&gt;ImageOptim&lt;/a&gt;, &lt;a href=&quot;https://pnggauntlet.com/&quot;&gt;PNG Gauntlet&lt;/a&gt;, &lt;a href=&quot;http://jpeg-optimizer.com/&quot;&gt;JPEG Optimizer&lt;/a&gt; and &lt;a href=&quot;https://tinypng.com/&quot;&gt;TinyPNG&lt;/a&gt;. Images should be sized correctly. That is, if you are displaying a 200×200 image, then don’t display a 400×400 at 200×200 size. There is no point in sending a bigger image if it is not going to be displayed, or if it’s not going to fit on a device’s screen.&lt;/p&gt;
-
-&lt;p&gt;Minification is the process of reducing file size by removing unnecessary characters such as whitespace, new line characters, comments. The unnecessary characters call for unnecessary HTTP requests so minification is very important . In many cases file sizes can drop by significant level through minification, thus speeding up content delivery and processing. You should minify all your JavaScript, CSS, and HTML files. There are many minification tools to try for different file types, for example, these for HTML:www.willpeavy.com/minifier and kangax.github.io/html-minifier.&lt;/p&gt;
-
-&lt;h2 id=&quot;what-else-can-you-do-&quot;&gt;What else can you do ?&lt;/h2&gt;
-
-&lt;p&gt;I run a simple test on WebPage test with pustakalaya.org to get the result as :&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://cdn-images-1.medium.com/max/800/1*Ay5GhA_iIG8CRE5fBBvBLA.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;As you can see in the figure the span in green as Time to First Byte (TTFB) takes up a significant part of the server response. That may have hit your nerve, so it’s very important to minimize this time. This time, varies according to your location from the server for it represents the route of the traffic. Particularly Waiting (TTFB) represents a number of things, like:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Server response time&lt;/li&gt;
-  &lt;li&gt;Time to transfer bytes (a.k.a latency of the round-trip)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The Internet can be pretty fast depending on the location and network , you are using, which is dictated by the distance the packets have to travel. According to &lt;a href=&quot;http://chimera.labs.oreilly.com/books/1230000000545/ch01.html#PROPAGATION_LATENCY&quot;&gt;Ilya Grigorik&lt;/a&gt;, we’re already quite close to the speed of light so we shouldn’t expect more speed there unless we bend physics. The way to speed things up, then, is to shorten distances. Depending on the user you have to locate the server if a bulk of the users is from Nepal than it wouldn’t be wise to place your server in United states.&lt;/p&gt;
-
-&lt;p&gt;So the bottom line its hard to focus on these things with approaching deadline and many bugs to fix but in the long run these practices can definitely boost your result.&lt;/p&gt;</content><author><name>Bikram Dhoju</name><email>itsbecram@gmail.com</email><uri>http://bikramdhoju.com.np</uri></author><category term="Web Developemt" /><category term="Javascript" /><summary type="html">It’s a no-brainer: slow web performance torments every internet user. Before I dig deep into unveiling the bottlenecks of your web performance, it’s really important to estimate the cost of your performance, and there is no better way to articulate the cost of performance better than the old story of Amazon reporting increased revenue of 1% for every 100 milliseconds improvement to their site speed. source: Amazon.</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Bikram Dhoju</name><email>bikram.dhoju@gmail.com</email><uri>https://bdhoju.com</uri></author><category term="security" /><summary type="html">Install and configure fail2ban to stop some hacking/DOS (Denial of Service) attempts on Pustakalaya Server. As this site’s been hit by the occasional DOS from people with an axe to grind and too much time on their hands,fail2ban is lifesaver. Please follow the steps below:</summary></entry></feed>

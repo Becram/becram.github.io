@@ -1,0 +1,904 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.12.1 by Michael Rose
+  Copyright 2013-2018 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>DNS Sinkholing with BIND9  (DNS Series:Part III) - Bikram’s Blog</title>
+<meta name="description" content="Like talked earlier DNS is just like a phone book in your cell phone that maps the names to the phone number. The benefit of this is that you don’t have to memorize the lengthy numbers. When you have to call someone we just have to search in the number and call it won’t matter if you remember the number or not. But imagine someone changes the underlying phone number without your knowledge, you will definitely call someone else. If the destination receiver can mimic the voice then you are totally screwed before you know it.">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Bikram's Blog">
+<meta property="og:title" content="DNS Sinkholing with BIND9  (DNS Series:Part III)">
+<meta property="og:url" content="http://0.0.0.0:4000/network&system/DNS-Series-3/">
+
+
+  <meta property="og:description" content="Like talked earlier DNS is just like a phone book in your cell phone that maps the names to the phone number. The benefit of this is that you don’t have to memorize the lengthy numbers. When you have to call someone we just have to search in the number and call it won’t matter if you remember the number or not. But imagine someone changes the underlying phone number without your knowledge, you will definitely call someone else. If the destination receiver can mimic the voice then you are totally screwed before you know it.">
+
+
+
+  <meta property="og:image" content="http://0.0.0.0:4000/assets/images/DNS/DNS.png">
+
+
+
+  <meta name="twitter:site" content="@itsbecram">
+  <meta name="twitter:title" content="DNS Sinkholing with BIND9  (DNS Series:Part III)">
+  <meta name="twitter:description" content="Like talked earlier DNS is just like a phone book in your cell phone that maps the names to the phone number. The benefit of this is that you don’t have to memorize the lengthy numbers. When you have to call someone we just have to search in the number and call it won’t matter if you remember the number or not. But imagine someone changes the underlying phone number without your knowledge, you will definitely call someone else. If the destination receiver can mimic the voice then you are totally screwed before you know it.">
+  <meta name="twitter:url" content="http://0.0.0.0:4000/network&system/DNS-Series-3/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+      <meta name="twitter:image" content="http://0.0.0.0:4000/assets/images/DNS/DNS.png">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2018-06-18T00:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2018-03-20T20:00:58+00:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://0.0.0.0:4000/network&system/DNS-Series-3/">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Person",
+      "name": "Bikram Dhoju",
+      "url": "http://0.0.0.0:4000",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Bikram's Blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Bikram's Blog</a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/me/" >About me</a>
+            </li><li class="masthead__menu-item">
+              <a href="/assets/files/BikramDhoju20210202.pdf" >My Resume</a>
+            </li><li class="masthead__menu-item">
+              <a href="/" >My Blogs</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+          <a href="http://0.0.0.0:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+          <a href="/categories/network&system" itemprop="item"><span itemprop="name">Network&system</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">DNS Sinkholing with BIND9  (DNS Series:Part III)</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="/assets/images/bio-image.jpg" alt="Bikram Dhoju" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bikram Dhoju</h3>
+    
+    
+      <p class="author__bio" itemprop="description">
+         Site Reliabilty Engineer at SertisCorp Co LTD
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="http://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Bangkok, Thailand</span>
+        </li>
+      
+
+      
+        <li>
+          <a href="https://bdhoju.com" itemprop="url">
+            <i class="fas fa-fw fa-link" aria-hidden="true"></i> Website
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="mailto:bikram.dhoju@gmail.com">
+            <meta itemprop="email" content="bikram.dhoju@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email
+          </a>
+        </li>
+      
+
+      
+
+      
+        <li>
+          <a href="https://twitter.com/itsbecram" itemprop="sameAs">
+            <i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="https://www.facebook.com/becram.dhoju" itemprop="sameAs">
+            <i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://instagram.com/becram061" itemprop="sameAs">
+            <i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/Becram" itemprop="sameAs">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="DNS Sinkholing with BIND9  (DNS Series:Part III)">
+    <meta itemprop="description" content="Like talked earlier DNS is just like a phone book in your cell phone that maps the names to the phone number. The benefit of this is that you don’t have to memorize the lengthy numbers. When you have to call someone we just have to search in the number and call it won’t matter if you remember the number or not. But imagine someone changes the underlying phone number without your knowledge, you will definitely call someone else. If the destination receiver can mimic the voice then you are totally screwed before you know it.">
+    <meta itemprop="datePublished" content="June 18, 2018">
+    <meta itemprop="dateModified" content="March 20, 2018">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">DNS Sinkholing with BIND9  (DNS Series:Part III)
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  4 minute read
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> What is here</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#lets-create-a-dns-server-for-sinkholing-unwanted-sites">Lets create a DNS server for sinkholing unwanted sites.</a></li>
+  <li><a href="#architecture">Architecture</a>
+    <ul>
+      <li><a href="#1-normal-dns-architecture">1. Normal DNS architecture</a></li>
+      <li><a href="#2-sinkholed-dns-server-architecture">2. Sinkholed DNS Server architecture</a></li>
+    </ul>
+  </li>
+  <li><a href="#configure-bind-for-sinkholing">Configure bind for sinkholing</a></li>
+  <li><a href="#references">References</a></li>
+</ul>
+            </nav>
+          </aside>
+        
+        <p>Like talked earlier DNS is just like a phone book in your cell phone that maps the names to the phone number. The benefit of this is that you don’t have to memorize the lengthy numbers. When you have to call someone we just have to search in the number and call it won’t matter if you remember the number or not. But imagine someone changes the underlying phone number without your knowledge, you will definitely call someone else. If the destination receiver can mimic the voice then you are totally screwed before you know it.</p>
+
+<p>Image the exact scenario in your DNS server, to add to the problem your DNS is more publicly accessible than your phone. So it is primally important to protect your DNS server. We gonna use our DNS server to route the traffic of the malicious sites to a sinkhole. Since almost all browsers work with the domain names instead of IP address DNS sinkhole is the best option in hand to prevent the organization from malignment sites.</p>
+
+<p>DNS Sinkholing played an important role in de-weaponizing the <a href="https://en.wikipedia.org/wiki/WannaCry_ransomware_attack">WannaCry Ransomware</a>. Basically, WannaCry infections entered organization network through emails and propagated in the network via <a href="https://en.wikipedia.org/wiki/Server_Message_Block">SMB</a> ports which were the SMB vulnerability for which Windows had released a patch 2 months earlier. So infection had a kill switch built into it which would check whether a certain gibberish URL led to a live web page. Someone found with and registered the website and entire thing was stopped. It was such a naive kill switch for such disastrous internet phenomena. Off course this was intentional kill switch to tame the monster they have created but was really not thought through. As it turns out, that $10.69 investment was enough to shut the whole thing down—for now, at least.</p>
+
+<h2 id="lets-create-a-dns-server-for-sinkholing-unwanted-sites">Lets <a href="http://bikramdhoju.com.np/network&amp;system/DNS-Series-2/">create a DNS server</a> for sinkholing unwanted sites.</h2>
+
+<h2 id="architecture">Architecture</h2>
+
+<h3 id="1-normal-dns-architecture">1. Normal DNS architecture</h3>
+<p><img src="/assets/images/DNS3/NormalDNS.png" alt="DNS server " /></p>
+
+<h3 id="2-sinkholed-dns-server-architecture">2. Sinkholed DNS Server architecture</h3>
+<p><img src="/assets/images/DNS3/DNSSinkhole.png" alt="DNS server" /></p>
+
+<p>So actuall we are configuring the bind to route a particular domains to sink hole server.</p>
+
+<h2 id="configure-bind-for-sinkholing">Configure bind for sinkholing</h2>
+
+<p>After we have configured bind like <a href="http://bikramdhoju.com.np/network&amp;system/DNS-Series-2/">here</a> lets configure a new zone files.
+Create a zone file in /etc/bind/zones folder, lets name it sinkhole.zone.file and populate it as</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ;file /etc/bind/zones/sinkhole.zone.file
+  ; BIND db file for ad servers - point all addresses to an invalid IP
+  $TTL  864000  ; ten days
+
+  @       IN      SOA     localhost.      root.localhost. (
+                        2008032800       ; serial number YYMMDDNN
+                        288000   ; refresh  80 hours
+                        72000    ; retry    20 hours
+                        8640000  ; expire  100 days
+                        864000 ) ; min ttl  10 day
+                NS      localhost.
+
+    A 10.10.10.11
+
+  *   IN      A       10.10.10.11
+
+</code></pre></div></div>
+
+<p>What this zone file is doing is rediecting all domain pointed to this zone file to our sinkhole server which 10.10.10.11(in  my case). You might notice we have set TTL value to 10 days so that they are be cached for longer time.</p>
+
+<p>Now lets do the main part, lets gather the malicious sites and make them point to our sinhole zone file.</p>
+
+<p>First create  a confuration for blocking sites. for this create a file named.conf.blocked in ‘‘/etc/bind/’’  and populate it with sites which needs to be blocked. Add this configuration to named.conf as :</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    // This is the primary configuration file for the BIND DNS server named.
+     //
+   // Please read /usr/share/doc/bind9/README.Debian.gz for information on the 
+   // structure of BIND configuration files in Debian, *BEFORE* you customize 
+   // this configuration file.
+   //
+   // If you are just adding zones, please do that in /etc/bind/named.conf.local
+
+   include "/etc/bind/named.conf.blocked";
+   include "/etc/bind/named.conf.options";
+   include "/etc/bind/named.conf.local";
+   include "/etc/bind/named.conf.default-zones";
+</code></pre></div></div>
+
+<p>We need to populate the block conf to point to our sinkhole zone file. I am using <a href="https://github.com/oznu/dns-zone-blacklist">this project</a> to get all malicious sites, I am sure you can find pretty more like these. This file looks like this:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   zone "2-dot-mod-ads-dot-house-ads-server.appspot.com" { type master; notify no; file "/etc/bind/zones/sinkhole.zone.file"; };
+   zone "lb0-telemetry-prod-us-east-1.servers.getgo.com" { type master; notify no; file "/etc/bind/zones/sinkhole.zone.file"; };
+   zone "xn--80aebbcbcdemfkhba4byaehoejh8dza3v.xn--p1ai" { type master; notify no; file "/etc/bind/zones/sinkhole.zone.file"; };
+   zone "howupdateworks.amazingupdates4youtoday.website" { type master; notify no; file "/etc/bind/zones/sinkhole.zone.file"; };
+   zone "getsoftnow.smallandprecise2upgradingnew.review" { type master; notify no; file "/etc/bind/zones/sinkhole.zone.file"; };
+   zone "pornographo.blogspot.com.tr.br.blogspot.com.tr" { type master; notify no; file "/etc/bind/zones/sinkhole.zone.file"; };
+   zone "buying.mobile.online.phone.samsung.uk.sms13.de" { type master; notify no; file "/etc/bind/zones/sinkhole.zone.file"; };
+   zone "upgrade.themainplacesetnowforcontentingnew.bid" { type master; notify no; file "/etc/bind/zones/sinkhole.zone.file"; };
+     .......
+     .......
+</code></pre></div></div>
+
+<p>For testing purpose I have setup a webserver in sinkhole server. We can use Intrusion Detection System as fail2ban to tracking and alerting purpose.</p>
+
+<p>I have setup a client machine pointing to our DNS server which is 10.10.10.10. We can do this in ubuntu linux by editing /etc/resolv.conf file manually.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  # file: /etc/resov.conf
+
+   nameserver 10.10.10.10 
+
+</code></pre></div></div>
+
+<p>Now lets query a malicious domain in our blocked configuration.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Client$ dig usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com
+</code></pre></div></div>
+<p>response</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+
+   ; &lt;&lt;&gt;&gt; DiG 9.11.4-4-Debian &lt;&lt;&gt;&gt; usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 54212
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com. IN  A
+
+;; ANSWER SECTION:
+usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com. 864000 IN A 10.10.10.11
+
+;; AUTHORITY SECTION:
+usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com. 864000 IN NS localhost.
+
+;; ADDITIONAL SECTION:
+localhost.    604800  IN  A 127.0.0.1
+localhost.    604800  IN  AAAA  ::1
+
+;; Query time: 0 msec
+;; SERVER: 10.10.10.10#53(10.10.10.10)
+;; WHEN: Sun Sep 09 16:09:30 +0545 2018
+;; MSG SIZE  rcvd: 171
+
+</code></pre></div></div>
+
+<p>You see it routes to our webserver</p>
+
+<p>Now lets curl it</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -v usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com
+
+</code></pre></div></div>
+
+<p>output</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    * Rebuilt URL to: usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com/
+    *   Trying 10.10.10.11...
+    * TCP_NODELAY set
+    * Connected to usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com (10.10.10.11) port 80 (#0)
+    &gt; GET / HTTP/1.1
+    &gt; Host: usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com
+    &gt; User-Agent: curl/7.61.0
+    &gt; Accept: */*
+    &gt; 
+    &lt; HTTP/1.1 200 OK
+    &lt; Date: Sun, 09 Sep 2018 10:27:07 GMT
+    &lt; Server: Apache/2.4.18 (Ubuntu)
+    &lt; Last-Modified: Sat, 08 Sep 2018 16:49:46 GMT
+    &lt; ETag: "1b-5755ee95ea784"
+    &lt; Accept-Ranges: bytes
+    &lt; Content-Length: 27
+    &lt; Content-Type: text/html
+    &lt; 
+    &lt;p&gt; You are sinkholed &lt;/p&gt;
+    * Connection #0 to host usaa.com-inet-truememberent-iscaddetour-verify.kurusfit.com left intact
+</code></pre></div></div>
+
+<p>That it how its got sinkholed to our webserver 10.10.10.11</p>
+
+<h2 id="references">References</h2>
+
+<p><a href="https://www.csoonline.com/article/3227906/ransomware/what-is-wannacry-ransomware-how-does-it-infect-and-who-was-responsible.html">https://www.csoonline.com/article/3227906/ransomware/what-is-wannacry-ransomware-how-does-it-infect-and-who-was-responsible.html</a></p>
+
+<p><a href="https://en.wikipedia.org/wiki/WannaCry_ransomware_attack">https://en.wikipedia.org/wiki/WannaCry_ransomware_attack</a></p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/dns" class="page__taxonomy-item" rel="tag">DNS</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/internet" class="page__taxonomy-item" rel="tag">Internet</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/javascript" class="page__taxonomy-item" rel="tag">Javascript</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/network-system" class="page__taxonomy-item" rel="tag">Network&System</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2018-03-20">March 20, 2018</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?via=itsbecram&text=DNS+Sinkholing+with+BIND9++%28DNS+Series%3APart+III%29%20http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-3%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-3%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-3%2F" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FDNS-Series-3%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/network&system/DNS-Series-2/" class="pagination--pager" title="Setting up Private DNS Server with BIND9  (DNS Series:Part II)
+">Previous</a>
+    
+    
+      <a href="/network&system/Imgur-imagfe-uploader-flask-Python/" class="pagination--pager" title="Python(Flask) Project (Service to upload image to imgur.com)
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/webhook-k8s-pt-2.jpeg"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/devops/Building-Kubernetes-Admission-Webhooks-pt-2/" rel="permalink">Building Kubernetes Admission Webhooks (Part 2 of 2)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  
+    
+      SN
+      Stack
+      Technology
+    
+  
+  
+    
+      1
+      Language
+      Golang
+    
+    
+      2
+      Orchestrator
+      Kubernetes(KinD...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/webhook-k8s-pt-1.jpeg"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/devops/Building-Kubernetes-Admission-Webhooks-pt-1/" rel="permalink">Building Kubernetes Admission Webhooks (Part 1 of 2)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  
+    
+      SN
+      Stack
+      Technology
+    
+  
+  
+    
+      1
+      Language
+      Golang
+    
+    
+      2
+      Orchestrator
+      Kubernetes(KinD...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/kustomized_helm.png"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/devops/Kustomized-Helm/" rel="permalink">Kustomized Helm Structure
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  
+    
+      SN
+      Stack
+      Technology
+    
+  
+  
+    
+      1
+      Language
+      yaml
+    
+    
+      2
+      Templating
+      Helm/Kustomize
+    ...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/kops.png"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/devops/Kubernetes-Cluster-Mgmt-with-Kops/" rel="permalink">Kubernetes Cluster Management with kops
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Kubernetes Cluster Management with kops
+You may find the complete script here
+
+</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><input type="text" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+    <div id="results" class="results"></div></div>
+      </div>
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/itsbecram"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+      <li><a href="https://www.facebook.com/becram.dhoju"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+    
+    
+      <li><a href="https://github.com/Becram"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125305854-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-125305854-1');
+</script>
+
+
+<div class="page__footer-copyright">&copy; 2022 Bikram Dhoju. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+  </body>
+</html>

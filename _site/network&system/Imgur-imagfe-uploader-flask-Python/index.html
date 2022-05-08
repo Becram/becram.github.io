@@ -1,0 +1,960 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.12.1 by Michael Rose
+  Copyright 2013-2018 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE.txt
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Python(Flask) Project (Service to upload image to imgur.com) - Bikram’s Blog</title>
+<meta name="description" content="Imgur REST Image Uploader">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Bikram's Blog">
+<meta property="og:title" content="Python(Flask) Project (Service to upload image to imgur.com)">
+<meta property="og:url" content="http://0.0.0.0:4000/network&system/Imgur-imagfe-uploader-flask-Python/">
+
+
+  <meta property="og:description" content="Imgur REST Image Uploader">
+
+
+
+  <meta property="og:image" content="http://0.0.0.0:4000/assets/images/pythonfeatured.jpg">
+
+
+
+  <meta name="twitter:site" content="@itsbecram">
+  <meta name="twitter:title" content="Python(Flask) Project (Service to upload image to imgur.com)">
+  <meta name="twitter:description" content="Imgur REST Image Uploader">
+  <meta name="twitter:url" content="http://0.0.0.0:4000/network&system/Imgur-imagfe-uploader-flask-Python/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+      <meta name="twitter:image" content="http://0.0.0.0:4000/assets/images/pythonfeatured.jpg">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2019-04-15T00:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2019-04-15T20:00:58+00:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://0.0.0.0:4000/network&system/Imgur-imagfe-uploader-flask-Python/">
+
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Person",
+      "name": "Bikram Dhoju",
+      "url": "http://0.0.0.0:4000",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Bikram's Blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    <div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <a class="site-title" href="/">Bikram's Blog</a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/me/" >About me</a>
+            </li><li class="masthead__menu-item">
+              <a href="/assets/files/BikramDhoju20210202.pdf" >My Resume</a>
+            </li><li class="masthead__menu-item">
+              <a href="/" >My Blogs</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15.99 16">
+            <path d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z" transform="translate(-.01)"></path>
+          </svg>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="http://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+          <a href="http://0.0.0.0:4000/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+          <a href="/categories/network&system" itemprop="item"><span itemprop="name">Network&system</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Python(Flask) Project (Service to upload image to imgur.com)</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+
+      
+        <img src="/assets/images/bio-image.jpg" alt="Bikram Dhoju" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Bikram Dhoju</h3>
+    
+    
+      <p class="author__bio" itemprop="description">
+         Site Reliabilty Engineer at SertisCorp Co LTD
+      </p>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="http://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Bangkok, Thailand</span>
+        </li>
+      
+
+      
+        <li>
+          <a href="https://bdhoju.com" itemprop="url">
+            <i class="fas fa-fw fa-link" aria-hidden="true"></i> Website
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="mailto:bikram.dhoju@gmail.com">
+            <meta itemprop="email" content="bikram.dhoju@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i> Email
+          </a>
+        </li>
+      
+
+      
+
+      
+        <li>
+          <a href="https://twitter.com/itsbecram" itemprop="sameAs">
+            <i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter
+          </a>
+        </li>
+      
+
+      
+        <li>
+          <a href="https://www.facebook.com/becram.dhoju" itemprop="sameAs">
+            <i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://instagram.com/becram061" itemprop="sameAs">
+            <i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/Becram" itemprop="sameAs">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Python(Flask) Project (Service to upload image to imgur.com)">
+    <meta itemprop="description" content="Imgur REST Image Uploader">
+    <meta itemprop="datePublished" content="April 15, 2019">
+    <meta itemprop="dateModified" content="April 15, 2019">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Python(Flask) Project (Service to upload image to imgur.com)
+</h1>
+          
+            <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+</p>
+          
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right ">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> What is here</h4></header>
+              <ul class="toc__menu">
+  <li><a href="#imgur-rest-image-uploader">Imgur REST Image Uploader</a>
+    <ul>
+      <li><a href="#pre-requites">Pre-requites</a>
+        <ul>
+          <li><a href="#installing-docker-and-docker-compose">Installing Docker and docker-compose</a></li>
+          <li><a href="#installation">Installation</a></li>
+          <li><a href="#build--launch">Build &amp; Launch</a></li>
+        </ul>
+      </li>
+      <li><a href="#rest-api-image-upload-endpoints">Rest API Image upload endpoints</a>
+        <ul>
+          <li><a href="#submit-image-urls-for-upload">Submit image URLs for upload</a></li>
+        </ul>
+      </li>
+      <li><a href="#gets-the-status-of-an-upload-images-job">Gets the status of an upload images job.</a></li>
+      <li><a href="#get-list-of-all-uploaded-image-links">Get list of all uploaded image links</a></li>
+      <li><a href="#to-shut-down">To shut down:</a></li>
+      <li><a href="#to-do">TO-DO:</a></li>
+    </ul>
+  </li>
+</ul>
+            </nav>
+          </aside>
+        
+        <h1 id="imgur-rest-image-uploader">Imgur REST Image Uploader</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>SN</th>
+      <th>Stack</th>
+      <th style="text-align: center">Technology</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Language</td>
+      <td style="text-align: center">Python</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Framework</td>
+      <td style="text-align: center">Flask</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Container</td>
+      <td style="text-align: center">Docker</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Orchestrator</td>
+      <td style="text-align: center">Docker Compose</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="pre-requites">Pre-requites</h2>
+<h3 id="installing-docker-and-docker-compose">Installing Docker and docker-compose</h3>
+<p>Install docker using the commands</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-fsSL</span> https://get.docker.com | sh <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>usermod <span class="nt">-aG</span> docker <span class="nv">$USER</span>
+</code></pre></div></div>
+<p>Install docker-compose as</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-y</span> docker-compose
+</code></pre></div></div>
+
+<p>This is a service to upload images to <a href="https://www.imgur.com">imgur.com</a> via its api endpoints. It tasks json object to upload the image ashychronosly. It implements <a href="http://www.celeryproject.org/">celery</a> queue with <a href="https://redis.io/">Redis</a> to perform the ashynchronity of the tasks.</p>
+
+<p>First of all, register an app in <a href="https://api.imgur.com/oauth2/addclient">imgur</a> and get a <strong>Client-ID</strong> and add the id to <a href="celery-queue/tasks.py">celery-queue/tasks.py</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">...</span>
+<span class="n">Client_ID</span> <span class="o">=</span> <span class="s">'XXXXXXXX'</span>
+
+<span class="n">celery</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s">'tasks'</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="n">CELERY_BROKER_URL</span><span class="p">,</span>
+                <span class="n">backend</span><span class="o">=</span><span class="n">CELERY_RESULT_BACKEND</span><span class="p">)</span>
+
+<span class="o">...</span>                
+</code></pre></div></div>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/Becram/imgur-image-uploader-service
+</code></pre></div></div>
+
+<h3 id="build--launch">Build &amp; Launch</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>imgur-image-uploader-service
+docker-compose  up <span class="nt">--build</span>
+</code></pre></div></div>
+
+<p>This will expose the Flask application’s endpoints on port <code class="highlighter-rouge">8080</code> as well as a <a href="https://github.com/mher/flower">Flower</a> server for monitoring workers on port <code class="highlighter-rouge">5555</code></p>
+
+<p>To add more workers:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose up <span class="nt">-d</span> <span class="nt">--scale</span> <span class="nv">worker</span><span class="o">=</span>5 <span class="nt">--no-recreate</span>
+</code></pre></div></div>
+
+<h2 id="rest-api-image-upload-endpoints">Rest API Image upload endpoints</h2>
+
+<h3 id="submit-image-urls-for-upload">Submit image URLs for upload</h3>
+<p>Submits a request to upload a set of image URLs to Imgur. The images will be uploaded to the configured Imgur, viewable by anyone with the link.
+Request</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /v1/images/upload
+</code></pre></div></div>
+<p>The request is just a JSON body, no query parameters.
+Request body
+Attributes:</p>
+<ul>
+  <li>urls: An array of URLs to images that will be uploaded. Duplicates should be stripped out.</li>
+</ul>
+
+<p>Example request body:</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+</span><span class="s2">"urls"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"https://farm3.staticflickr.com/2879/11234651086_681b3c2c00_b_d.jpg"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"https://farm4.staticflickr.com/3790/11244125445_3c2f32cd83_k_d.jpg"</span><span class="p">,</span><span class="w">     
+     </span><span class="s2">"https://www.rollingstone.com/wp-content/uploads/2019/04/notre-dame-rebuild.jpg"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"https://media2.s-nbcnews.com/j/newscms/2019_16/2823376/190416-notre-dame-fire-mn-0740_4917dcab40d35a0c8da7db09fc8a0aa8.f-760w.jpg"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"https://www.welcomenepal.com/uploads/slider/visit-nepal-year-2020-ntb-dmo-site-banner.jpeg"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"https://www.welcomenepal.com/uploads/activity/pashupatinath-pilgrimage-tour-in-kathmandu-nepal.jpeg"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"https://www.welcomenepal.com/uploads/slider/kathmandu-valley-nepal.jpeg"</span><span class="p">,</span><span class="w">
+     </span><span class="s2">"http://www.welcomenepal.com/uploads/art_oy_kathmandu.jpg"</span><span class="w">
+ 
+</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<p>Response
+On success, returns immediately with an appropriate status code with the id of the job.</p>
+
+<p>Response body
+Attributes:</p>
+<ul>
+  <li>jobId: The id of the upload job that was just submitted.</li>
+</ul>
+
+<p>Example response body:</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+</span><span class="s2">"jobId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"55355b7c-9b86-4a1a-b32e-6cdd6db07183"</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="gets-the-status-of-an-upload-images-job">Gets the status of an upload images job.</h2>
+<p>Request</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /v1/images/upload/:jobId
+</code></pre></div></div>
+<p>The request has no body and no query parameters. :jobId is an ID returned from the POST upload images API.</p>
+
+<p>Request body: None</p>
+
+<p>Response
+On success, returns immediately with an appropriate status code with the id of the job.</p>
+
+<p>Response body
+Attributes:</p>
+<ul>
+  <li>id: The id of the upload job.</li>
+  <li>created: When job was created. In ISO8601 format (YYYY-MM-DDTHH:mm:ss.sssZ) for GMT.</li>
+  <li>finished: When job was completed. In same format as created. Is null, if status is not complete.</li>
+  <li>status: The status of the entire upload job. Is one of:</li>
+  <li>pending: indicates job has not started processing.</li>
+  <li>in-progress: job has started processing.</li>
+  <li>complete: job is complete.</li>
+  <li>uploaded: An object of arrays containing the set of URLs submitted, in several arrays indicating the status of that image URL upload (pending, complete, failed).</li>
+</ul>
+
+<p>Example response body:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-04-22T03:00:49.447098"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"finished"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"470f0516-b31f-4d14-8f87-77a5282bfe2f"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"in-progres"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"uploaded"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"completed"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"https://i.imgur.com/YV08tTg.jpg"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"failed"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"pending"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.rollingstone.com/wp-content/uploads/2019/04/notre-dame-rebuild.jpg"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<h2 id="get-list-of-all-uploaded-image-links">Get list of all uploaded image links</h2>
+<p>Gets the links of all images uploaded to Imgur. These links will be accessible by anyone.
+Request</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /v1/images
+</code></pre></div></div>
+<p>The request has no body and no query parameters.
+Request bodyNone
+Response
+On success, return an array of the Imgur links to the successfully uploaded images. 
+Response body
+Attributes:</p>
+<ul>
+  <li>uploaded: An array of the Imgur links to the uploaded images.
+Example response body:
+    <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+</span><span class="s2">"uploaded"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="s2">"https://i.imgur.com/0i6HX3D.jpg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"https://i.imgur.com/q3urwVe.jpg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"https://i.imgur.com/uYdqs4i.jpg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"https://i.imgur.com/pa8eBQv.jpg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"https://i.imgur.com/mepUIVg.jpg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"https://i.imgur.com/1hNaxiY.jpg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"https://i.imgur.com/6AM3sJb.jpg"</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="to-shut-down">To shut down:</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker-compose down
+</code></pre></div></div>
+
+<p>To change the endpoints, update the code in <a href="api/app.py">api/app.py</a></p>
+
+<h2 id="to-do">TO-DO:</h2>
+<ul>
+  <li>There is some issue in updation of the completed list which can be fixed using external datastore.</li>
+  <li>Add production mode</li>
+</ul>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/tags/docker" class="page__taxonomy-item" rel="tag">Docker</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/flask" class="page__taxonomy-item" rel="tag">Flask</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/python" class="page__taxonomy-item" rel="tag">Python</a><span class="sep">, </span>
+    
+      
+      
+      <a href="/tags/rest-api" class="page__taxonomy-item" rel="tag">REST-API</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="/categories/network-system" class="page__taxonomy-item" rel="tag">Network&System</a>
+    
+    </span>
+  </p>
+
+
+        
+          <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2019-04-15">April 15, 2019</time></p>
+        
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?via=itsbecram&text=Python%28Flask%29+Project+%28Service+to+upload+image+to+imgur.com%29%20http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FImgur-imagfe-uploader-flask-Python%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FImgur-imagfe-uploader-flask-Python%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://plus.google.com/share?url=http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FImgur-imagfe-uploader-flask-Python%2F" class="btn btn--google-plus" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Google Plus"><i class="fab fa-fw fa-google-plus" aria-hidden="true"></i><span> Google+</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2F0.0.0.0%3A4000%2Fnetwork%26system%2FImgur-imagfe-uploader-flask-Python%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/network&system/DNS-Series-3/" class="pagination--pager" title="DNS Sinkholing with BIND9  (DNS Series:Part III)
+">Previous</a>
+    
+    
+      <a href="/devops/Kubernetes-Cluster-Mgmt-with-Kops/" class="pagination--pager" title="Kubernetes Cluster Management with kops
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/webhook-k8s-pt-2.jpeg"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/devops/Building-Kubernetes-Admission-Webhooks-pt-2/" rel="permalink">Building Kubernetes Admission Webhooks (Part 2 of 2)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  
+    
+      SN
+      Stack
+      Technology
+    
+  
+  
+    
+      1
+      Language
+      Golang
+    
+    
+      2
+      Orchestrator
+      Kubernetes(KinD...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/webhook-k8s-pt-1.jpeg"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/devops/Building-Kubernetes-Admission-Webhooks-pt-1/" rel="permalink">Building Kubernetes Admission Webhooks (Part 1 of 2)
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  3 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  
+    
+      SN
+      Stack
+      Technology
+    
+  
+  
+    
+      1
+      Language
+      Golang
+    
+    
+      2
+      Orchestrator
+      Kubernetes(KinD...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/kustomized_helm.png"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/devops/Kustomized-Helm/" rel="permalink">Kustomized Helm Structure
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">
+  
+    
+      SN
+      Stack
+      Technology
+    
+  
+  
+    
+      1
+      Language
+      yaml
+    
+    
+      2
+      Templating
+      Helm/Kustomize
+    ...</p>
+  </article>
+</div>
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src=
+          
+            "/assets/images/kops.png"
+          
+          alt="">
+      </div>
+    
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="/devops/Kubernetes-Cluster-Mgmt-with-Kops/" rel="permalink">Kubernetes Cluster Management with kops
+</a>
+      
+    </h2>
+    
+      <p class="page__meta"><i class="far fa-clock" aria-hidden="true"></i> 
+
+
+
+
+  2 minute read
+</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Kubernetes Cluster Management with kops
+You may find the complete script here
+
+</p>
+  </article>
+</div>
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><input type="text" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+    <div id="results" class="results"></div></div>
+      </div>
+    
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://twitter.com/itsbecram"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i> Twitter</a></li>
+    
+    
+      <li><a href="https://www.facebook.com/becram.dhoju"><i class="fab fa-fw fa-facebook-square" aria-hidden="true"></i> Facebook</a></li>
+    
+    
+      <li><a href="https://github.com/Becram"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+  </ul>
+</div>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-125305854-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-125305854-1');
+</script>
+
+
+<div class="page__footer-copyright">&copy; 2022 Bikram Dhoju. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+  <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+  </body>
+</html>

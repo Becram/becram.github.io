@@ -9,8 +9,8 @@ categories:
 ---
 
 
-Site Reliability Engineer
-Sertis Corp, Bangkok, Thailand 
+Senior DevOps Engineer
+CREA Pvt Ltd, Bangkok, Thailand 
 bikram.dhoju@gmail.com
 
 ## Synopsis
