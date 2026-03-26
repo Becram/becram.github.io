@@ -1,6 +1,6 @@
 ---
 title: "Terraform, Terragrunt & Atlantis: A Production-Grade IaC Workflow"
-date: 2025-09-26
+date: 2025-09-21
 categories:
   - devops
 tags:
