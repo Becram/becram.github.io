@@ -9,7 +9,7 @@ title: About
 
 I started my career managing 50+ Linux servers in Nepal for an organisation bringing education to kids in remote villages with no reliable internet. Back then, "infrastructure automation" meant a bash script that maybe worked. Today I'm building AI agents that autonomously manage cloud infrastructure and talk to AWS like it's a conversation.
 
-That arc — from hand-configured servers in Kathmandu to multi-agent LangGraph systems on AWS Bedrock in Bangkok — is basically my entire personality.
+That arc — from hand-configured servers in Kathmandu to multi-agent LangChain systems on AWS Bedrock in Bangkok — is basically my entire personality.
 
 ---
 
@@ -19,7 +19,7 @@ My obsessions, in rough order:
 
 - **Kubernetes** — I find it genuinely satisfying when a cluster self-heals. I've led migrations from monoliths that took 45 minutes to deploy to microservice platforms that ship 300% more frequently.
 - **Infrastructure as Code** — if it's not in git, it doesn't exist. Terraform, Terragrunt, and ArgoCD are how I sleep at night.
-- **AI agents for ops** — I built a multi-agent platform using LangGraph and AWS Bedrock that handles infrastructure tasks through natural language. It reduced manual operations by 70%. The on-call rotation noticed.
+- **AI agents for ops** — I built a multi-agent platform using LangChain and AWS Bedrock that handles infrastructure tasks through natural language. It reduced manual operations by 70%. The on-call rotation noticed.
 - **Observability** — I have strong opinions about dashboards. Prometheus, Grafana, and a good alert rule are worth more than three extra engineers staring at logs.
 - **Security** — I automated CloudTrail monitoring into a system called [Sentinel](https://github.com/Becram/aws-cloudtrail-monitoring) because knowing about the security event two hours later is not knowing about it.
 
@@ -38,7 +38,7 @@ Cut AWS infrastructure costs by 20% with intelligent autoscaling on custom busin
 2020 → SRE at an ML company. 1M+ predictions/day. Learned what uptime really costs.
 2021 → Senior DevOps, Bangkok. Kubernetes at scale. GitOps everywhere.
 2022 → Lead engineer. Multi-account AWS. Custom K8s webhooks in Go.
-2023 → AI Engineer. LangGraph. AWS Bedrock. Autonomous infra.
+2023 → AI Engineer. LangChain. AWS Bedrock. Autonomous infra.
 Now  → Still figuring out how to make it all break less.
 ```
 
@@ -48,7 +48,7 @@ Now  → Still figuring out how to make it all break less.
 
 **Cloud** — AWS (EKS, ECS, RDS, Lambda, Bedrock, Cognito) · Azure (AKS) · GCP (GKE, BigQuery)
 
-**AI & Agents** — LangChain · LangGraph · Anthropic API · OpenAI · RAG · pgvector · MCP · Multi-agent orchestration
+**AI & Agents** — LangChain · Anthropic API · OpenAI · RAG · pgvector · MCP · Multi-agent orchestration
 
 **Platform** — Kubernetes · Helm · Kustomize · Istio · Linkerd · KEDA · Docker
 
