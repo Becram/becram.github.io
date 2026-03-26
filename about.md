@@ -3,67 +3,78 @@ layout: page
 title: About
 ---
 
-Senior DevOps & AI Agent Engineer · CKA · AWS SAA-C03
-Bangkok, Thailand · [github.com/Becram](https://github.com/Becram) · [bikram.dhoju@gmail.com](mailto:bikram.dhoju@gmail.com)
-
 [Download Resume (PDF)](/assets/files/BikramDhoju_resume.pdf)
 
 ---
 
-Senior DevOps and AI Agent Engineer with 8+ years of experience architecting cloud-native infrastructure and designing autonomous AI agent systems for cloud automation and operational intelligence. Deep expertise in Kubernetes orchestration, AWS services, GitOps practices, and LLM-powered agentic workflows using LangChain, LangGraph, and the Anthropic API.
+I started my career managing 50+ Linux servers in Nepal for an organisation bringing education to kids in remote villages with no reliable internet. Back then, "infrastructure automation" meant a bash script that maybe worked. Today I'm building AI agents that autonomously manage cloud infrastructure and talk to AWS like it's a conversation.
 
-## Key Achievements
+That arc — from hand-configured servers in Kathmandu to multi-agent LangGraph systems on AWS Bedrock in Bangkok — is basically my entire personality.
 
-| Area | Impact |
-|------|--------|
-| Cost Optimisation | Intelligent autoscaling on custom metrics cut AWS infrastructure costs by 20% while sustaining 99.9% uptime |
-| Infrastructure Modernisation | Led monolith-to-microservices migration on Kubernetes, increasing deployment frequency by 300% |
-| DevOps Culture | Introduced GitOps with ArgoCD across multiple teams, reducing deployment time by 75% |
-| AI Agent Automation | Built multi-agent cloud automation platform using LangGraph and AWS Bedrock; reduced manual operations by 70% |
-| Knowledge Engineering | Architected enterprise RAG system over Confluence and internal docs, cutting incident resolution time by 40% |
+---
 
-## Technical Skills
+I'm **Bikram Dhoju**, a Senior DevOps & AI Agent Engineer based in Bangkok, Thailand. I've spent 8+ years making sure things don't fall over at 2am — and increasingly, building systems smart enough to fix themselves before anyone gets paged.
 
-**Cloud:** AWS (EKS, ECS, RDS, Lambda, Bedrock, Cognito) · Azure (AKS, Functions) · GCP (GKE, Cloud Run, BigQuery)
+My obsessions, in rough order:
 
-**AI & Agentic Systems:** LangChain · LangGraph · Anthropic API · OpenAI API · AWS Bedrock · RAG · pgvector · Pinecone · MCP · Multi-agent orchestration
+- **Kubernetes** — I find it genuinely satisfying when a cluster self-heals. I've led migrations from monoliths that took 45 minutes to deploy to microservice platforms that ship 300% more frequently.
+- **Infrastructure as Code** — if it's not in git, it doesn't exist. Terraform, Terragrunt, and ArgoCD are how I sleep at night.
+- **AI agents for ops** — I built a multi-agent platform using LangGraph and AWS Bedrock that handles infrastructure tasks through natural language. It reduced manual operations by 70%. The on-call rotation noticed.
+- **Observability** — I have strong opinions about dashboards. Prometheus, Grafana, and a good alert rule are worth more than three extra engineers staring at logs.
+- **Security** — I automated CloudTrail monitoring into a system called [Sentinel](https://github.com/Becram/aws-cloudtrail-monitoring) because knowing about the security event two hours later is not knowing about it.
 
-**Containers & Orchestration:** Kubernetes · Docker · Helm · Kustomize · Istio · Linkerd · KEDA · Service Mesh
+---
 
-**IaC:** Terraform · Terragrunt · AWS CloudFormation · Ansible
+## Things I've built that I'm proud of
 
-**CI/CD & GitOps:** ArgoCD · FluxCD · GitHub Actions · GitLab CI · Flagger · Canary deployments
+Cut AWS infrastructure costs by 20% with intelligent autoscaling on custom business metrics — not CPU, actual business signals. Deployed an enterprise RAG system over Confluence and runbooks that cut incident resolution time by 40% because the answer was always in the docs, nobody could find it. Built Kubernetes admission webhooks in Go that enforce compliance policy at deploy time rather than audit time.
 
-**Observability:** Prometheus · Grafana · DataDog · ELK Stack · Graylog · APM · Distributed tracing
+---
 
-**Programming:** Python (Django, Flask, LangChain) · Go (APIs, CLI, K8s webhooks) · Bash
+## The longer version
 
-**Security:** GuardDuty · HashiCorp Vault · CIS Benchmarks · IAM · Cloudflare · iptables
+```
+2015 → Linux sysadmin, Nepal. 50+ servers. Ansible before it was cool.
+2020 → SRE at an ML company. 1M+ predictions/day. Learned what uptime really costs.
+2021 → Senior DevOps, Bangkok. Kubernetes at scale. GitOps everywhere.
+2022 → Lead engineer. Multi-account AWS. Custom K8s webhooks in Go.
+2023 → AI Agent Engineer. LangGraph. AWS Bedrock. Autonomous infra.
+Now  → Still figuring out how to make it all break less.
+```
 
-## Experience
+---
 
-**Senior DevOps & AI Agent Engineer** — Farmforce AS, Bangkok *(Sep 2023 – Present)*
-Designed and deployed a multi-agent cloud automation platform using LangGraph and AWS Bedrock. Built enterprise RAG application over Confluence and internal docs. Implemented intelligent autoscaling on custom business metrics, reducing AWS costs by 20%.
+## Technical toolkit
 
-**Senior DevOps Engineer (Lead)** — Arthuronline SEA, Bangkok *(Sep 2022 – Sep 2023)*
-Introduced GitOps with ArgoCD, reducing deployment time by 75%. Architected multi-account AWS environment. Developed custom Kubernetes webhooks in Go for resource automation and compliance validation.
+**Cloud** — AWS (EKS, ECS, RDS, Lambda, Bedrock, Cognito) · Azure (AKS) · GCP (GKE, BigQuery)
 
-**Senior DevOps Engineer** — CREA Pvt. Ltd., Bangkok *(Dec 2021 – Sep 2022)*
-Prototyped agentic automation workflows using Python and AWS Lambda. Deployed highly available Apache Airflow and Airbyte for ETL/ELT pipelines processing 1TB+ of data daily.
+**AI & Agents** — LangChain · LangGraph · Anthropic API · OpenAI · RAG · pgvector · MCP · Multi-agent orchestration
 
-**Senior Site Reliability Engineer** — Sertis Co., Ltd., Bangkok *(Apr 2020 – Aug 2021)*
-Maintained 99.9% uptime for production ML systems serving 1M+ predictions daily. Implemented GitOps with Flux and Flagger for canary deployments with automated rollback.
+**Platform** — Kubernetes · Helm · Kustomize · Istio · Linkerd · KEDA · Docker
 
-**Senior System Administrator** — Open Learning Exchange, Nepal *(Jun 2015 – Oct 2019)*
-Administered 50+ Linux servers across multiple data centres. Built fully automated CI/CD infrastructure reducing deployment time from hours to minutes.
+**IaC** — Terraform · Terragrunt · Ansible · CloudFormation
+
+**CI/CD** — ArgoCD · FluxCD · GitHub Actions · Flagger · Canary deployments
+
+**Observability** — Prometheus · Grafana · DataDog · ELK · Graylog
+
+**Code** — Python · Go · Bash (and enough JavaScript to be dangerous)
+
+**Security** — HashiCorp Vault · GuardDuty · CIS Benchmarks · IAM · Cloudflare
+
+---
 
 ## Certifications
 
-- Certified Kubernetes Administrator (CKA) — CNCF
-- AWS Solutions Architect – Associate (SAA-C03) — Amazon Web Services
+Certified Kubernetes Administrator (CKA) · AWS Solutions Architect – Associate (SAA-C03)
 
-## Education
+---
 
-**Bachelor of Engineering — Electronics and Communication**
-Pulchowk Campus, IOE, Tribhuvan University · 2010 – 2014
-Specialisation: Networking with IPv6 and Remote Sensing
+## Background
+
+Electronics & Communication Engineering, Pulchowk Campus, Tribhuvan University (2014). Specialised in IPv6 networking and remote sensing — which turned out to be surprisingly relevant to building distributed systems that span multiple regions.
+
+---
+
+Find me on [GitHub](https://github.com/Becram) or reach out at [bikram.dhoju@gmail.com](mailto:bikram.dhoju@gmail.com).
+Bangkok, Thailand.
