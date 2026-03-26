@@ -13,7 +13,7 @@ That arc — from hand-configured servers in Kathmandu to multi-agent LangGraph 
 
 ---
 
-I'm **Bikram Dhoju**, a Senior DevOps & AI Agent Engineer based in Bangkok, Thailand. I've spent 8+ years making sure things don't fall over at 2am — and increasingly, building systems smart enough to fix themselves before anyone gets paged.
+I'm **Bikram Dhoju**, a Senior DevOps & AI Engineer based in Bangkok, Thailand. I've spent 8+ years making sure things don't fall over at 2am — and increasingly, building systems smart enough to fix themselves before anyone gets paged.
 
 My obsessions, in rough order:
 
@@ -38,7 +38,7 @@ Cut AWS infrastructure costs by 20% with intelligent autoscaling on custom busin
 2020 → SRE at an ML company. 1M+ predictions/day. Learned what uptime really costs.
 2021 → Senior DevOps, Bangkok. Kubernetes at scale. GitOps everywhere.
 2022 → Lead engineer. Multi-account AWS. Custom K8s webhooks in Go.
-2023 → AI Agent Engineer. LangGraph. AWS Bedrock. Autonomous infra.
+2023 → AI Engineer. LangGraph. AWS Bedrock. Autonomous infra.
 Now  → Still figuring out how to make it all break less.
 ```
 
