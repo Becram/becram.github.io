@@ -6,6 +6,8 @@ title: About
 Senior DevOps & AI Agent Engineer · CKA · AWS SAA-C03
 Bangkok, Thailand · [github.com/Becram](https://github.com/Becram) · [bikram.dhoju@gmail.com](mailto:bikram.dhoju@gmail.com)
 
+[Download Resume (PDF)](/assets/files/BikramDhoju_resume.pdf)
+
 ---
 
 Senior DevOps and AI Agent Engineer with 8+ years of experience architecting cloud-native infrastructure and designing autonomous AI agent systems for cloud automation and operational intelligence. Deep expertise in Kubernetes orchestration, AWS services, GitOps practices, and LLM-powered agentic workflows using LangChain, LangGraph, and the Anthropic API.
