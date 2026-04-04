@@ -21,7 +21,7 @@ That arc — from hand-configured servers in Kathmandu to multi-agent LangChain 
 
 ---
 
-I'm **Bikram Dhoju**, a Senior DevOps & AI Engineer based in Bangkok, Thailand. I've spent 8+ years making sure things don't fall over at 2am — and increasingly, building systems smart enough to fix themselves before anyone gets paged.
+I'm **Bikram Dhoju**, a Senior DevOps & AI Engineer based in Bangkok, Thailand. I've spent 10+ years making sure things don't fall over at 2am — and increasingly, building systems smart enough to fix themselves before anyone gets paged.
 
 My obsessions, in rough order:
 
