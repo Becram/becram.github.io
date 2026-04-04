@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bikram Dhoju – Resume</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #222;
+    background: #fff;
+  }
+
+  .page {
+    width: 210mm;
+    margin: 0 auto;
+    padding: 14mm 16mm 14mm 16mm;
+  }
+
+  /* ── HEADER ── */
+  .header { text-align: center; margin-bottom: 10px; }
+  .header h1 { font-size: 22px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .header .title { font-size: 12px; color: #555; margin: 2px 0 5px; font-style: italic; }
+  .header .contacts { font-size: 10px; color: #444; }
+  .header .contacts span { margin: 0 6px; }
+
+  /* ── SECTION HEADINGS ── */
+  .section { margin-bottom: 10px; }
+  .section-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 2px;
+    margin-bottom: 7px;
+  }
+
+  /* ── SUMMARY ── */
+  .summary p { font-size: 10.5px; color: #333; }
+
+  /* ── ACHIEVEMENTS TABLE ── */
+  .achievements table { width: 100%; border-collapse: collapse; font-size: 10px; }
+  .achievements th { text-align: left; color: #666; font-weight: 600; padding: 3px 8px; border-bottom: 1px solid #eee; }
+  .achievements td { padding: 3px 8px; vertical-align: top; }
+  .achievements tr:nth-child(even) td { background: #f9f9f9; }
+  .achievements td:first-child { font-weight: 600; white-space: nowrap; width: 22%; }
+
+  /* ── SKILLS GRID ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .skill-box { }
+  .skill-box .skill-title {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #3a6ea5;
+    margin-bottom: 2px;
+  }
+  .skill-box p { font-size: 9.5px; color: #444; }
+
+  /* ── EXPERIENCE ── */
+  .job { margin-bottom: 9px; page-break-inside: avoid; }
+  .job-header { display: flex; justify-content: space-between; align-items: baseline; }
+  .job-title { font-size: 11.5px; font-weight: 700; }
+  .job-dates { font-size: 10px; color: #666; white-space: nowrap; }
+  .job-company { font-size: 10.5px; font-weight: 600; color: #3a6ea5; margin-bottom: 1px; }
+  .job-stack { font-size: 9px; color: #666; font-style: italic; margin-bottom: 4px; }
+  .job ul { padding-left: 14px; }
+  .job ul li { font-size: 10px; margin-bottom: 2px; color: #333; }
+  .job ul li strong { font-weight: 600; }
+
+  /* ── CERTIFICATIONS ── */
+  .certs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .cert-box { border: 1px solid #e0e0e0; border-radius: 3px; padding: 6px 8px; }
+  .cert-box .cert-name { font-size: 10.5px; font-weight: 700; }
+  .cert-box .cert-issuer { font-size: 9.5px; color: #666; }
+
+  /* ── EDUCATION ── */
+  .edu-box { font-size: 10.5px; }
+  .edu-box .edu-degree { font-weight: 700; }
+  .edu-box .edu-school { color: #3a6ea5; font-size: 10px; }
+  .edu-box .edu-note { color: #666; font-size: 9.5px; }
+
+  /* ── AREAS OF EXPERTISE ── */
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+  .expertise-box { padding: 5px 7px; background: #f7f9fc; border-radius: 3px; }
+  .expertise-box .exp-title { font-size: 10px; font-weight: 700; margin-bottom: 2px; }
+  .expertise-box p { font-size: 9.5px; color: #444; }
+
+  /* ── PRINT ── */
+  @media print {
+    body { font-size: 11px; }
+    .page { padding: 12mm 15mm; }
+    .job { page-break-inside: avoid; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Bikram Dhoju</h1>
+    <div class="title">Senior DevOps &amp; AI Agent Engineer &nbsp;·&nbsp; CKA &nbsp;·&nbsp; AWS SAA-C03</div>
+    <div class="contacts">
+      <span>✉ bikram.dhoju@gmail.com</span>
+      <span>📱 0800789578</span>
+      <span>📍 Bangkok, Thailand</span>
+      <span>🌐 becram.github.io</span>
+      <span>💻 github.com/Becram</span>
+    </div>
+  </div>
+
+  <!-- PROFESSIONAL SUMMARY -->
+  <div class="section summary">
+    <div class="section-title">Professional Summary</div>
+    <p>Senior DevOps and AI Agent Engineer with 8+ years of experience architecting cloud-native infrastructure and designing autonomous AI agent systems for cloud automation and operational intelligence. Deep expertise in Kubernetes orchestration, AWS services, GitOps practices, and LLM-powered agentic workflows using LangChain, LangGraph, and the Anthropic API. Proven track record of leading infrastructure modernisation initiatives, reducing operational costs, and building AI-driven automation pipelines that eliminate toil at scale.</p>
+  </div>
+
+  <!-- KEY ACHIEVEMENTS -->
+  <div class="section achievements">
+    <div class="section-title">Key Achievements</div>
+    <table>
+      <tr><th>Area</th><th>Impact</th></tr>
+      <tr><td>Cost Optimisation</td><td>Intelligent autoscaling on custom metrics cut AWS infrastructure costs by 20% while sustaining 99.9% uptime</td></tr>
+      <tr><td>Infrastructure Modernisation</td><td>Led monolith-to-microservices migration on Kubernetes, increasing deployment frequency by 300%</td></tr>
+      <tr><td>DevOps Culture</td><td>Introduced GitOps with ArgoCD across multiple teams, enabling developer self-service and reducing deployment time by 75%</td></tr>
+      <tr><td>AI Agent Automation</td><td>Built multi-agent cloud automation platform using LangGraph and AWS Bedrock; reduced manual operations by 70%</td></tr>
+      <tr><td>Knowledge Engineering</td><td>Architected enterprise RAG system over Confluence and internal docs, cutting incident resolution time by 40%</td></tr>
+    </table>
+  </div>
+
+  <!-- TECHNICAL EXPERTISE -->
+  <div class="section">
+    <div class="section-title">Technical Expertise</div>
+    <div class="skills-grid">
+      <div class="skill-box">
+        <div class="skill-title">Cloud Platforms</div>
+        <p>AWS (EKS, ECS, RDS, Lambda, Bedrock, Cognito) · Azure (AKS, Functions) · GCP (GKE, Cloud Run, BigQuery)</p>
+      </div>
+      <div class="skill-box">
+        <div class="skill-title">AI &amp; Agentic Systems</div>
+        <p>LangChain · LangGraph · Anthropic API · OpenAI API · AWS Bedrock · RAG · pgvector · Pinecone · MCP · Multi-agent orchestration</p>
+      </div>
+      <div class="skill-box">
+        <div class="skill-title">Container &amp; Orchestration</div>
+        <p>Kubernetes (prod scale) · Docker · Helm · Kustomize · Istio · Linkerd · KEDA · Service Mesh</p>
+      </div>
+      <div class="skill-box">
+        <div class="skill-title">Infrastructure as Code</div>
+        <p>Terraform · Terragrunt · AWS CloudFormation · Ansible</p>
+      </div>
+      <div class="skill-box">
+        <div class="skill-title">CI/CD &amp; GitOps</div>
+        <p>ArgoCD · FluxCD · GitHub Actions · GitLab CI · Flagger · Canary deployments</p>
+      </div>
+      <div class="skill-box">
+        <div class="skill-title">Monitoring &amp; Observability</div>
+        <p>OpenTelemetry (OTEL) · Grafana · Prometheus · Loki · Tempo · DataDog · Graylog · ELK Stack · Distributed tracing · APM</p>
+      </div>
+      <div class="skill-box">
+        <div class="skill-title">Programming</div>
+        <p>Python (Django, Flask, LangChain) · Go (APIs, CLI, K8s webhooks) · Bash scripting</p>
+      </div>
+      <div class="skill-box">
+        <div class="skill-title">Security &amp; Compliance</div>
+        <p>GuardDuty · HashiCorp Vault · CIS Benchmarks · IAM · Cloudflare · iptables</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFESSIONAL EXPERIENCE -->
+  <div class="section">
+    <div class="section-title">Professional Experience</div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Senior DevOps &amp; AI Agent Engineer</span>
+        <span class="job-dates">September 2023 – Present</span>
+      </div>
+      <div class="job-company">Farmforce AS · Bangkok, Thailand</div>
+      <div class="job-stack">ECS, Fargate, Terraform, Terragrunt, AWS Bedrock, LangGraph, Anthropic API, RAG, Lambda, OpenTelemetry, Loki, Tempo, Grafana, Graylog, Prometheus, Go, Python</div>
+      <ul>
+        <li><strong>Designed and deployed a multi-agent cloud automation platform</strong> using LangGraph and AWS Bedrock, enabling autonomous execution of infrastructure tasks (scaling, cost analysis, incident triage) via natural language — reducing manual operations by 70%</li>
+        <li>Architected an agentic API layer over AWS service APIs, allowing AI agents to safely provision, inspect, and remediate ECS/Fargate workloads using structured tool-calling with guardrails and full audit logging</li>
+        <li>Built an enterprise RAG application ingesting Confluence, runbooks, and internal docs into a pgvector store, enabling on-call engineers to query institutional knowledge and cutting incident resolution time by 40%</li>
+        <li>Deployed full LGTM observability stack (Loki, Grafana, Tempo, Prometheus) with OpenTelemetry Collector as the telemetry backbone, enabling correlated trace-log-metric analysis and achieving sub-5-minute incident detection</li>
+        <li>Developed MCP-compatible prompt templates and tool schemas, standardising how LLMs interact with AWS APIs across the engineering organisation</li>
+        <li>Implemented intelligent autoscaling on custom business metrics, reducing AWS costs by 20% while maintaining 99.9% uptime</li>
+        <li>Designed disaster recovery procedures with regular tabletop exercises, ensuring RTO &lt; 4 hours</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Senior DevOps Engineer (Lead)</span>
+        <span class="job-dates">September 2022 – September 2023</span>
+      </div>
+      <div class="job-company">Arthuronline SEA · Bangkok, Thailand</div>
+      <div class="job-stack">Kubernetes (EKS), AKS, AWS Cognito, Helm, Kustomize, Terraform, ArgoCD, GitHub Actions, DataDog, Prometheus</div>
+      <ul>
+        <li>Introduced GitOps workflow with ArgoCD, giving development teams full infrastructure ownership and reducing deployment time by 75%</li>
+        <li>Architected multi-account AWS environment following the Well-Architected Framework security best practices and compliance requirements</li>
+        <li>Enhanced security posture with GuardDuty integration and Cloudflare rate limiting, blocking 99.9% of malicious traffic</li>
+        <li>Developed custom Kubernetes webhooks in Go for resource automation and compliance validation across all clusters</li>
+        <li>Built end-to-end monitoring with Prometheus and DataDog, achieving 99.9% system visibility across all environments</li>
+        <li>Implemented KEDA-based autoscaling using RabbitMQ metrics, optimising resource utilisation by 35%</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Senior DevOps Engineer</span>
+        <span class="job-dates">December 2021 – September 2022</span>
+      </div>
+      <div class="job-company">CREA Pvt. Ltd. · Bangkok, Thailand</div>
+      <div class="job-stack">Kubernetes (EKS), AWS Cognito, Helm, Kustomize, Terraform, ArgoCD, Vault, GitHub Actions, DataDog, Airflow, Airbyte</div>
+      <ul>
+        <li>Prototyped agentic automation workflows using Python and AWS Lambda for automated cost anomaly detection and self-healing infrastructure responses</li>
+        <li>Deployed highly available Apache Airflow and Airbyte for ETL/ELT pipelines processing 1 TB+ of data daily</li>
+        <li>Standardised CI/CD pipelines across teams, reducing deployment errors by 60% and improving release velocity significantly</li>
+        <li>Established GitOps cluster management with ArgoCD and self-managed Helm repository</li>
+        <li>Migrated to Kubernetes-based RabbitMQ cluster with high availability and comprehensive monitoring</li>
+        <li>Implemented centralised data warehouse with PostgreSQL logical replication and AWS DMS, ensuring 99.9% data consistency</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Senior Site Reliability Engineer</span>
+        <span class="job-dates">April 2020 – August 2021</span>
+      </div>
+      <div class="job-company">Sertis Co., Ltd. · Bangkok, Thailand</div>
+      <div class="job-stack">Kubernetes, Helm, Terraform, Flux, Flagger, Ansible, GitLab CI, ELK Stack, Linkerd, Airflow</div>
+      <ul>
+        <li>Maintained 99.9% uptime for production ML systems serving 1M+ predictions daily</li>
+        <li>Architected microservices migration from monolith, improving scalability and significantly reducing technical debt</li>
+        <li>Implemented GitOps with Flux and Flagger for reliable canary deployments with automated rollback</li>
+        <li>Developed high-frequency CI/CD pipeline supporting 50+ daily deployments with zero downtime</li>
+        <li>Built centralised logging and monitoring with ELK Stack, reducing MTTR by 60%</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <span class="job-title">Senior System Administrator</span>
+        <span class="job-dates">June 2015 – October 2019</span>
+      </div>
+      <div class="job-company">Open Learning Exchange · Nepal</div>
+      <div class="job-stack">Linux (CentOS, Ubuntu), AWS, Kubernetes, Docker, LAMP Stack, Ansible, Jenkins, GitLab CI/CD, Python/Django, ELK Stack</div>
+      <ul>
+        <li>Administered 50+ Linux servers across multiple data centres, maintaining 99.8% uptime for educational services</li>
+        <li>Built fully automated CI/CD infrastructure reducing deployment time from hours to minutes</li>
+        <li>Automated system provisioning using Ansible playbooks, reducing manual setup time by 80%</li>
+        <li>Implemented security hardening following CIS benchmarks; managed iptables, SSH key distribution, and access controls</li>
+        <li>Collaborated with international teams across Nepal, Ghana, and the USA on EdTech infrastructure standardisation</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div class="section">
+    <div class="section-title">Certifications</div>
+    <div class="certs-grid">
+      <div class="cert-box">
+        <div class="cert-name">Certified Kubernetes Administrator (CKA)</div>
+        <div class="cert-issuer">Cloud Native Computing Foundation (CNCF)</div>
+      </div>
+      <div class="cert-box">
+        <div class="cert-name">AWS Solutions Architect – Associate (SAA-C03)</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="edu-box">
+      <div class="edu-degree">Bachelor of Engineering — Electronics and Communication</div>
+      <div class="edu-school">Pulchowk Campus, IOE, Tribhuvan University · 2010 – 2014</div>
+      <div class="edu-note">Specialisation: Networking with IPv6 and Remote Sensing</div>
+    </div>
+  </div>
+
+  <!-- AREAS OF EXPERTISE -->
+  <div class="section">
+    <div class="section-title">Areas of Expertise</div>
+    <div class="expertise-grid">
+      <div class="expertise-box">
+        <div class="exp-title">☁️ Cloud Architecture</div>
+        <p>Multi-account AWS design · Well-Architected reviews · Cost optimisation · Disaster recovery · High availability systems at scale</p>
+      </div>
+      <div class="expertise-box">
+        <div class="exp-title">🤖 AI Agent Engineering</div>
+        <p>Multi-agent orchestration · Tool-calling &amp; guardrails · RAG pipeline design · LLM evaluation · Agentic API patterns · MCP integration</p>
+      </div>
+      <div class="expertise-box">
+        <div class="exp-title">⚙️ Platform Engineering</div>
+        <p>Developer self-service platforms · Internal tooling · GitOps workflows · Kubernetes operators · Webhook automation</p>
+      </div>
+      <div class="expertise-box">
+        <div class="exp-title">📊 Observability Engineering</div>
+        <p>OpenTelemetry · Distributed tracing (Tempo) · Log aggregation (Loki) · Metrics (Prometheus) · SLO/SLA management · Incident response</p>
+      </div>
+      <div class="expertise-box">
+        <div class="exp-title">📈 Data &amp; ML Ops</div>
+        <p>Airflow orchestration · Airbyte ELT · Vector databases · PostgreSQL replication · AWS DMS · BigQuery pipelines</p>
+      </div>
+      <div class="expertise-box">
+        <div class="exp-title">🔒 Security &amp; Compliance</div>
+        <p>CIS benchmark hardening · Secrets management (Vault) · GuardDuty · Network policies · Zero-trust architecture</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
