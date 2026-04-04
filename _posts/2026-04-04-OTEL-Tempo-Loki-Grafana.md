@@ -10,13 +10,12 @@ tags:
   - tempo
   - loki
   - grafana
-  - argocd
   - monitoring
 ---
 
 Metrics alone don't tell you why your service failed at 2 AM. Logs alone don't tell you which downstream call made your API slow. Traces alone don't show you what was written to the database when a request failed. You need all three — and they need to talk to each other.
 
-This post documents the complete observability stack I run on my homelab Kubernetes cluster: **OpenTelemetry Collector** as the telemetry backbone, **Tempo** for distributed tracing, **Loki** for log aggregation, and **Grafana** as the unified query and visualization layer. Everything is deployed via **ArgoCD** in GitOps style from a single repo.
+This post documents the complete observability stack I run on my homelab Kubernetes cluster: **OpenTelemetry Collector** as the telemetry backbone, **Tempo** for distributed tracing, **Loki** for log aggregation, and **Grafana** as the unified query and visualization layer.
 
 This is not a toy tutorial. This is the actual config I run, and I'll show you exactly how each piece works and connects to the others.
 
@@ -510,48 +509,6 @@ When you open a trace in Grafana's Tempo viewer, the Node Graph panel renders th
 
 ---
 
-## GitOps Deployment with ArgoCD
-
-Everything above runs on my Kubernetes cluster via ArgoCD. The observability stack is split into separate ArgoCD Applications, each managing one component.
-
-### Project Structure in `argocd-enigma`
-
-```
-argocd/
-└── sysapps/
-    └── enigma/
-        ├── kube-prometheus-stack.yaml    # Grafana + Prometheus + Alertmanager
-        ├── loki.yaml                     # Loki StatefulSet
-        ├── tempo.yaml                    # Tempo StatefulSet
-        └── opentelemetry.yaml            # OTEL Operator + Collector
-
-sysapps-sources/
-└── enigma/
-    ├── kube-prometheus-stack/
-    │   ├── Chart.yaml
-    │   └── values.yaml
-    ├── loki/
-    │   ├── Chart.yaml
-    │   └── values.yaml
-    └── tempo/
-        ├── Chart.yaml
-        └── values.yaml
-```
-
-Each ArgoCD Application points to a Helm chart (from a Helm repo) with environment-specific values overridden in the repo. The `argocd.argoproj.io/sync-wave` annotation controls the deployment order — Prometheus comes up before Grafana, storage backends before the collector.
-
-### Deployment Ordering with Sync Waves
-
-The OTEL collector uses `sync-wave: 2` — it must wait for Tempo and Prometheus to be ready before it starts exporting. If the collector starts first, it will log export errors until the backends are up, but it won't crash — the batch processor retries.
-
-```yaml
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
-```
-
----
-
 ## Putting It All Together: A Real Debugging Flow
 
 ![Grafana Trace-Log Correlation](/assets/images/grafana2.png)
@@ -615,4 +572,4 @@ The OTEL → Tempo / Loki → Grafana stack is the most practical full-stack obs
 
 The key insight is that **correlation is the product**. Metrics, logs, and traces are only useful together. The `traceID` in logs linking to Tempo, and exemplars in Prometheus linking to traces, are what transform three separate datasets into a coherent debugging experience.
 
-Everything in this post is running in production on my [argocd-enigma](https://github.com/Becram/argocd-enigma) homelab cluster. If you're setting up something similar, the configs above are what actually work.
+Everything in this post is running in production on my homelab Kubernetes cluster. If you're setting up something similar, the configs above are what actually work.
