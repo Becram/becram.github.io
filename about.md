@@ -28,14 +28,14 @@ My obsessions, in rough order:
 - **Kubernetes** — I find it genuinely satisfying when a cluster self-heals. I've led migrations from monoliths that took 45 minutes to deploy to microservice platforms that ship 300% more frequently.
 - **Infrastructure as Code** — if it's not in git, it doesn't exist. Terraform, Terragrunt, and ArgoCD are how I sleep at night.
 - **AI agents for ops** — I built a multi-agent platform using LangChain and AWS Bedrock that handles infrastructure tasks through natural language. It reduced manual operations by 70%. The on-call rotation noticed.
-- **Observability** — I have strong opinions about dashboards. Prometheus, Grafana, and a good alert rule are worth more than three extra engineers staring at logs.
+- **Observability** — I have strong opinions about dashboards. I run the full LGTM stack: [OpenTelemetry Collector → Loki + Tempo + Prometheus → Grafana](/otel-tempo-loki-grafana), with trace-log correlation so you can jump from a slow span straight to the log line that explains it. A good alert rule is worth more than three engineers staring at logs.
 - **Security** — I automated CloudTrail monitoring into a system called [Sentinel](https://github.com/Becram/aws-cloudtrail-monitoring) because knowing about the security event two hours later is not knowing about it.
 
 ---
 
 ## Things I've built that I'm proud of
 
-Cut AWS infrastructure costs by 20% with intelligent autoscaling on custom business metrics — not CPU, actual business signals. Deployed an enterprise RAG system over Confluence and runbooks that cut incident resolution time by 40% because the answer was always in the docs, nobody could find it. Built Kubernetes admission webhooks in Go that enforce compliance policy at deploy time rather than audit time.
+Cut AWS infrastructure costs by 20% with intelligent autoscaling on custom business metrics — not CPU, actual business signals. Deployed an enterprise RAG system over Confluence and runbooks that cut incident resolution time by 40% because the answer was always in the docs, nobody could find it. Built Kubernetes admission webhooks in Go that enforce compliance policy at deploy time rather than audit time. Rolled out a [full LGTM observability stack](/otel-tempo-loki-grafana) — OpenTelemetry Collector feeding traces into Tempo, logs into Loki, metrics into Prometheus, all correlated in Grafana — cutting incident detection to under 5 minutes.
 
 ---
 
@@ -64,7 +64,7 @@ Now  → Still figuring out how to make it all break less.
 
 **CI/CD** — ArgoCD · FluxCD · GitHub Actions · Flagger · Canary deployments
 
-**Observability** — Prometheus · Grafana · DataDog · ELK · Graylog
+**Observability** — OpenTelemetry (OTEL) · Prometheus · Grafana · Loki · Tempo · DataDog · ELK · Graylog · Distributed tracing
 
 **Code** — Python · Go · Bash (and enough JavaScript to be dangerous)
 
