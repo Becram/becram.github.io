@@ -102,11 +102,21 @@
   .expertise-box p { font-size: 9.5px; color: #444; }
 
   /* ── PRINT ── */
+  @page {
+    size: A4;
+    margin: 0;
+  }
   @media print {
-    body { font-size: 11px; }
-    .page { padding: 12mm 15mm; }
-    .job { page-break-inside: avoid; }
-    .section { page-break-inside: avoid; }
+    body { font-size: 10px; }
+    .page { padding: 10mm 14mm; }
+    .section { margin-bottom: 7px; page-break-inside: auto; }
+    .section-title { margin-bottom: 5px; }
+    .job { margin-bottom: 6px; page-break-inside: avoid; }
+    .skills-grid { gap: 4px; }
+    .expertise-grid { gap: 4px; }
+    .achievements table td, .achievements table th { padding: 2px 6px; }
+    .header { margin-bottom: 8px; }
+    .summary p { font-size: 10px; }
   }
 </style>
 </head>
@@ -273,31 +283,6 @@
     </div>
   </div>
 
-  <!-- CERTIFICATIONS -->
-  <div class="section">
-    <div class="section-title">Certifications</div>
-    <div class="certs-grid">
-      <div class="cert-box">
-        <div class="cert-name">Certified Kubernetes Administrator (CKA)</div>
-        <div class="cert-issuer">Cloud Native Computing Foundation (CNCF)</div>
-      </div>
-      <div class="cert-box">
-        <div class="cert-name">AWS Solutions Architect – Associate (SAA-C03)</div>
-        <div class="cert-issuer">Amazon Web Services</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- EDUCATION -->
-  <div class="section">
-    <div class="section-title">Education</div>
-    <div class="edu-box">
-      <div class="edu-degree">Bachelor of Engineering — Electronics and Communication</div>
-      <div class="edu-school">Pulchowk Campus, IOE, Tribhuvan University · 2010 – 2014</div>
-      <div class="edu-note">Specialisation: Networking with IPv6 and Remote Sensing</div>
-    </div>
-  </div>
-
   <!-- AREAS OF EXPERTISE -->
   <div class="section">
     <div class="section-title">Areas of Expertise</div>
@@ -326,6 +311,31 @@
         <div class="exp-title">🔒 Security &amp; Compliance</div>
         <p>CIS benchmark hardening · Secrets management (Vault) · GuardDuty · Network policies · Zero-trust architecture</p>
       </div>
+    </div>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div class="section">
+    <div class="section-title">Certifications</div>
+    <div class="certs-grid">
+      <div class="cert-box">
+        <div class="cert-name">Certified Kubernetes Administrator (CKA)</div>
+        <div class="cert-issuer">Cloud Native Computing Foundation (CNCF)</div>
+      </div>
+      <div class="cert-box">
+        <div class="cert-name">AWS Solutions Architect – Associate (SAA-C03)</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="edu-box">
+      <div class="edu-degree">Bachelor of Engineering — Electronics and Communication</div>
+      <div class="edu-school">Pulchowk Campus, IOE, Tribhuvan University · 2010 – 2014</div>
+      <div class="edu-note">Specialisation: Networking with IPv6 and Remote Sensing</div>
     </div>
   </div>
 

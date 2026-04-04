@@ -3,7 +3,15 @@ layout: page
 title: About
 ---
 
-[Download Resume (PDF)](/assets/files/BikramDhoju_resume.pdf)
+<div style="display:flex; align-items:center; gap:20px; margin-bottom:24px;">
+  <img src="/assets/images/bikram.jpg" alt="Bikram Dhoju" style="width:110px; height:110px; border-radius:50%; object-fit:cover; flex-shrink:0;">
+  <div>
+    <strong style="font-size:1.2em;">Bikram Dhoju</strong><br>
+    Senior DevOps &amp; AI Agent Engineer · CKA · AWS SAA-C03<br>
+    Bangkok, Thailand · <a href="mailto:bikram.dhoju@gmail.com">bikram.dhoju@gmail.com</a><br><br>
+    <a href="/assets/files/BikramDhoju_resume.pdf">⬇ Download Resume (PDF)</a>
+  </div>
+</div>
 
 ---
 
