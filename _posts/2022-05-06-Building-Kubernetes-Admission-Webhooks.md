@@ -1,6 +1,6 @@
 ---
 title: "Building Kubernetes Admission Webhooks in Go"
-date: 2026-04-13
+date: 2022-05-06
 categories:
   - devops
 tags:
