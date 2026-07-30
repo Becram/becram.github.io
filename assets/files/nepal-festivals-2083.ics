@@ -1,161 +1,225 @@
 BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Nepal Festivals 2083 BS//EN
+PRODID:-//Nepal Public Holidays 2083 BS//EN
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
-X-WR-CALNAME:Nepal Festivals 2083 BS
+X-WR-CALNAME:Nepal Public Holidays 2083 BS
 X-WR-TIMEZONE:Asia/Kathmandu
 
 BEGIN:VEVENT
-UID:nepal-2083-new-year@bikram
-SUMMARY:🎉 Nepali New Year 2083 (Baisakh 1)
+UID:nepal-2083-new-year@becram
+SUMMARY:Nepali New Year (Baisakh 1\, 2083)
 DTSTART;VALUE=DATE:20260414
 DTEND;VALUE=DATE:20260415
-DESCRIPTION:Nepali New Year - Baisakh 1\, 2083 BS
+DESCRIPTION:Baisakh 1\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-loktantra-diwas@bikram
-SUMMARY:🗳️ Loktantra Diwas (Democracy Day)
-DTSTART;VALUE=DATE:20260428
-DTEND;VALUE=DATE:20260429
-DESCRIPTION:Loktantra Diwas - Baisakh 15\, 2083 BS
-END:VEVENT
-
-BEGIN:VEVENT
-UID:nepal-2083-buddha-jayanti@bikram
-SUMMARY:☸️ Buddha Jayanti / Chandi Purnima
+UID:nepal-2083-labor-day-buddha-jayanti@becram
+SUMMARY:International Labor Day / Buddha Jayanti / Chandi Purnima / Ubhauli Parwa
 DTSTART;VALUE=DATE:20260501
 DTEND;VALUE=DATE:20260502
-DESCRIPTION:Buddha Jayanti / Chandi Purnima - Baisakh 18\, 2083 BS
+DESCRIPTION:Baisakh 18\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-republic-day@bikram
-SUMMARY:🇳🇵 Republic Day (Ganatantra Diwas)
+UID:nepal-2083-republic-day@becram
+SUMMARY:Republic Day (Ganatantra Diwas)
 DTSTART;VALUE=DATE:20260529
 DTEND;VALUE=DATE:20260530
-DESCRIPTION:Republic Day - Jestha 15\, 2083 BS
+DESCRIPTION:Jestha 15\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-raksha-bandhan@bikram
-SUMMARY:🪢 Raksha Bandhan (Janai Purnima)
+UID:nepal-2083-raksha-bandhan@becram
+SUMMARY:Rakshya Bandhan (Janai Purnima)
 DTSTART;VALUE=DATE:20260828
 DTEND;VALUE=DATE:20260829
-DESCRIPTION:Raksha Bandhan - Bhadra 12\, 2083 BS
+DESCRIPTION:Bhadra 12\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-krishna-janmashtami@bikram
-SUMMARY:🦚 Shri Krishna Janmashtami
+UID:nepal-2083-gai-jatra@becram
+SUMMARY:Gai Jatra
+DTSTART;VALUE=DATE:20260829
+DTEND;VALUE=DATE:20260830
+DESCRIPTION:Bhadra 13\, 2083 BS - Kathmandu Valley and Newar community
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-krishna-janmashtami@becram
+SUMMARY:Krishna Janmashtami / Gaura Parwa
 DTSTART;VALUE=DATE:20260904
 DTEND;VALUE=DATE:20260905
-DESCRIPTION:Shri Krishna Janmashtami - Bhadra 19\, 2083 BS
+DESCRIPTION:Bhadra 19\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-haritalika-teej@bikram
-SUMMARY:🌸 Haritalika Teej
+UID:nepal-2083-teej@becram
+SUMMARY:Haritalika Teej Barta
 DTSTART;VALUE=DATE:20260914
 DTEND;VALUE=DATE:20260915
-DESCRIPTION:Haritalika Teej - Bhadra 28\, 2083 BS
+DESCRIPTION:Bhadra 29\, 2083 BS - Women employees
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-constitution-day@bikram
-SUMMARY:📜 Constitution Day (Sambidhan Diwas)
+UID:nepal-2083-constitution-day@becram
+SUMMARY:Constitution Day (Sambidhan Diwas)
 DTSTART;VALUE=DATE:20260919
 DTEND;VALUE=DATE:20260920
-DESCRIPTION:Constitution Day - Ashwin 3\, 2083 BS
+DESCRIPTION:Ashwin 3\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-ghatasthapana@bikram
-SUMMARY:🪔 Ghatasthapana (Dashain begins)
+UID:nepal-2083-indra-jatra@becram
+SUMMARY:Indra Jatra
+DTSTART;VALUE=DATE:20260925
+DTEND;VALUE=DATE:20260926
+DESCRIPTION:Ashwin 9\, 2083 BS - Kathmandu Valley only
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-jitiya@becram
+SUMMARY:Jitiya Parwa
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+DESCRIPTION:Ashwin 18\, 2083 BS - Women observing Jitiya Parwa
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-ghatasthapana@becram
+SUMMARY:Ghatasthapana (Dashain begins)
 DTSTART;VALUE=DATE:20261011
 DTEND;VALUE=DATE:20261012
-DESCRIPTION:Ghatasthapana - Ashwin 25\, 2083 BS. First day of Dashain.
+DESCRIPTION:Ashwin 25\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-dashain@bikram
-SUMMARY:🎊 Dashain (Public Holiday)
+UID:nepal-2083-dashain@becram
+SUMMARY:Dashain Holiday (7 days)
 DTSTART;VALUE=DATE:20261017
 DTEND;VALUE=DATE:20261024
-DESCRIPTION:Dashain public holiday - Ashwin 31 to Kartik 6\, 2083 BS. Vijaya Dashami falls on October 21.
+DESCRIPTION:Ashwin 31 - Kartik 6\, 2083 BS - National holiday. Vijaya Dashami on October 21.
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-tihar@bikram
-SUMMARY:🪔 Tihar / Deepawali (Public Holiday)
+UID:nepal-2083-tihar@becram
+SUMMARY:Tihar / Deepawali (5 days)
 DTSTART;VALUE=DATE:20261108
 DTEND;VALUE=DATE:20261113
-DESCRIPTION:Tihar public holiday - Kartik 22-26\, 2083 BS. Includes Laxmi Puja\, Govardhan Puja\, and Bhai Tika.
+DESCRIPTION:Kartik 22-26\, 2083 BS - National holiday. Includes Laxmi Puja\, Govardhan Puja\, and Bhai Tika.
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-chhath@bikram
-SUMMARY:🌅 Chhath Parwa
+UID:nepal-2083-chhath@becram
+SUMMARY:Chhath Parwa
 DTSTART;VALUE=DATE:20261115
 DTEND;VALUE=DATE:20261116
-DESCRIPTION:Chhath Parwa - Kartik 29\, 2083 BS
+DESCRIPTION:Kartik 29\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-yomari-punhi@bikram
-SUMMARY:🍡 Yomari Punhi / Dhanya Purnima
+UID:nepal-2083-dhanya-purnima@becram
+SUMMARY:Dhanya Purnima / Yomari Punhi / Udhauli Parwa
 DTSTART;VALUE=DATE:20261224
 DTEND;VALUE=DATE:20261225
-DESCRIPTION:Yomari Punhi / Dhanya Purnima - Poush 9\, 2083 BS
+DESCRIPTION:Poush 9\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-christmas@bikram
-SUMMARY:🎄 Christmas
+UID:nepal-2083-christmas@becram
+SUMMARY:Christmas Day
 DTSTART;VALUE=DATE:20261225
 DTEND;VALUE=DATE:20261226
-DESCRIPTION:Christmas - Poush 10\, 2083 BS
+DESCRIPTION:Poush 10\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-maghe-sankranti@bikram
-SUMMARY:🌞 Maghe Sankranti (Maghi)
+UID:nepal-2083-tamu-lhosar@becram
+SUMMARY:Tamu Lhosar / Dura Mhaipru Nakuma
+DTSTART;VALUE=DATE:20261230
+DTEND;VALUE=DATE:20261231
+DESCRIPTION:Poush 15\, 2083 BS - National holiday (Gurung New Year)
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-prithvi-jayanti@becram
+SUMMARY:Prithvi Jayanti / National Unity Day
+DTSTART;VALUE=DATE:20270111
+DTEND;VALUE=DATE:20270112
+DESCRIPTION:Poush 27\, 2083 BS - National holiday
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-maghe-sankranti@becram
+SUMMARY:Maghi Parwa / Maghe Sankranti
 DTSTART;VALUE=DATE:20270115
 DTEND;VALUE=DATE:20270116
-DESCRIPTION:Maghe Sankranti - Magh 1\, 2083 BS
+DESCRIPTION:Magh 1\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-martyrs-day@bikram
-SUMMARY:🕊️ Martyrs' Day (Shahid Diwas)
+UID:nepal-2083-martyrs-day@becram
+SUMMARY:Martyrs' Day (Shahid Diwas)
 DTSTART;VALUE=DATE:20270130
 DTEND;VALUE=DATE:20270131
-DESCRIPTION:Martyrs' Day - Magh 16\, 2083 BS
+DESCRIPTION:Magh 16\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-national-democracy-day@bikram
-SUMMARY:🗽 National Democracy Day (Prajatantra Diwas)
+UID:nepal-2083-sonam-lhosar@becram
+SUMMARY:Sonam Lhosar
+DTSTART;VALUE=DATE:20270207
+DTEND;VALUE=DATE:20270208
+DESCRIPTION:Magh 24\, 2083 BS - National holiday (Tamang New Year)
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-national-democracy-day@becram
+SUMMARY:National Democracy Day (Prajatantra Diwas)
 DTSTART;VALUE=DATE:20270219
 DTEND;VALUE=DATE:20270220
-DESCRIPTION:National Democracy Day - Falgun 7\, 2083 BS
+DESCRIPTION:Falgun 7\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-maha-shivaratri@bikram
-SUMMARY:🔱 Maha Shivaratri
+UID:nepal-2083-maha-shivaratri@becram
+SUMMARY:Maha Shivaratri
 DTSTART;VALUE=DATE:20270306
 DTEND;VALUE=DATE:20270307
-DESCRIPTION:Maha Shivaratri - Falgun 22\, 2083 BS
+DESCRIPTION:Falgun 22\, 2083 BS - National holiday
 END:VEVENT
 
 BEGIN:VEVENT
-UID:nepal-2083-holi@bikram
-SUMMARY:🎨 Fagu Purnima / Holi
+UID:nepal-2083-gyalpo-lhosar@becram
+SUMMARY:Gyalpo Lhosar
+DTSTART;VALUE=DATE:20270309
+DTEND;VALUE=DATE:20270310
+DESCRIPTION:Falgun 25\, 2083 BS - National holiday (Sherpa/Tibetan New Year)
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-fagu-purnima-hills@becram
+SUMMARY:Fagu Purnima / Holi (Hilly districts)
 DTSTART;VALUE=DATE:20270321
+DTEND;VALUE=DATE:20270322
+DESCRIPTION:Chaitra 7\, 2083 BS - 56 Himalayan and hilly districts
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-terai-holi@becram
+SUMMARY:Terai Holi
+DTSTART;VALUE=DATE:20270322
 DTEND;VALUE=DATE:20270323
-DESCRIPTION:Fagu Purnima / Holi - Chaitra 7-8\, 2083 BS
+DESCRIPTION:Chaitra 8\, 2083 BS - 21 Terai districts
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-ghode-jatra@becram
+SUMMARY:Ghode Jatra
+DTSTART;VALUE=DATE:20270406
+DTEND;VALUE=DATE:20270407
+DESCRIPTION:Chaitra 23\, 2083 BS - Kathmandu Valley only
 END:VEVENT
 
 END:VCALENDAR
