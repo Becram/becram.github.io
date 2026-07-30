@@ -1,0 +1,161 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Nepal Festivals 2083 BS//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Nepal Festivals 2083 BS
+X-WR-TIMEZONE:Asia/Kathmandu
+
+BEGIN:VEVENT
+UID:nepal-2083-new-year@bikram
+SUMMARY:🎉 Nepali New Year 2083 (Baisakh 1)
+DTSTART;VALUE=DATE:20260414
+DTEND;VALUE=DATE:20260415
+DESCRIPTION:Nepali New Year - Baisakh 1\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-loktantra-diwas@bikram
+SUMMARY:🗳️ Loktantra Diwas (Democracy Day)
+DTSTART;VALUE=DATE:20260428
+DTEND;VALUE=DATE:20260429
+DESCRIPTION:Loktantra Diwas - Baisakh 15\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-buddha-jayanti@bikram
+SUMMARY:☸️ Buddha Jayanti / Chandi Purnima
+DTSTART;VALUE=DATE:20260501
+DTEND;VALUE=DATE:20260502
+DESCRIPTION:Buddha Jayanti / Chandi Purnima - Baisakh 18\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-republic-day@bikram
+SUMMARY:🇳🇵 Republic Day (Ganatantra Diwas)
+DTSTART;VALUE=DATE:20260529
+DTEND;VALUE=DATE:20260530
+DESCRIPTION:Republic Day - Jestha 15\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-raksha-bandhan@bikram
+SUMMARY:🪢 Raksha Bandhan (Janai Purnima)
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+DESCRIPTION:Raksha Bandhan - Bhadra 12\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-krishna-janmashtami@bikram
+SUMMARY:🦚 Shri Krishna Janmashtami
+DTSTART;VALUE=DATE:20260904
+DTEND;VALUE=DATE:20260905
+DESCRIPTION:Shri Krishna Janmashtami - Bhadra 19\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-haritalika-teej@bikram
+SUMMARY:🌸 Haritalika Teej
+DTSTART;VALUE=DATE:20260914
+DTEND;VALUE=DATE:20260915
+DESCRIPTION:Haritalika Teej - Bhadra 28\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-constitution-day@bikram
+SUMMARY:📜 Constitution Day (Sambidhan Diwas)
+DTSTART;VALUE=DATE:20260919
+DTEND;VALUE=DATE:20260920
+DESCRIPTION:Constitution Day - Ashwin 3\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-ghatasthapana@bikram
+SUMMARY:🪔 Ghatasthapana (Dashain begins)
+DTSTART;VALUE=DATE:20261011
+DTEND;VALUE=DATE:20261012
+DESCRIPTION:Ghatasthapana - Ashwin 25\, 2083 BS. First day of Dashain.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-dashain@bikram
+SUMMARY:🎊 Dashain (Public Holiday)
+DTSTART;VALUE=DATE:20261017
+DTEND;VALUE=DATE:20261024
+DESCRIPTION:Dashain public holiday - Ashwin 31 to Kartik 6\, 2083 BS. Vijaya Dashami falls on October 21.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-tihar@bikram
+SUMMARY:🪔 Tihar / Deepawali (Public Holiday)
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261113
+DESCRIPTION:Tihar public holiday - Kartik 22-26\, 2083 BS. Includes Laxmi Puja\, Govardhan Puja\, and Bhai Tika.
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-chhath@bikram
+SUMMARY:🌅 Chhath Parwa
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+DESCRIPTION:Chhath Parwa - Kartik 29\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-yomari-punhi@bikram
+SUMMARY:🍡 Yomari Punhi / Dhanya Purnima
+DTSTART;VALUE=DATE:20261224
+DTEND;VALUE=DATE:20261225
+DESCRIPTION:Yomari Punhi / Dhanya Purnima - Poush 9\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-christmas@bikram
+SUMMARY:🎄 Christmas
+DTSTART;VALUE=DATE:20261225
+DTEND;VALUE=DATE:20261226
+DESCRIPTION:Christmas - Poush 10\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-maghe-sankranti@bikram
+SUMMARY:🌞 Maghe Sankranti (Maghi)
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270116
+DESCRIPTION:Maghe Sankranti - Magh 1\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-martyrs-day@bikram
+SUMMARY:🕊️ Martyrs' Day (Shahid Diwas)
+DTSTART;VALUE=DATE:20270130
+DTEND;VALUE=DATE:20270131
+DESCRIPTION:Martyrs' Day - Magh 16\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-national-democracy-day@bikram
+SUMMARY:🗽 National Democracy Day (Prajatantra Diwas)
+DTSTART;VALUE=DATE:20270219
+DTEND;VALUE=DATE:20270220
+DESCRIPTION:National Democracy Day - Falgun 7\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-maha-shivaratri@bikram
+SUMMARY:🔱 Maha Shivaratri
+DTSTART;VALUE=DATE:20270306
+DTEND;VALUE=DATE:20270307
+DESCRIPTION:Maha Shivaratri - Falgun 22\, 2083 BS
+END:VEVENT
+
+BEGIN:VEVENT
+UID:nepal-2083-holi@bikram
+SUMMARY:🎨 Fagu Purnima / Holi
+DTSTART;VALUE=DATE:20270321
+DTEND;VALUE=DATE:20270323
+DESCRIPTION:Fagu Purnima / Holi - Chaitra 7-8\, 2083 BS
+END:VEVENT
+
+END:VCALENDAR
