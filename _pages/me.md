@@ -14,46 +14,45 @@ bikram.dhoju@gmail.com
 
 ## Synopsis
 
-I am  a tech savvy person with immense intrest in linux system and network. I have over 3 year experience in the software industry and horned my skill predominently in server provisioning, security and software development.
+Senior DevOps and Platform Engineer with 8+ years of experience designing and operating cloud-native infrastructure across AWS and Kubernetes. Currently focused on AI platform engineering — building LLM gateway infrastructure with Agent Gateway (Envoy-based), LiteLLM, and Langfuse for multi-model routing, cost governance, and end-to-end observability across AI workloads.
 
-A team player with strong interpersonal skills and possess a flexible and detail oriented attitude. An efficient key player in challenging & creative environments with excellent capacity to adapt to new technologies and skills. I have a clear, logical mind with a practical approach to problem solving and a drive to see things through to completion.
+Strong track record in GitOps, service mesh, and building internal developer platforms. CKA and AWS SAA-C03 certified. Based in Bangkok, open to DevOps and Platform Engineering roles with visa sponsorship.
 
 
 ## Professional Skills
 
-1. <span style="color:green"> Orchestration:</span> Kubernetes(Helm,Kustomize, linkerd, CRDs), Docker
-2. <span style="color:green"> IaaC:</span> Terraform and AnsibleCloud: GCP(GKE, Workload identity, Cloud Run, Cloud Functions,Endpoints, IAM, CloudSQL, CloudDNS, CDN, BigQuery,DialogueFlow,) and AWS (CloudFormation, VPC, IAM, EKS, Kops,ECS), AZURE
-3. <span style="color:green"> Configuration Mgmt:</span> Ansible and Puppet
-4. <span style="color:green"> Service Mesh:</span> Linkerd and istio 
-5. <span style="color:green"> Ingress Controllers and API gateway: </span> Nginx & Kong
-6. <span style="color:green"> CI:</span> Gitlab CI, Github Actions & Jenkins
-7. <span style="color:green"> CD:</span> FluxCD and GitlabAuto DevOps
-8. <span style="color:green"> Canary Deployment:</span> Flagger 
-9. <span style="color:green"> Logging & Monitoring: </span> Grafana, Prometheus (Thanos) and ELK Stack,APM
-10. <span style="color:green"> App Deployment:</span> Fastlane
-11. <span style="color:green"> Scripting:</span> BASH/Go/Python
-12. <span style="color:green"> Messaging:</span> Kafka/RabbitMQ/PubSub messaging
-13. <span style="color:green"> Programming:</span> Go, Python (Django & Flask) (NB: Familiar)
+1. <span style="color:green"> Orchestration:</span> Kubernetes (Helm, Kustomize, Linkerd, CRDs, EKS, GKE), Docker
+2. <span style="color:green"> IaaC:</span> Terraform, Terragrunt, Ansible — AWS (VPC, IAM, EKS, ECS, Fargate, SQS, S3, Secrets Manager) and GCP (GKE, Cloud Run, BigQuery, IAM)
+3. <span style="color:green"> AI Platform & LLM Infrastructure:</span> Agent Gateway (Envoy-based LLM proxy), LiteLLM (multi-model routing, rate limiting, cost governance), Langfuse (LLM observability, prompt tracing, evaluation), AWS Bedrock
+4. <span style="color:green"> Observability:</span> Grafana, Prometheus, Thanos, ELK Stack, OpenTelemetry, Graylog, APM — including LLM-specific tracing (token usage, latency, cost per model)
+5. <span style="color:green"> Service Mesh & API Gateway:</span> Linkerd, Istio, Envoy Gateway, Kong, Nginx
+6. <span style="color:green"> CI/CD:</span> GitHub Actions, GitLab CI, Jenkins, FluxCD, ArgoCD, Flagger (canary)
+7. <span style="color:green"> Security:</span> OIDC/OAuth2, mTLS, Cloudflare Argo Tunnel, network policies, secrets management
+8. <span style="color:green"> Scripting & Programming:</span> Python (Flask, FastAPI), Go, Bash
+9. <span style="color:green"> Messaging:</span> Kafka, RabbitMQ, SQS, PubSub
 
 
 
 ## work experience
 
+<span style="color:green"> Platform Engineer </span>
+<span style="color:green"> Farmforce, Bangkok, Thailand </span>
+
+* Built and operate an LLM gateway platform using Agent Gateway (Envoy-based) and LiteLLM — handling multi-model routing, per-team rate limiting, budget enforcement, and audit logging across AWS Bedrock models.
+* Integrated Langfuse for end-to-end LLM observability: prompt tracing, token usage, latency breakdowns, and evaluation scoring per model and team.
+* Designed and deployed comprehensive monitoring stacks covering infrastructure, application, and AI-layer metrics — Grafana dashboards for cost-per-token, model latency p50/p99, and error rates by LLM provider.
+* Managed EKS cluster operations: Kustomize-based GitOps, Envoy Gateway ingress, Cloudflare Argo Tunnel for zero-trust egress, and OIDC workload identity for AWS service access.
+* Migrated workloads from EC2-backed ECS to Fargate, decommissioning autoscaling groups and container instance providers.
+
 <span style="color:green"> Site Reliability Engineer </span>
 <span style="color:green"> Sertis Co.,Ltd., Bangkok, Thailand </span>
-(2020 May - present ) 
+(2020 May - 2022)
 
-*   Run the production environment by monitoring availability andtaking a holistic view of system health
-* Developing CI/CD roadmap for high-frequency continuousdeployment.
-* Work closely with AI/MLE Engineers and Data Scientists inarchitecting highly available systems.
-* Create REST API to ease deveopers to interact with infrastructure
-* Architecting microservices from the monolith to a highly scalablesystem.
-* Co-ordinate with the SRE team to build and improve platformreliability through tooling and process improvements, bringingdevelopment skills and cultural knowledge to the SRE mindset.
-* Implementation of GitOps (Flux and Flagger)for loose couplingof the system components and highly reliable deployments.
-* Implemented resilient and centralized, monitoring and loggingsystem with ELKstack for high observability.
-* Create horizontally scalable services with integration of custommetrics.
-* Provide primary operational support and engineering for multiplelarge distributed software applications.
-* Be the primary liaison in escalating performance issues internallyand externally with 3rd party providers.
+* Ran production environment across AWS and GCP, owning availability, capacity, and incident response for AI/ML workloads.
+* Implemented GitOps with FluxCD and Flagger for progressive canary deployments with automated rollback.
+* Built centralized monitoring and logging with ELK Stack and Prometheus/Thanos for high-cardinality observability.
+* Architected microservice migration from monolith, introducing service mesh (Linkerd) for mTLS and traffic management.
+* Created internal REST APIs to expose infrastructure capabilities to product and data science teams.
 
 <span style="color:green"> Site Reliability Engineer </span>
 <span style="color:green"> The Make It, Bangkok, Thailand </span>
